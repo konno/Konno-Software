@@ -18,10 +18,21 @@ use XML::LibXML;
 use YAML::Syck;
 our $VERSION = sprintf "%.2f", (q$Revision$ =~ /(\d+)/g) / 100;
 
+use File::Basename;
+my $name = basename($0);
+our $NAME = uc $name;
+
+use Getopt::Long qw(:config no_ignore_case);
+GetOptions(\%ARGV, qw(
+    help version
+)) or help();
+version() if $ARGV{version};
+help()    if $ARGV{help};
+
 my $utf8 = find_encoding('utf8');
 my $xml = XML::LibXML->new;
 my $ua =
-  LWP::UserAgent->new( agent => "KADIE/$VERSION", keep_alive => 4 );
+  LWP::UserAgent->new( agent => "$NAME/$VERSION", keep_alive => 4 );
 my $base_uri = URI->new('http://ja.wikipedia.org/w/api.php');
 
 $| = 1;
@@ -92,6 +103,31 @@ sub parse_content{
     return get($uri);
 }
 
+sub help{
+    die <<"EOT";
+Usage: $name [FILE]...
+
+      --help     display this help and exit
+      --version  output version information and exit
+
+With no FILE, or when FILE is -, read standard input.
+
+Report $name bugs to Konno.Software\@gmail.com
+EOT
+}
+
+sub version{
+    die <<"EOT";
+$name ($NAME) $VERSION
+Copyright (C) 2009 Konno Software
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Written by Yuki Konno.
+EOT
+}
+
 __END__
 
 =head1 NAME
@@ -100,7 +136,7 @@ kadie - an artificial intelligence
 
 =head1 SYNOPSIS
 
-    kadie
+    kadie [FILE]...
 
 =head1 COPYRIGHT
 
