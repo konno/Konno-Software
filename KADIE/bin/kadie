@@ -16,7 +16,7 @@ use URI;
 use LWP::UserAgent;
 use XML::LibXML;
 use YAML::Syck;
-our $VERSION = sprintf "%.2f", (q$Revision$ =~ /(\d+)/g) / 100;
+our $VERSION = sprintf "%.2f", (q$Revision$ =~ /(\d+)/g)[0] / 100;
 
 use File::Basename;
 my $name = basename($0);
