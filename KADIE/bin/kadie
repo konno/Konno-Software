@@ -1,0 +1,112 @@
+#!/usr/local/bin/perl
+    eval 'exec /usr/local/bin/perl -S $0 ${1+"$@"}'
+        if $running_under_some_shell;
+#!/usr/bin/perl
+#
+# $Id$
+#
+use strict;
+use warnings;
+use utf8;
+use open ':utf8';
+binmode STDIN, ':utf8';
+binmode STDOUT, ':utf8';
+use Encode;
+use URI;
+use LWP::UserAgent;
+use XML::LibXML;
+use YAML::Syck;
+our $VERSION = sprintf "%.2f", (q$Revision$ =~ /(\d+)/g) / 100;
+
+my $utf8 = find_encoding('utf8');
+my $xml = XML::LibXML->new;
+my $ua =
+  LWP::UserAgent->new( agent => "KADIE/$VERSION", keep_alive => 4 );
+my $base_uri = URI->new('http://ja.wikipedia.org/w/api.php');
+
+$| = 1;
+while (1) {
+    print '>>> ';
+    my $query = <>;
+    unless (defined $query) {
+        print "\n";
+        last;
+    }
+    chomp $query;
+    my $api = search_title($query);
+    my @answers;
+    for my $title ( map {
+                        $_->{title}
+                    } @{ $api->{query}{search} } ) {
+        my $api = parse_content($title);
+        my $html = $api->{parse}{text}{'*'} or next;
+        $html = '<body>' . $html . '</body>';
+        my $body = $xml->parse_string($html);
+        $body->textContent =~ m{
+            「 ( [^「」\s]*? \Q$query\E [^「」\s]*? ) 」
+            (.*?)
+            「 ( [^「」\s]+? ) 」
+        }gmsx or next;
+        push @answers, {
+            distance => length($1) - length($query) + length($2),
+            answer   => $3,
+        };
+    }
+    next unless @answers;
+    @answers = sort { $a->{distance} > $b->{distance} } @answers;
+    print $answers[0]->{answer}, "\n";
+}
+
+sub get{
+    my $uri = shift;
+    my $res = $ua->get($uri);
+    die $res->status_line unless $res->is_success;
+    return YAML::Syck::Load( $res->content );
+}
+
+sub search_title{
+    my $query = shift;
+    my $uri = $base_uri->clone;
+    $uri->query_form(
+        action   => 'query',
+        list     => 'search',
+        srsearch => $query,
+        srwhat   => 'text',
+        srinfo   => 'suggestion',
+        srprop   => '',
+#        srlimit  => 50,
+        format   => 'yaml',
+    );
+    return get($uri);
+}
+
+sub parse_content{
+    my $title = shift;
+    my $uri = $base_uri->clone;
+    $uri->query_form(
+        action => 'parse',
+        page   => $title,
+        prop   => 'text',
+        format => 'yaml',
+    );
+    return get($uri);
+}
+
+__END__
+
+=head1 NAME
+
+kadie - an artificial intelligence
+
+=head1 SYNOPSIS
+
+    kadie
+
+=head1 COPYRIGHT
+
+Copyright 2009 Yuki Konno E<lt>Konno.Software@gmail.comE<gt>
+
+This program is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
