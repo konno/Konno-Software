@@ -97,6 +97,7 @@ sub search_title{
         srprop   => '',
 #        srlimit  => 50,
         format   => 'yaml',
+    );
     return get($uri);
 }
 
