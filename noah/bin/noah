@@ -54,13 +54,13 @@ while (1) {
         $html = '<body>' . $html . '</body>';
         my $body = $xml->parse_string($html);
         $body->textContent =~ m{
-            「 ( [^「」\s]*? \Q$query\E [^「」\s]*? ) 」
+            「 ([^「」\s]*?) \Q$query\E ([^「」\s]*?) 」
             (.*?)
-            「 ( [^「」\s]+? ) 」
+            「 ([^「」\s]+?) 」
         }gmsx or next;
         push @answers, {
-            distance => length($1) - length($query) + length($2),
-            answer   => $3,
+            distance => length($1) + length($2) + length($3),
+            answer   => $4,
         };
     }
     next unless @answers;
