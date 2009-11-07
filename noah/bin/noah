@@ -11,12 +11,14 @@ use utf8;
 use open ':utf8';
 binmode STDIN, ':utf8';
 binmode STDOUT, ':utf8';
+binmode STDERR, ':utf8';
 use Encode;
 use URI;
 use LWP::UserAgent;
 use XML::LibXML;
 use YAML::Syck;
 our $VERSION = sprintf "%.2f", (q$Revision$ =~ /(\d+)/g)[0] / 100;
+our $DEBUG = 0;
 
 use File::Basename;
 my $name = basename($0);
@@ -24,10 +26,11 @@ our $NAME = ucfirst($name) . q('s Ark);
 
 use Getopt::Long qw(:config no_ignore_case);
 GetOptions(\%ARGV, qw(
-    help version
+    debug help version
 )) or help();
 version() if $ARGV{version};
 help()    if $ARGV{help};
+$DEBUG++  if $ARGV{debug};
 
 my $utf8 = find_encoding('utf8');
 my $xml = XML::LibXML->new;
@@ -47,30 +50,37 @@ while (1) {
     my $api = search_title($query);
     my @answers;
     for my $title ( map {
-                        $_->{title}
+                        $utf8->decode( $_->{title} )
                     } @{ $api->{query}{search} } ) {
+        $DEBUG and warn $title;
         my $api = parse_content($title);
         my $html = $api->{parse}{text}{'*'} or next;
         $html = '<body>' . $html . '</body>';
         my $body = $xml->parse_string($html);
         $body->textContent =~ m{
-            「 ([^「」\s]*?) \Q$query\E ([^「」\s]*?) 」
+            「 ( ([^「」\s]*?) \Q$query\E ([^「」\s]*?) ) 」
             (.*?)
             「 ([^「」\s]+?) 」
         }gmsx or next;
+        if ($DEBUG) {
+            warn "=> $1";
+            warn "=> $5";
+        }
         push @answers, {
-            distance => length($1) + length($2) + length($3),
-            answer   => $4,
+            distance => length($2) + length($3) + length($4),
+            answer   => $5,
         };
     }
     next unless @answers;
     @answers = sort { $a->{distance} > $b->{distance} } @answers;
+    $DEBUG and warn $_->{distance}, "\t", $_->{answer} for @answers;
     print $answers[0]->{answer}, "\n";
 }
 
 sub get{
     my $uri = shift;
     my $res = $ua->get($uri);
+    $DEBUG and warn $res->request->uri;
     die $res->status_line unless $res->is_success;
     return YAML::Syck::Load( $res->content );
 }
@@ -87,7 +97,6 @@ sub search_title{
         srprop   => '',
 #        srlimit  => 50,
         format   => 'yaml',
-    );
     return get($uri);
 }
 
