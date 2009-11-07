@@ -20,7 +20,7 @@ our $VERSION = sprintf "%.2f", (q$Revision$ =~ /(\d+)/g)[0] / 100;
 
 use File::Basename;
 my $name = basename($0);
-our $NAME = uc $name;
+our $NAME = ucfirst($name) . q('s Ark);
 
 use Getopt::Long qw(:config no_ignore_case);
 GetOptions(\%ARGV, qw(
@@ -105,7 +105,7 @@ sub parse_content{
 
 sub help{
     die <<"EOT";
-Usage: $name [FILE]...
+Usage: $name [OPTION]... [FILE]...
 
       --help     display this help and exit
       --version  output version information and exit
@@ -132,11 +132,11 @@ __END__
 
 =head1 NAME
 
-kadie - an artificial intelligence
+noah - an artificial intelligence
 
 =head1 SYNOPSIS
 
-    kadie [FILE]...
+    noah [OPTION]... [FILE]...
 
 =head1 COPYRIGHT
 
