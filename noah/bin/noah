@@ -22,7 +22,7 @@ our $DEBUG = 0;
 
 use File::Basename;
 my $name = basename($0);
-our $NAME = ucfirst($name) . q('s Ark);
+our $NAME = ucfirst($name);
 
 use Getopt::Long qw(:config no_ignore_case);
 GetOptions(\%ARGV, qw(
