@@ -48,33 +48,33 @@ while (1) {
     }
     chomp $query;
     my $api = search_title($query);
-    my @answers;
+    my $distance;
+    my $answer;
     for my $title ( map {
                         $utf8->decode( $_->{title} )
                     } @{ $api->{query}{search} } ) {
         $DEBUG and warn $title;
         my $api = parse_content($title);
         my $html = $api->{parse}{text}{'*'} or next;
-        $html = '<body>' . $html . '</body>';
-        my $body = $xml->parse_string($html);
-        $body->textContent =~ m{
+        $html = '<html>' . $html . '</html>';
+        my $node = $xml->parse_string($html);
+        $node->textContent =~ m{
             「 ( ([^「」\s]*?) \Q$query\E ([^「」\s]*?) ) 」
             (.*?)
             「 ([^「」\s]+?) 」
         }gmsx or next;
+        my $new_distance = length($2) + length($3) + length($4);
         if ($DEBUG) {
             warn "=> $1";
             warn "=> $5";
+            warn "=> $new_distance";
         }
-        push @answers, {
-            distance => length($2) + length($3) + length($4),
-            answer   => $5,
-        };
+        next if defined $answer && $new_distance > $distance;
+        $distance = $new_distance;
+        $answer = $5;
     }
-    next unless @answers;
-    @answers = sort { $a->{distance} <=> $b->{distance} } @answers;
-    $DEBUG and warn $_->{distance}, "\t", $_->{answer} for @answers;
-    print $answers[0]->{answer}, "\n";
+    next unless defined $answer;
+    print $answer, "\n";
 }
 
 sub get{
