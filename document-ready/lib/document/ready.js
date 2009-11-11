@@ -2,8 +2,8 @@
  * $Id$
  */
 
-if (!window.ready) {
-    window.ready = function(listener){
+if (!document.ready) {
+    document.ready = function(listener){
         window.addEventListener('load', listener, false);
     };
 }
