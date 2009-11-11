@@ -7,6 +7,6 @@ function use(Module, VERSION, LIST){
     script.type = 'text/javascript' +
         VERSION ? ';version='       + VERSION
                 : '';
-    script.src  = Module.replace(/\./g, '/');
+    script.src  = Module.replace(/\./g, '/') + '.js';
     document.body.appendChild(script);
 }
