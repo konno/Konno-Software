@@ -2,7 +2,7 @@
  * $Id$
  */
 
-if (!window.addEventListener) {
+if (!this.addEventListener) {
     window.addEventListener = (function(){
         if (window.attachEvent) {
             return function(type, listener, useCapture) {
