@@ -1,5 +1,5 @@
 /*
- * $Id$.js 42 2009-11-11 19:39:54Z Konno.Software $
+ * $Id$
  */
 
 var $ = (function(elements){
