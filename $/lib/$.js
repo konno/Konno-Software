@@ -1,11 +1,11 @@
 /*
- * $Id$.js 52 2009-11-13 12:42:25Z Konno.Software $
+ * $Id$
  */
 
-var $ = (function(elements){
+var $ = (function(element){
     return function(selector){
-        if (elements[selector]) return elements[selector];
-        elements[selector] = document.querySelector(selector);
-        return elements[selector];
+        if (element[selectors]) return element[selectors];
+        element[selectors] = document.querySelector(selectors);
+        return element[selectors];
     };
 })({});
