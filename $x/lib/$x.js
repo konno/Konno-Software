@@ -1,5 +1,5 @@
 /*
- * $Id$
+ * $Id$x.js 61 2009-11-25 15:05:10Z Konno.Software $
  */
 
 var $x = (function(
@@ -19,7 +19,7 @@ var $x = (function(
                 result
             );
             xpathResult[xpathExpression] = [];
-            for (var i = 0, l = nodesSnapshot.snapshotLength; i++) {
+            for (var i = 0, l = nodesSnapshot.snapshotLength; i < l; i++) {
                 xpathResult[xpathExpression].push(
                     nodesSnapshot.snapshotItem(i)
                 );
