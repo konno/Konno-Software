@@ -3,7 +3,7 @@
  */
 
 if (!this.addEventListener) {
-    window.addEventListener = (function(){
+    var addEventListener = (function(){
         if (window.attachEvent) {
             return function(type, listener, useCapture) {
                 this.attachEvent('on' + type, listener);
