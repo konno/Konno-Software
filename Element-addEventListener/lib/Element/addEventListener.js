@@ -6,9 +6,7 @@ if (!Element.prototype.addEventListener) {
     Element.prototype.addEventListener = (function(){
         if (Element.prototype.attachEvent) {
             return function(type, listener, useCapture) {
-                this.attachEvent('on' + type, function(){
-                    listener(window.event);
-                });
+                this.attachEvent('on' + type, listener);
             };
         }
         return function(type, listener, useCapture) {
