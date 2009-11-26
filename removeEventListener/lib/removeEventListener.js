@@ -3,7 +3,7 @@
  */
 
 if (!this.removeEventListener) {
-    window.removeEventListener = (function(){
+    var removeEventListener = (function(){
         if (window.detachEvent) {
             return function(type, listener, useCapture) {
                 this.detachEvent('on' + type, listener);
