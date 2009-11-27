@@ -21,15 +21,19 @@ Array.prototype.forEach.call(
 if (i > 1)
     Array.prototype.forEach = (function(forEach){
         return function(callback, thisObject){
-            if (typeof this != 'string')
-                return forEach.apply(this, arguments);
+            if ( !(this instanceof String) ) {
+                forEach.apply(this, arguments);
+                return;
+            }
             if (typeof callback != 'function')
                 throw new TypeError();
             for (var i = 0, l = this.length >>> 0; i < l; i++)
                 callback.call(
                     thisObject,
-                    this.charCodeAt(
-                        this.charCodeAt(i) < 0x10000 ? i : ++i
+                    String.fromCharCode(
+                        this.charCodeAt(
+                            this.charCodeAt(i) < 0x10000 ? i : ++i
+                        )
                     ),
                     i,
                     this
