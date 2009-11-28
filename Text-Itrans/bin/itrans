@@ -6,7 +6,6 @@
 # $Id$
 #
 use 5.008001;
-use lib '../lib';
 use strict;
 use warnings;
 use utf8;

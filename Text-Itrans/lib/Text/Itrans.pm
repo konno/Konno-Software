@@ -53,15 +53,16 @@ sub translate {
         lllimit   => 500,
         format    => 'yaml'
     );
-    warn $uri;
     my $res = $self->{ua}->get($uri);
     return unless $res->is_success;
     my $api = YAML::Syck::Load( $res->content );
     my @translations;
+    PAGE:
     for my $page ( @{ $api->{query}{pages} } ) {
         for my $langlink ( @{ $page->{langlinks} } ) {
             next unless $langlink->{lang} eq $self->{tolang};
             push @translations, $langlink->{'*'};
+            next PAGE;
         }
     }
     return wantarray
@@ -70,8 +71,6 @@ sub translate {
 }
 
 1; # End of Text::Itrans
-
-=encoding utf8
 
 =head1 NAME
 
