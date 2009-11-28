@@ -28,7 +28,7 @@ GetOptions(\%ARGV, qw(
     output=s silent verbose
     help|?   usage  version|V
 )) or usage();
-$DEBUG++ if     $ARGV{verbose};
+$DEBUG++  if     $ARGV{verbose};
 version() if     $ARGV{version};
 usage()   if     $ARGV{usage};
 help()    if     $ARGV{help};
