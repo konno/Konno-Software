@@ -34,9 +34,6 @@ for my $meth (qw/base_uri ua fromlang tolang/) {
     };
 }
 
-*sl = *source = *sourcelang = *from = \&fromlang;
-*tl = *target = *targetlang = *to   = \&tolang;
-
 sub swap {
     my $self = shift;
     ( $self->{fromlang}, $self->{tolang} ) =
@@ -56,22 +53,20 @@ sub translate {
         lllimit   => 500,
         format    => 'yaml'
     );
+    warn $uri;
     my $res = $self->{ua}->get($uri);
     return unless $res->is_success;
     my $api = YAML::Syck::Load( $res->content );
+    my @translations;
+    for my $page ( @{ $api->{query}{pages} } ) {
+        for my $langlink ( @{ $page->{langlinks} } ) {
+            next unless $langlink->{lang} eq $self->{tolang};
+            push @translations, $langlink->{'*'};
+        }
+    }
     return wantarray
-      ? map {
-            $_->{'*'}
-        } grep {
-            $_->{lang} eq $self->{tolang}
-        } map {
-            @{ $_->{langlinks} }
-        } @{ $api->{query}{pages} }
-      : (first {
-            $_->{lang} eq $self->{tolang}
-        } map {
-            @{ $_->{langlinks} }
-        } @{ $api->{query}{pages} })->{'*'};
+         ? @translations
+         : $translations[0];
 }
 
 1; # End of Text::Itrans
@@ -136,51 +131,11 @@ Specifies the source language by ISO 639 code.
 
     $translator->fromlang('als'); # Alemannic German
 
-=over 2
-
-=item from
-
-its alias.
-
-=item sourcelang
-
-its alias.
-
-=item source
-
-its alias.
-
-=item sl
-
-its alias.
-
-=back
-
 =head2 tolang
 
 Specifies the target language by ISO 639 code.
 
     $translator->tolang('mk'); # Macedonian
-
-=over 2
-
-=item to
-
-its alias.
-
-=item targetlang
-
-its alias.
-
-=item target
-
-its alias.
-
-=item tl
-
-its alias.
-
-=back
 
 =head2 swap
 

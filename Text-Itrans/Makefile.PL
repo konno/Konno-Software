@@ -6,6 +6,10 @@ use strict;
 use warnings;
 use ExtUtils::MakeMaker;
 
+my @exe_files = qw(
+  itrans pitrans
+);
+
 WriteMakefile(
     NAME                => 'Text::Itrans',
     AUTHOR              => q{Yuki Konno <Konno.Software@gmail.com>},
@@ -22,6 +26,7 @@ WriteMakefile(
         'LWP::UserAgent' => 0,
         'YAML::Syck'     => 0,
     },
+    EXE_FILES => [ map "bin/$_", @exe_files ],
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'Text-Itrans-*' },
 );
