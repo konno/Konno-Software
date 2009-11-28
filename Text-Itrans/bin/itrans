@@ -6,10 +6,17 @@
 # $Id$
 #
 use 5.008001;
+use lib '../lib';
 use strict;
 use warnings;
-our $VERSION = sprintf "%.2f", (q$Revision$ =~ /(\d+)/g)[0] / 100;
+use utf8;
+use open ':utf8';
+binmode STDIN, ':utf8';
+binmode STDOUT, ':utf8';
+use Encode;
 use Text::Itrans;
+our $VERSION = sprintf "%.2f", (q$Revision$ =~ /(\d+)/g)[0] / 100;
+our $DEBUG = 0;
 
 use File::Basename;
 my $name = basename($0);
@@ -20,21 +27,37 @@ GetOptions(\%ARGV, qw(
     from-lang=s to-lang=s
     list
     output=s silent verbose
-    help|? usage version|V
+    help|?   usage  version|V
 )) or usage();
+$DEBUG++ if     $ARGV{verbose};
 version() if     $ARGV{version};
 usage()   if     $ARGV{usage};
 help()    if     $ARGV{help};
 usage()   unless $ARGV{'from-lang'};
 usage()   unless $ARGV{'to-lang'};
 
+my $utf8 = find_encoding('utf8');
 my $translator = Text::Itrans->new(
     $ARGV{'from-lang'}, $ARGV{'to-lang'}
 );
-$\ = "\n";
+$| = 1;
 while (<>) {
     chomp;
-    print $translator->translate($_) || $_;
+    for (my $i = 0, my $l = my $j = length; $i < $l; $j--) {
+        my $query = substr $_, $i, $j;
+        $DEBUG and warn $query;
+        my $result =
+            $utf8->decode(
+                $translator->translate($query) || ''
+            );
+        print $result 
+           || ($j == 1 && $query)
+           || next;
+        $DEBUG and print "\n";
+        $i += $j;
+        $j = $l - $i + 1;
+    }
+    print "\n" unless $DEBUG;
 }
 
 sub help{
