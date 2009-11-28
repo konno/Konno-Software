@@ -169,6 +169,6 @@ Print program version.
 
 =head1 SEE ALSO
 
-L<Text-Itrans>
+L<Text::Itrans>
 
 =cut
