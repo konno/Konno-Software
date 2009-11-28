@@ -42,7 +42,8 @@ my $translator = Text::Itrans->new(
 $| = 1;
 while (<>) {
     chomp;
-    for (my $i = 0, my $l = my $j = length; $i < $l; $j--) {
+    for (my $i = 0, my $l = my $j = length;
+         $i < $l; $j--) {
         my $query = substr $_, $i, $j;
         $DEBUG and warn $query;
         my $result =
