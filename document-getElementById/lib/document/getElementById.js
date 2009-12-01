@@ -2,7 +2,7 @@
  * $Id$
  */
 
-if ( !document.getElementById ) {
+if (!document.getElementById) {
     document.getElementById = (function(){
         return document.all
              ? function(id){ return document.all[id] }
