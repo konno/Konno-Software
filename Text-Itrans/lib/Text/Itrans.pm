@@ -30,7 +30,7 @@ for my $meth (qw/base_uri ua fromlang tolang/) {
     *$meth = sub{
         my $self = shift;
         $self->{$meth} = shift if @_;
-        return $self->{$meth};
+        $self->{$meth};
     };
 }
 
