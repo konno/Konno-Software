@@ -2,7 +2,7 @@
  * $Id$
  */
 
-if ( !this.$$ ) {
+if (!this.$$) {
     var $$ = (function(elementList){
         return function(selectors){
             if ( !elementList[selectors] )

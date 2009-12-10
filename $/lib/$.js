@@ -2,7 +2,7 @@
  * $Id$
  */
 
-if ( !this.$ ) {
+if (!this.$) {
     var $ = (function(element){
         return function(selectors){
             if ( !element[selectors] )
