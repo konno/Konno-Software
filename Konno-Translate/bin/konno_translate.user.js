@@ -1,1 +1,0 @@
-/home/yuki/.mozilla/firefox/1olujhem.default/gm_scripts/konno_translate/konno_translate.user.js
