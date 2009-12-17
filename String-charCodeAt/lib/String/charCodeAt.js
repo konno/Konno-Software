@@ -2,9 +2,9 @@
  * $Id$
  */
 
-(function(string){
+(function(str){
 
-if ( string.charCodeAt(0) != string.charCodeAt(1) ) {
+if ( str.charCodeAt(0) != str.charCodeAt(1) ) {
     String.prototype.charCodeAt = (function(charCodeAt){
         return function(index){
             var codeunit = charCodeAt.call(this, index);
@@ -18,7 +18,7 @@ if ( string.charCodeAt(0) != string.charCodeAt(1) ) {
                      + (codeunit - 0xDC00);
             return codeunit;
         };
-    })( String.prototype.charCodeAt );
+    })(String.prototype.charCodeAt);
 }
 
 })( String.fromCharCode(0x10000) );

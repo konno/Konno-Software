@@ -4,7 +4,7 @@
 
 (function(fromCharCode){
 
-if ( String.fromCharCode(0x10000) != '\uD800\uDC00' ) {
+if ( fromCharCode(0x10000) != '\uD800\uDC00' ) {
     String.fromCharCode = function(){
         var str = '';
         Array.prototype.forEach.call(arguments, function(num){
