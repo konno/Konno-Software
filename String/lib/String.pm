@@ -7,7 +7,7 @@ our $VERSION = sprintf "%.2f", (q$Revision$ =~ /(\d+)/g)[0] / 100;
 use overload
     q("") => \&toString,
     q(==) => sub { overload::StrVal($_[0]) eq overload::StrVal($_[1]) },
-    fallback => 1
+    fallback => 1,
     ;
 
 require Exporter;
@@ -22,15 +22,23 @@ sub new {
     bless { toString => $string }, $class;
 }
 
+sub String { __PACKAGE__->new(@_) }
+
 sub length {
-    my $self = shift;
-    $self->{length} = length $self unless defined $self->{length};
-    $self->{length};
+    my $this = shift;
+    $this->{length} = CORE::length $this
+        unless defined $this->{length};
+    $this->{length};
+}
+
+sub name { __PACKAGE__ }
+
+sub fromCharCode {
+    my $this = shift;
+    __PACKAGE__->new( join '', map { chr() } @_ );
 }
 
 sub toString { $_[0]->{toString} }
-
-sub String { __PACKAGE__->new(@_) }
 
 1; # End of String
 
