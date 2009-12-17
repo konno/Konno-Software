@@ -10,19 +10,12 @@ use overload
     fallback => 1,
     ;
 
-require Exporter;
-use base qw/Exporter/;
-
-our @EXPORT = qw(String);
-
 sub new {
     my $class  = shift;
     my $string = shift;
     $string = '' unless defined $string;
     bless { toString => $string }, $class;
 }
-
-sub String { __PACKAGE__->new(@_) }
 
 sub length {
     my $this = shift;
@@ -38,7 +31,31 @@ sub fromCharCode {
     __PACKAGE__->new( join '', map { chr() } @_ );
 }
 
+sub toSource {
+    my $this = shift;
+    require Data::Dumper;
+    local $Data::Dumper::Terse  = 1;
+    local $Data::Dumper::Indent = 0;
+    Data::Dumper::Dumper($this);
+}
+
 sub toString { $_[0]->{toString} }
+
+sub charAt {
+    my ($this, $index) = @_;
+    __PACKAGE__->new( substr $this->{toString}, $index, 1 );
+}
+
+sub charCodeAt {
+    my ($this, $index) = @_;
+    ord substr $this, $index, 1;
+}
+
+sub concat {
+    my $this = shift;
+    $this .= $_ for @_;
+    __PACKAGE__->new($this);
+}
 
 1; # End of String
 
@@ -57,7 +74,6 @@ Quick summary of what the module does.
 Perhaps a little code snippet.
 
     use String;
-    String($string);
     new String($string);
 
 String literals take the form:
@@ -67,7 +83,7 @@ String literals take the form:
 
 =head1 EXPORT
 
-L<String>
+None.
 
 =head1 FUNCTIONS
 
