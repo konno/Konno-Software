@@ -2,9 +2,9 @@
  * $Id$
  */
 
-(function(i){
+(function(){
 
-if ( !Array.prototype.forEach ) {
+if (!Array.prototype.forEach) {
     Array.prototype.forEach = function(callback, thisObject){
         if (typeof callback != 'function')
             throw new TypeError();
@@ -13,12 +13,15 @@ if ( !Array.prototype.forEach ) {
     };
 }
 
+var i = 0;
 Array.prototype.forEach.call(
     String.fromCharCode(0x10000),
-    function(){ i++ }
+    function(){
+        i++;
+    }
 );
 
-if (i > 1)
+if (i > 1) {
     Array.prototype.forEach = (function(forEach){
         return function(callback, thisObject){
             if ( !(this instanceof String) ) {
@@ -39,6 +42,7 @@ if (i > 1)
                     this
                 );
         };
-    })( Array.prototype.forEach );
+    })(Array.prototype.forEach);
+}
 
-})(0);
+})();
