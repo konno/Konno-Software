@@ -4,6 +4,7 @@ use warnings;
 use strict;
 our $VERSION = sprintf "%.2f", (q$Revision$ =~ /(\d+)/g)[0] / 100;
 
+use Carp;
 use overload
     q("") => \&toString,
     q(==) => sub { overload::StrVal($_[0]) eq overload::StrVal($_[1]) },
@@ -55,6 +56,13 @@ sub concat {
     my $this = shift;
     $this .= $_ for @_;
     __PACKAGE__->new($this);
+}
+
+sub indexOf {
+    my $this = shift;
+    croak unless @_ > 0;
+    @_ == 1 ? index $this->{toString}, $_[0]
+            : index $this->{toString}, $_[0], $_[1];
 }
 
 1; # End of String
