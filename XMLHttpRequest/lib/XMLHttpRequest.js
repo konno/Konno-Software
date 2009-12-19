@@ -2,27 +2,26 @@
  * $Id$
  */
 
-if ( !this.XMLHttpRequest ) {
+if (!this.XMLHttpRequest) {
     var XMLHttpRequest = (function(){
         try {
-            return (function(req){
-                return req;
-            })( new ActiveXObject('Msxml2.XMLHTTP.6.0') );
-        } catch(e) {}
-        try {
-            return (function(req){
-                return req;
-            })( new ActiveXObject('Msxml2.XMLHTTP.3.0') );
-        } catch(e) {}
-        try {
-            return (function(req){
-                return req;
-            })( new ActiveXObject('Msxml2.XMLHTTP') );
-        } catch(e) {}
-        try {
-            return (function(req){
-                return req;
-            })( new ActiveXObject('Microsft.XMLHTTP') );
-        } catch(e) {}
+            [
+                'Msxml2.XMLHTTP.6.0',
+                'Msxml2.XMLHTTP.3.0',
+                'Msxml2.XMLHTTP',
+                'Microsoft.XMLHTTP'
+            ].forEach(function(ProgID){
+                try {
+                    var req = new ActiveXObject(ProgID);
+                } catch (e) {
+                    return;
+                }
+                throw req;
+            });
+        } catch (e) {
+            return function(){
+                return e;
+            };
+        }
     })();
 }
