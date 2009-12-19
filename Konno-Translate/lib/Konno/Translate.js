@@ -15,7 +15,9 @@ Konno.Translate = function(){
             ].join('/') + '?' + [
                 'action='  + 'query',
                 'prop='    + 'langlinks',
-                'titles='  + encodeURIComponent(text).replace(/%20/g, '+'),
+                'titles='  + encodeURIComponent(
+                                 text
+                             ).replace(/%20/g, '+'),
                 'redirects',
                 'lllimit=' + 500,
                 'format='  + 'json',
