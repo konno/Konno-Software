@@ -26,7 +26,7 @@ if (!this.getJSON) {
                 +  encodeURIComponent(value);
         }
         var script  = document.createElement('script');
-        script.type = 'application/javascript;version=1.8';
+        script.type = 'application/javascript';
         script.src  = url;
         document.body.appendChild(script);
     };
