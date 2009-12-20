@@ -9,17 +9,24 @@ BEGIN(function(){
 var toSortkey = (function(obj){
     var __toSortkey__ = {};
     for (var i in obj)
-        Array.prototype.forEach.call(obj[i], function(c){
-            __toSortkey__[c] =
-                String.fromCharCode(
-                    c.charCodeAt(0) + i * 1
-                );
-        });
+        Array.prototype.forEach.call(
+            obj[i],
+            function(c){
+                __toSortkey__[c] =
+                    String.fromCharCode(
+                        c.charCodeAt(0) + i * 1
+                    );
+            }
+        );
     return function(str){
         var sortkeyText = '';
-        Array.prototype.forEach.call(str, function(c){
-            sortkeyText += __toSortkey__[c] || c;
-        });
+        Array.prototype.forEach.call(
+            str,
+            function(c){
+                sortkeyText +=
+                    __toSortkey__[c] || c;
+            }
+        );
         return sortkeyText;
     };
 })({
