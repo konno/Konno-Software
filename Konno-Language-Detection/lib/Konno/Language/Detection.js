@@ -23,7 +23,7 @@ Konno.Language.Detection = function(){
                     },
                     function(json){
                         for (var pageid in json.query.pages) {
-                            if (pageid >= 0) return;
+                            if (pageid < 0) return;
                             callback(lang);
                         }
                     }
