@@ -2,7 +2,7 @@
  * $Id$
  */
 
-if ( !this.qr ) {
+if (!this.qr) {
     var qr = function(pattern, flags){
         return new RegExp(pattern, flags);
     };
