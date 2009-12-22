@@ -19,6 +19,7 @@ Konno.Search = function(){
             },
             function(json){
                 for each (let page in json.query.pages) {
+                    if (!page.extlinks) continue;
                     page.extlinks.forEach(function(el){
                         callback( el['*'] );
                     });
