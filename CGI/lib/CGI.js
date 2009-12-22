@@ -6,7 +6,7 @@ if (!this.CGI) {
     var CGI = function(query){
         this.param = (function(param){
             if (query)
-                query.replace(/.*\?/, '')
+                query.replace(/.*[?#]/, '')
                      .split('&')
                      .forEach(function(pair){
                          var splits = pair.split('=');
