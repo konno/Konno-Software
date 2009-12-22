@@ -5,10 +5,12 @@
 if (!Element.prototype.$) {
     Element.prototype.$ = (function(element){
         return function(selectors){
-            if ( !element[selectors] )
-                element[selectors] =
+            if ( !element[this] )
+                element[this] = {};
+            if ( !element[this][selectors] )
+                element[this][selectors] =
                     this.querySelector(selectors);
-            return element[selectors];
+            return element[this][selectors];
         };
     })({});
 }
