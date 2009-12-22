@@ -23,7 +23,6 @@ Konno.Search = function(){
                         callback( el['*'] );
                     });
                 }
-                alert( JSON.stringify(json) );
             }
         );
     };
