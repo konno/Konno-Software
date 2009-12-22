@@ -6,7 +6,6 @@ if (!this.Konno) var Konno = {};
 
 Konno.Search = function(){
     this.search = function(Opt, callback){
-        alert(Opt.query);
         getJSON(
             'http://' + Opt.lang + '.wikipedia.org/w/api.php',
             {
@@ -19,6 +18,11 @@ Konno.Search = function(){
                 callback : '?'
             },
             function(json){
+                for each (let page in json.query.pages) {
+                    page.extlinks.forEach(function(el){
+                        callback( el['*'] );
+                    });
+                }
                 alert( JSON.stringify(json) );
             }
         );
