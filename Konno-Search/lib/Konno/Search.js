@@ -5,13 +5,13 @@
 if (!this.Konno) var Konno = {};
 
 Konno.Search = function(){
-    this.search = function(Opt, callback){
+    this.search = function(lang, query, callback){
         getJSON(
-            'http://' + Opt.lang + '.wikipedia.org/w/api.php',
+            'http://' + lang + '.wikipedia.org/w/api.php',
             {
                 action   : 'query',
                 prop     : 'extlinks',
-                titles   : Opt.query,
+                titles   : query,
                 redirects: null,
                 ellimit  : 500,
                 format   : 'json',
