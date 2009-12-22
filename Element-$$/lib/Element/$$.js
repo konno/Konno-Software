@@ -1,13 +1,13 @@
 /*
- * $Id$$.js 108 2009-12-10 09:25:34Z Konno.Software $
+ * $Id$
  */
 
-if (!this.$$) {
-    var $$ = (function(elementList){
+if (!Element.prototype.$$) {
+    Element.prototype.$$ = (function(elementList){
         return function(selectors){
             if ( !elementList[selectors] )
                 elementList[selectors] =
-                    document.querySelectorAll(selectors);
+                    this.querySelectorAll(selectors);
             return elementList[selectors];
         };
     })({});
