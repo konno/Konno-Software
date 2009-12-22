@@ -21,8 +21,9 @@ if (!this.getJSON) {
                         );
                 this[value] = callback;
             }
-            url += encodeURIComponent(key)
-                +  '='
+            url += encodeURIComponent(key);
+            if (value == null) continue;
+            url += '='
                 +  encodeURIComponent(value);
         }
         var script  = document.createElement('script');
