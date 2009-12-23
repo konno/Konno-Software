@@ -35,14 +35,32 @@ var toSortkey = (function(obj){
      '1': 'ぁぃぅぇぉっゃゅょゎ'
 });
 
-var getJSON = function(uri, fn){
-    var cb =
-        'jsonp' + Math.floor( Math.random() * 1e13 );
-    window[cb] = fn;
-    uri += cb;
+var getJSON = function(url, data, callback){
+    var flag = true;
+    for (var key in data) {
+        var value = data[key];
+        if (flag) {
+            url += '?';
+            flag = false;
+        }
+        else {
+            url += '&';
+        }
+        if (value == '?') {
+            value = 'jsonp'
+                  + Math.floor(
+                        Math.random() * 1e13
+                    );
+            this[value] = callback;
+        }
+        url += encodeURIComponent(key);
+        if (value == null) continue;
+        url += '='
+            +  encodeURIComponent(value);
+    }
     var script  = document.createElement('script');
     script.type = 'application/javascript';
-    script.src  = uri;
+    script.src  = url;
     document.body.appendChild(script);
 };
 
@@ -121,51 +139,52 @@ Konno.Kana.To.Kanji.Conversion = function(){
             var srsearch = encodeURIComponent(
                                Opt.text
                            ).replace(/%20/g, '+');
-            getJSON('http://' + [
-                'ja.wikipedia.org',
-                'w',
-                'api.php'
-            ].join('/') + '?' + [
-                'action='   + 'query',
-                'list='     + 'search',
-                'srsearch=' + encodeURIComponent(
-                                  Opt.text
-                              ).replace(/%20/g, '+'),
-                'srwhat='   + 'text',
-                'srinfo='   + 'suggestion',
-                'srprop=',
-                'srlimit='  + 2,
-                'format='   + 'json',
-                'callback='
-            ].join('&'), function(json){
-                json.query.search.forEach(function(sr){
-                    callback(sr.title);
-                });
+            getJSON('http://ja.wikipedia.org/w/api.php', {
+                action  : 'query',
+                list    : 'search',
+                srsearch: encodeURIComponent(
+                              Opt.text
+                          ).replace(/%20/g, '+'),
+                srwhat  : 'text',
+                srinfo  : 'suggestion',
+                srprop  : '',
+                srlimit : 2,
+                format  : 'json',
+                callback: '?'
+            }, function(json){
+                json
+                    .query
+                    .search
+                    .forEach(function(sr){
+                        callback(sr.title);
+                    });
             });
             var target     = toSortkey(Opt.text);
             var cmcontinue = encodeURIComponent(target + '|');
             sources.forEach(function(src){
-                getJSON('http://' + [
-                    src.hostname,
-                    'w',
-                    'api.php'
-                ].join('/') + '?' + [
-                    'action='      + 'query',
-                    'list='        + 'categorymembers',
-                    'cmtitle='     + src.cmtitle,
-                    'cmprop='      + 'title|sortkey',
-                    'cmnamespace=' + 0,
-                    'cmcontinue='  + cmcontinue,
-                    'cmlimit='     + 500,
-                    'format='      + 'json',
-                    'callback='
-                ].join('&'), function(json){
+                getJSON('http://' + src.hostname + '/w/api.php', {
+                    action     : 'query',
+                    list       : 'categorymembers',
+                    cmtitle    : encodeURIComponent(
+                                     src.cmtitle
+                                 ),
+                    cmprop     : 'title|sortkey',
+                    cmnamespace: 0,
+                    cmcontinue : cmcontinue,
+                    cmlimit    : 500,
+                    format     : 'json',
+                    callback   : '?'
+                }, function(json){
                     try {
-                        json.query.categorymembers.forEach(function(cm){
-                            var key = cm.sortkey.split(/[\s_]/)[0];
-                            if (key != target) throw null;
-                            callback(cm.title);
-                        });
+                        json
+                            .query
+                            .categorymembers
+                            .forEach(function(cm){
+                                var key = cm.sortkey
+                                            .split(/[\s_]/)[0];
+                                if (key != target) throw null;
+                                callback(cm.title);
+                            });
                     } catch (e) {}
                 });
             });
@@ -173,15 +192,11 @@ Konno.Kana.To.Kanji.Conversion = function(){
     })([
         {
             hostname: 'ja.wikipedia.org',
-            cmtitle : encodeURIComponent(
-                          'Category:存命人物'
-                      )
+            cmtitle : 'Category:存命人物'
         },
         {
             hostname: 'ja.wiktionary.org',
-            cmtitle : encodeURIComponent(
-                          'Category:日本語'
-                      )
+            cmtitle : 'Category:日本語'
         }
     ]);
     return this;
