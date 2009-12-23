@@ -24,7 +24,9 @@ if (!this.getJSON) {
             url += encodeURIComponent(key);
             if (value == null) continue;
             url += '='
-                +  encodeURIComponent(value);
+                +  encodeURIComponent(
+                       value
+                   ).replace(/%20/g, '+');
         }
         var script  = document.createElement('script');
         script.type = 'application/javascript';

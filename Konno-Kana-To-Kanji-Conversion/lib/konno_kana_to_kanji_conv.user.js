@@ -83,15 +83,15 @@ var $$ = (function(elementList){
 })({});
 
 if (!this.Konno)
-    var Konno           = {};
-if (!Konno.Kana)
-    Konno.Kana          = {};
-if (!Konno.Kana.To)
-    Konno.Kana.To       = {};
-if (!Konno.Kana.To.Kanji)
-    Konno.Kana.To.Kanji = {};
+    this.Konno               = {};
+if (!this.Konno.Kana)
+    this.Konno.Kana          = {};
+if (!this.Konno.Kana.To)
+    this.Konno.Kana.To       = {};
+if (!this.Konno.Kana.To.Kanji)
+    this.Konno.Kana.To.Kanji = {};
 
-Konno.Kana.To.Kanji.Conversion = function(){
+this.Konno.Kana.To.Kanji.Conversion = function(){
     this.convert = (function(sources){
         return function(text, callback){
             var srsearch = encodeURIComponent(
@@ -100,9 +100,7 @@ Konno.Kana.To.Kanji.Conversion = function(){
             getJSON('http://ja.wikipedia.org/w/api.php', {
                 action  : 'query',
                 list    : 'search',
-                srsearch: encodeURIComponent(
-                              text
-                          ).replace(/%20/g, '+'),
+                srsearch: text,
                 srwhat  : 'text',
                 srinfo  : 'suggestion',
                 srprop  : '',
@@ -117,14 +115,12 @@ Konno.Kana.To.Kanji.Conversion = function(){
                     });
             });
             var target     = toSortkey(text);
-            var cmcontinue = encodeURIComponent(target + '|');
+            var cmcontinue = target + '|';
             sources.forEach(function(src){
                 getJSON('http://' + src.hostname + '/w/api.php', {
                     action     : 'query',
                     list       : 'categorymembers',
-                    cmtitle    : encodeURIComponent(
-                                     src.cmtitle
-                                 ),
+                    cmtitle    : src.cmtitle,
                     cmprop     : 'title|sortkey',
                     cmnamespace: 0,
                     cmcontinue : cmcontinue,
