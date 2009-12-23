@@ -82,48 +82,6 @@ var $$ = (function(elementList){
     };
 })({});
 
-Array.prototype.forEach.call($$('input'), function(input){
-    var listener;
-    var oq = input.value;
-    window.setInterval(function(){
-        var q = input.value;
-        if (q == oq) return;
-        oq = q;
-        var candidates = [oq];
-        if (listener) {
-            input.removeEventListener('keyup', listener, false);
-            listener = null;
-        }
-        if ( !q.trim() ) return;
-        (new Konno.Kana.To.Kanji.Conversion).convert({
-            text: q
-        }, function(result){
-            if (input.value != q) return;
-            candidates.push(result);
-            console.log( JSON.stringify(candidates) );
-        });
-        listener = (function(i){
-            return function(event){
-                switch (event.keyCode) {
-                    case 38: /* Up */
-                        i--;
-                        if (i < 0)
-                            i = candidates.length - 1;
-                        input.value = oq = candidates[i];
-                        break;
-                    case 40: /* Down */
-                        i++;
-                        if (i >= candidates.length)
-                            i = 0;
-                        input.value = oq = candidates[i];
-                        break;
-                }
-            };
-        })(0);
-        input.addEventListener('keyup', listener, false);
-    }, 1);
-});
-
 if (!this.Konno)
     var Konno           = {};
 if (!Konno.Kana)
@@ -135,15 +93,15 @@ if (!Konno.Kana.To.Kanji)
 
 Konno.Kana.To.Kanji.Conversion = function(){
     this.convert = (function(sources){
-        return function(Opt, callback){
+        return function(text, callback){
             var srsearch = encodeURIComponent(
-                               Opt.text
+                               text
                            ).replace(/%20/g, '+');
             getJSON('http://ja.wikipedia.org/w/api.php', {
                 action  : 'query',
                 list    : 'search',
                 srsearch: encodeURIComponent(
-                              Opt.text
+                              text
                           ).replace(/%20/g, '+'),
                 srwhat  : 'text',
                 srinfo  : 'suggestion',
@@ -159,7 +117,7 @@ Konno.Kana.To.Kanji.Conversion = function(){
                         callback(sr.title);
                     });
             });
-            var target     = toSortkey(Opt.text);
+            var target     = toSortkey(text);
             var cmcontinue = encodeURIComponent(target + '|');
             sources.forEach(function(src){
                 getJSON('http://' + src.hostname + '/w/api.php', {
@@ -201,6 +159,49 @@ Konno.Kana.To.Kanji.Conversion = function(){
     ]);
     return this;
 };
+
+Array.prototype.forEach.call($$('input'), function(input){
+    var listener;
+    var oq = input.value;
+    window.setInterval(function(){
+        var q = input.value;
+        if (q == oq) return;
+        oq = q;
+        var candidates = [oq];
+        if (listener) {
+            input.removeEventListener('keyup', listener, false);
+            listener = null;
+        }
+        if ( !q.trim() ) return;
+        (new Konno.Kana.To.Kanji.Conversion).convert(
+            q,
+            function(result){
+                if (input.value != q) return;
+                candidates.push(result);
+                console.log( JSON.stringify(candidates) );
+            }
+        );
+        listener = (function(i){
+            return function(event){
+                switch (event.keyCode) {
+                    case 38: /* Up */
+                        i--;
+                        if (i < 0)
+                            i = candidates.length - 1;
+                        input.value = oq = candidates[i];
+                        break;
+                    case 40: /* Down */
+                        i++;
+                        if (i >= candidates.length)
+                            i = 0;
+                        input.value = oq = candidates[i];
+                        break;
+                }
+            };
+        })(0);
+        input.addEventListener('keyup', listener, false);
+    }, 1);
+});
 
 });
 
