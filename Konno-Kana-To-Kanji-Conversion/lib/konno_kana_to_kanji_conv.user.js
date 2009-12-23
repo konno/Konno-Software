@@ -110,8 +110,7 @@ Konno.Kana.To.Kanji.Conversion = function(){
                 format  : 'json',
                 callback: '?'
             }, function(json){
-                json
-                    .query
+                json.query
                     .search
                     .forEach(function(sr){
                         callback(sr.title);
@@ -134,8 +133,7 @@ Konno.Kana.To.Kanji.Conversion = function(){
                     callback   : '?'
                 }, function(json){
                     try {
-                        json
-                            .query
+                        json.query
                             .categorymembers
                             .forEach(function(cm){
                                 var key = cm.sortkey
