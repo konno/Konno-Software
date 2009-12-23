@@ -56,7 +56,9 @@ var getJSON = function(url, data, callback){
         url += encodeURIComponent(key);
         if (value == null) continue;
         url += '='
-            +  encodeURIComponent(value);
+            +  encodeURIComponent(
+                   value
+               ).replace(/%20/g, '+');
     }
     var script  = document.createElement('script');
     script.type = 'application/javascript';
@@ -94,26 +96,6 @@ if (!this.Konno.Kana.To.Kanji)
 this.Konno.Kana.To.Kanji.Conversion = function(){
     this.convert = (function(sources){
         return function(text, callback){
-            var srsearch = encodeURIComponent(
-                               text
-                           ).replace(/%20/g, '+');
-            getJSON('http://ja.wikipedia.org/w/api.php', {
-                action  : 'query',
-                list    : 'search',
-                srsearch: text,
-                srwhat  : 'text',
-                srinfo  : 'suggestion',
-                srprop  : '',
-                srlimit : 2,
-                format  : 'json',
-                callback: '?'
-            }, function(json){
-                json.query
-                    .search
-                    .forEach(function(sr){
-                        callback(sr.title);
-                    });
-            });
             var target     = toSortkey(text);
             var cmcontinue = target + '|';
             sources.forEach(function(src){
@@ -140,15 +122,35 @@ this.Konno.Kana.To.Kanji.Conversion = function(){
                     } catch (e) {}
                 });
             });
+            var srsearch = encodeURIComponent(
+                               text
+                           ).replace(/%20/g, '+');
+            getJSON('http://ja.wikipedia.org/w/api.php', {
+                action  : 'query',
+                list    : 'search',
+                srsearch: text,
+                srwhat  : 'text',
+                srinfo  : 'suggestion',
+                srprop  : '',
+                srlimit : 500,
+                format  : 'json',
+                callback: '?'
+            }, function(json){
+                json.query
+                    .search
+                    .forEach(function(sr){
+                        callback(sr.title);
+                    });
+            });
         };
     })([
         {
-            hostname: 'ja.wikipedia.org',
-            cmtitle : 'Category:存命人物'
-        },
-        {
             hostname: 'ja.wiktionary.org',
             cmtitle : 'Category:日本語'
+        },
+        {
+            hostname: 'ja.wikipedia.org',
+            cmtitle : 'Category:存命人物'
         }
     ]);
     return this;
@@ -170,7 +172,9 @@ Array.prototype.forEach.call($$('input'), function(input){
         (new Konno.Kana.To.Kanji.Conversion).convert(
             q,
             function(result){
-                if (input.value != q) return;
+                var cq = input.value;
+                if (cq != q ||
+                    cq == result) return;
                 candidates.push(result);
                 console.log( JSON.stringify(candidates) );
             }
