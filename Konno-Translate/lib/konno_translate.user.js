@@ -78,7 +78,7 @@ Konno.Translate = function(){
     return this;
 };
 
-function getJSON(url, data, callback){
+var getJSON = function(url, data, callback){
     var flag = true;
     for (var key in data) {
         var value = data[key];
@@ -107,7 +107,7 @@ function getJSON(url, data, callback){
     script.type = 'application/javascript';
     script.src  = url;
     document.body.appendChild(script);
-}
+};
 
 });
 
