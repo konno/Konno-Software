@@ -22,9 +22,13 @@ Konno.Translate = function(){
             var pages = json.query.pages;
             for (var pageid in pages) {
                 var page = pages[pageid];
+                var title = page.title;
+                if (Opt.sl == Opt.tl) {
+                    callback(title, title);
+                    return;
+                }
                 var langlinks = page.langlinks;
                 if (!langlinks) continue;
-                var title = page.title;
                 langlinks.forEach(function(ll){
                     var lang = ll.lang;
                     if (Opt.tl != '*' &&
