@@ -11,9 +11,7 @@ Konno.Translate = function(){
             getJSON('http://' + sl + '.wikipedia.org/w/api.php', {
                 action   : 'query',
                 prop     : 'langlinks',
-                titles   : encodeURIComponent(
-                               text
-                           ).replace(/%20/g, '+'),
+                titles   : text,
                 redirects: null,
                 lllimit  : 500,
                 format   : 'json',
@@ -26,8 +24,9 @@ Konno.Translate = function(){
                     var title = page.title;
                     langlinks.forEach(function(ll){
                         var lang = ll.lang;
-                        if (tl == '*' || lang != tl) return;
-                        callback(text, ll['*'], title, lang);
+                        if (tl == '*' ||
+                            tl != lang) return;
+                        callback(ll['*'], title);
                         flag = true;
                     });
                 }

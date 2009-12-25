@@ -3,7 +3,7 @@
  */
 
 if (!this.getJSON) {
-    var getJSON = function(url, data, callback){
+    this.getJSON = function(url, data, callback){
         var flag = true;
         for (var key in data) {
             var value = data[key];

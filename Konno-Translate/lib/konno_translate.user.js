@@ -19,10 +19,19 @@ window.addEventListener('mouseup', function(){
         sl:   sl,
         tl:   tl,
         text: text
-    }, function(text, result, title){
+    }, function(result, canonical){
         alert(
-            result ? [text.trim(), title, result].join(': ')
-                   : 'No available translation of "' + text + '"'
+            result
+          ? [
+                text.trim(),
+                canonical,
+                result
+            ].join(': ')
+          : [
+                'No available translation of "',
+                text,
+                '"'
+            ].join('')
         );
     });
 }, false);
@@ -33,21 +42,15 @@ Konno.Translate = function(){
     this.translate = function(Opt, callback){
         (function(sl, tl, text){
             var BLOCK = arguments.callee;
-            getJSON('http://' + [
-                sl + '.wikipedia.org',
-                'w',
-                'api.php'
-            ].join('/') + '?' + [
-                'action='  + 'query',
-                'prop='    + 'langlinks',
-                'titles='  + encodeURIComponent(
-                                 text
-                             ).replace(/%20/g, '+'),
-                'redirects',
-                'lllimit=' + 500,
-                'format='  + 'json',
-                'callback='
-            ].join('&'), function(json){
+            getJSON('http://' + sl + '.wikipedia.org/w/api.php', {
+                action   : 'query',
+                prop     : 'langlinks',
+                titles   : text,
+                redirects: null,
+                lllimit  : 500,
+                format   : 'json',
+                callback : '?'
+            }, function(json){
                 var flag = false;
                 for each (var page in json.query.pages) {
                     var langlinks = page.langlinks;
@@ -55,8 +58,9 @@ Konno.Translate = function(){
                     var title = page.title;
                     langlinks.forEach(function(ll){
                         var lang = ll.lang;
-                        if (tl == '*' || lang != tl) return;
-                        callback(text, ll['*'], title, lang);
+                        if (tl == '*' ||
+                            tl != lang) return;
+                        callback(ll['*'], title);
                         flag = true;
                     });
                 }
@@ -74,14 +78,34 @@ Konno.Translate = function(){
     return this;
 };
 
-function getJSON(uri, fn){
-    var cb =
-      'jsonp' + Math.floor( Math.random() * 1e13 );
-    window[cb] = fn;
-    uri += cb;
+function getJSON(url, data, callback){
+    var flag = true;
+    for (var key in data) {
+        var value = data[key];
+        if (flag) {
+            url += '?';
+            flag = false;
+        }
+        else {
+            url += '&';
+        }
+        if (value == '?') {
+            value = 'jsonp'
+                  + Math.floor(
+                        Math.random() * 1e13
+                    );
+            this[value] = callback;
+        }
+        url += encodeURIComponent(key);
+        if (value == null) continue;
+        url += '='
+            +  encodeURIComponent(
+                   value
+               ).replace(/%20/g, '+');
+    }
     var script  = document.createElement('script');
     script.type = 'application/javascript';
-    script.src  = uri;
+    script.src  = url;
     document.body.appendChild(script);
 }
 
