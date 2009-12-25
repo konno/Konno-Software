@@ -19,7 +19,9 @@ Konno.Translate = function(){
             format   : 'json',
             callback : '?'
         }, function(json){
-            for each (var page in json.query.pages) {
+            var pages = json.query.pages;
+            for (var pageid in pages) {
+                var page = pages[pageid];
                 var langlinks = page.langlinks;
                 if (!langlinks) continue;
                 var title = page.title;
