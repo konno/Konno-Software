@@ -2,7 +2,7 @@
  * $Id$
  */
 
-if (!this.Konno) var Konno = {};
+if (!this.Konno) this.Konno = {};
 
 Konno.Translate = function(){
     this.translate = function(Opt, callback){
