@@ -16,8 +16,8 @@ window.addEventListener('mouseup', function(){
     var text = sel.toString();
     if (!text) return;
     (new Konno.Translate).translate({
-        sl:   sl,
-        tl:   tl,
+        sl  : sl,
+        tl  : tl,
         text: text
     }, function(result, canonical){
         alert(
