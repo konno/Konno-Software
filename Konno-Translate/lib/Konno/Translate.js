@@ -8,21 +8,17 @@ Konno.Translate = function(){
     this.translate = function(Opt, callback){
         (function(sl, tl, text){
             var BLOCK = arguments.callee;
-            getJSON('http://' + [
-                sl + '.wikipedia.org',
-                'w',
-                'api.php'
-            ].join('/') + '?' + [
-                'action='  + 'query',
-                'prop='    + 'langlinks',
-                'titles='  + encodeURIComponent(
-                                 text
-                             ).replace(/%20/g, '+'),
-                'redirects',
-                'lllimit=' + 500,
-                'format='  + 'json',
-                'callback='
-            ].join('&'), function(json){
+            getJSON('http://' + sl + '.wikipedia.org/w/api.php', {
+                action   : 'query',
+                prop     : 'langlinks',
+                titles   : encodeURIComponent(
+                               text
+                           ).replace(/%20/g, '+'),
+                redirects: null,
+                lllimit  : 500,
+                format   : 'json',
+                callback : '?'
+            }, function(json){
                 var flag = false;
                 for each (var page in json.query.pages) {
                     var langlinks = page.langlinks;
@@ -48,14 +44,3 @@ Konno.Translate = function(){
     };
     return this;
 };
-
-function getJSON(uri, fn){
-    var cb =
-      'jsonp' + Math.floor( Math.random() * 1e13 );
-    window[cb] = fn;
-    uri += cb;
-    var script  = document.createElement('script');
-    script.type = 'application/javascript';
-    script.src  = uri;
-    document.body.appendChild(script);
-}
