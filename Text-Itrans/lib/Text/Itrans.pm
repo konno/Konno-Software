@@ -36,8 +36,8 @@ for my $meth (qw/base_uri ua fromlang tolang/) {
 
 sub swap {
     my $self = shift;
-    ( $self->{fromlang}, $self->{tolang} ) =
-    ( $self->{tolang},   $self->{fromlang} );
+    ($self->{fromlang}, $self->{tolang}) =
+        ($self->{tolang}, $self->{fromlang});
     return $self;
 }
 
