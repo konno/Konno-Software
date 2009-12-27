@@ -85,13 +85,13 @@ var $$ = (function(elementList){
 })({});
 
 if (!this.Konno)
-    this.Konno               = {};
-if (!this.Konno.Kana)
-    this.Konno.Kana          = {};
-if (!this.Konno.Kana.To)
-    this.Konno.Kana.To       = {};
-if (!this.Konno.Kana.To.Kanji)
-    this.Konno.Kana.To.Kanji = {};
+    this.Konno          = {};
+if (!Konno.Kana)
+    Konno.Kana          = {};
+if (!Konno.Kana.To)
+    Konno.Kana.To       = {};
+if (!Konno.Kana.To.Kanji)
+    Konno.Kana.To.Kanji = {};
 
 this.Konno.Kana.To.Kanji.Conversion = function(){
     this.convert = (function(sources){
