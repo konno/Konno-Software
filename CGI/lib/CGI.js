@@ -3,7 +3,7 @@
  */
 
 if (!this.CGI) {
-    var CGI = function(query){
+    this.CGI = function(query){
         this.param = (function(param){
             if (query)
                 query.replace(/.*[?#]/, '')

@@ -2,7 +2,7 @@
  * $Id$
  */
 
-if (!this.Konno) var Konno = {};
+if (!this.Konno) this.Konno = {};
 
 Konno.Search = function(){
     this.search = function(lang, query, callback){

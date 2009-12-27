@@ -4,6 +4,6 @@
 
 if (!document.ready) {
     document.ready = function(listener){
-        window.addEventListener('load', listener, false);
+        this.addEventListener('load', listener, false);
     };
 }

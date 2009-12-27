@@ -3,7 +3,7 @@
  */
 
 if (!this.XMLHttpRequest) {
-    var XMLHttpRequest = (function(){
+    this.XMLHttpRequest = (function(){
         try {
             [
                 'Msxml2.XMLHTTP.6.0',

@@ -2,4 +2,4 @@
  * $Id$
  */
 
-if ( !this.uneval ) var uneval = JSON.stringify;
+if (!this.uneval) this.uneval = JSON.stringify;

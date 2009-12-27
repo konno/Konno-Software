@@ -3,14 +3,13 @@
  */
 
 if (!this.removeEventListener) {
-    var removeEventListener = (function(){
-        if (window.detachEvent) {
-            return function(type, listener, useCapture) {
-                this.detachEvent('on' + type, listener);
-            };
-        }
-        return function(type, listener, useCapture){
-            this['on' + type] = null;
-        };
+    this.removeEventListener = (function(){
+        return this.detachEvent
+             ? function(type, listener, useCapture) {
+                   this.detachEvent('on' + type, listener);
+               }
+             : function(type, listener, useCapture){
+                   this['on' + type] = null;
+               };
     })();
 }

@@ -3,7 +3,7 @@
  */
 
 if (!Element.prototype.hide) {
-    Element.prototype.hide = function(value){
-        this.style.display = value || 'none';
+    Element.prototype.hide = function(){
+        this.style.display = 'none';
     };
 }

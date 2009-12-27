@@ -3,7 +3,7 @@
  */
 
 if (!this.qw) {
-    var qw = function(STRING){
+    this.qw = function(STRING){
         return STRING.split(/\s+/);
     };
 }
