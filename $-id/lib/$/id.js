@@ -2,12 +2,12 @@
  * $Id$
  */
 
-if (!this.$) var $ = {};
+if (!this.$) this.$ = {};
 
 $.id = (function(element){
     return function(id){
-        if ( !element[id] )
-            element[id] = document.getElementById(id);
-        return element[id];
+        return element[id] ||
+             ( element[id]
+             = document.getElementById(id) );
     };
 })({});

@@ -3,12 +3,11 @@
  */
 
 if (!this.$) {
-    var $ = (function(element){
+    this.$ = (function(element){
         return function(selectors){
-            if ( !element[selectors] )
-                element[selectors] =
-                    document.querySelector(selectors);
-            return element[selectors];
+            return element[selectors] ||
+                 ( element[selectors]
+                 = document.querySelector(selectors) );
         };
     })({});
 }
