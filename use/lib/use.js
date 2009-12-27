@@ -2,13 +2,22 @@
  * $Id$
  */
 
-if ( !this.use ) {
-    var use = function(Module, VERSION, LIST){
-        var script  = document.createElement('script');
-        script.type = 'text/javascript' +
-          ( VERSION ? ';version='       + VERSION
-                    : '' )
-        script.src  = Module.replace(/\./g, '/') + '.js';
-        document.body.appendChild(script);
+if (!this.use) {
+    this.use = function(Module, VERSION){
+        var script
+          = document.createElement('script');
+        script.type
+          = 'application/javascript'
+          + ( VERSION
+            ? ';version=' + VERSION
+            : '' )
+        script.src
+          = ( this.INC
+            ? this.INC + '/'
+            : '' )
+          + Module.replace(/\./g, '/')
+          + '.js';
+        document.getElementsByTagName('head')[0]
+                .appendChild(script);
     };
 }
