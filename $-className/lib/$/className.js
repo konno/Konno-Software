@@ -4,10 +4,10 @@
 
 if (!this.$) this.$ = {};
 
-$.className = (function(elements){
+$.className = (function(element){
     return function(name){
-        return elements[name] ||
-             ( elements[name]
+        return element[name] ||
+             ( element[name]
              = document.getElementsByClassName(name)[0] );
     };
 })({});
