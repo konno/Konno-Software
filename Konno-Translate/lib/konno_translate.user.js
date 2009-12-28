@@ -104,11 +104,7 @@ window.addEventListener('mouseup', function(){
                 canonical,
                 result
             ].join(': ')
-          : [
-                'No available translation of "',
-                text,
-                '"'
-            ].join('')
+          : 'No available translation of "' + text + '"'
         );
     });
 }, false);
