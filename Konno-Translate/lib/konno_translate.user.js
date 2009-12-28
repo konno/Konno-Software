@@ -11,73 +11,6 @@ var sl =
 var tl =
 /* Translate into: */ 'ja';
 
-window.addEventListener('mouseup', function(){
-    var sel  = window.getSelection();
-    var text = sel.toString();
-    if (!text) return;
-    (new Konno.Translate).translate({
-        sl  : sl,
-        tl  : tl,
-        text: text
-    }, function(result, canonical){
-        alert(
-            result
-          ? [
-                text.trim(),
-                canonical,
-                result
-            ].join(': ')
-          : [
-                'No available translation of "',
-                text,
-                '"'
-            ].join('')
-        );
-    });
-}, false);
-
-if (!this.Konno) this.Konno = {};
-
-Konno.Translate = function(){
-    this.translate = function(Opt, callback){
-        (function(sl, tl, text){
-            var BLOCK = arguments.callee;
-            getJSON('http://' + sl + '.wikipedia.org/w/api.php', {
-                action   : 'query',
-                prop     : 'langlinks',
-                titles   : text,
-                redirects: null,
-                lllimit  : 500,
-                format   : 'json',
-                callback : '?'
-            }, function(json){
-                var flag = false;
-                for each (var page in json.query.pages) {
-                    var langlinks = page.langlinks;
-                    if (!langlinks) continue;
-                    var title = page.title;
-                    langlinks.forEach(function(ll){
-                        var lang = ll.lang;
-                        if (tl == '*' ||
-                            tl != lang) return;
-                        callback(ll['*'], title);
-                        flag = true;
-                    });
-                }
-                if (flag) return;
-                var k = text.length - 1;
-                if (!k) {
-                    callback();
-                    return;
-                }
-                text = text.slice(0, k);
-                BLOCK(sl, tl, text);
-            });
-        })(Opt.sl, Opt.tl, Opt.text);
-    };
-    return this;
-};
-
 var getJSON = function(url, data, callback){
     var flag = true;
     for (var key in data) {
@@ -109,11 +42,85 @@ var getJSON = function(url, data, callback){
     document.body.appendChild(script);
 };
 
+var Konno = {};
+
+Konno.Translate = function(){
+    this.translate = function(Opt, callback){
+        getJSON('http://' + [
+            Opt.sl + '.wikipedia.org',
+            'w',
+            'api.php'
+        ].join('/'), {
+            action   : 'query',
+            prop     : 'langlinks',
+            titles   : Opt.text,
+            redirects: null,
+            lllimit  : 500,
+            format   : 'json',
+            callback : '?'
+        }, function(json){
+            var pages = json.query.pages;
+            for (var pageid in pages) {
+                var page = pages[pageid];
+                var title = page.title;
+                if (Opt.sl == Opt.tl) {
+                    callback(title, title);
+                    return;
+                }
+                var langlinks = page.langlinks;
+                if (!langlinks) {
+                    callback();
+                    return;
+                }
+                try {
+                    langlinks.forEach(function(ll){
+                        var lang = ll.lang;
+                        if (lang != Opt.tl) return;
+                        callback(ll['*'], title);
+                        throw null;
+                    });
+                    callback();
+                } catch (e) {}
+                return;
+            }
+        });
+    };
+    return this;
+};
+
+window.addEventListener('mouseup', function(){
+    var text = getSelection().toString();
+    if (!text) return;
+    (new Konno.Translate).translate({
+        sl  : sl,
+        tl  : tl,
+        text: text
+    }, function(result, canonical){
+        if ( getSelection().toString() != text ) return;
+        alert(
+            result
+          ? [
+                text.trim(),
+                canonical,
+                result
+            ].join(': ')
+          : [
+                'No available translation of "',
+                text,
+                '"'
+            ].join('')
+        );
+    });
+}, false);
+
 });
 
-function BEGIN(fn){
-    var script         = document.createElement('script');
-    script.type        = 'application/javascript';
-    script.textContent = '(' + fn.toString() + ')()';
+function BEGIN(fun){
+    var script
+      = document.createElement('script');
+    script.type
+      = 'application/javascript';
+    script.textContent
+      = '(' + fun.toString() + ')()';
     document.body.appendChild(script);
 }

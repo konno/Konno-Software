@@ -25,16 +25,22 @@ Konno.Translate = function(){
                 var title = page.title;
                 if (Opt.sl == Opt.tl) {
                     callback(title, title);
-                    return;
+                    continue;
                 }
                 var langlinks = page.langlinks;
-                if (!langlinks) continue;
-                langlinks.forEach(function(ll){
-                    var lang = ll.lang;
-                    if (Opt.tl != '*' &&
-                        Opt.tl != lang) return;
-                    callback(ll['*'], title);
-                });
+                if (!langlinks) {
+                    callback();
+                    continue;
+                }
+                try {
+                    langlinks.forEach(function(ll){
+                        var lang = ll.lang;
+                        if (lang != Opt.tl) return;
+                        callback(ll['*'], title);
+                        throw null;
+                    });
+                    callback();
+                } catch (e) {}
             }
         });
     };
