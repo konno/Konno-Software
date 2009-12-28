@@ -6,22 +6,44 @@
 // ==/UserScript==
 BEGIN(function(){
 
-var toSortkey = (function(){
-    var __toSortkey__ = {};
-    {
-        
-    }
+var toSortkey = (function(__toSortkey__){
     return function(str){
         var sortkeyText = '';
         Array.prototype
              .forEach
              .call(str, function(c){
-                 sortkeyText +=
-                    __toSortkey__[c] || c;
+                 sortkeyText += __toSortkey__[c]
+                             || c;
              });
         return sortkeyText;
     };
-})();
+})(
+    (function(object){
+        var __toSortkey__ = {};
+        for (var i in object)
+            Array.prototype
+                 .forEach
+                 .call(object[i], function(c){
+                     __toSortkey__[c] =
+                        String.fromCharCode(
+                            c.charCodeAt(0) + i * 1
+                        );
+                 });
+        return __toSortkey__;
+    })(
+        {
+            '-2': 'ぱぴぷぺぽ',
+            '-1': 'がぎぐげご'
+                + 'ざじずぜぞ'
+                + 'だぢづでど'
+                + 'ばびぶべぼ',
+             '1': 'ぁぃぅぇぉ'
+                + 'っ'
+                + 'ゃゅょ'
+                + 'ゎ'
+        }
+    )
+);
 
 var getJSON = function(url, data, callback){
     var flag = true;
@@ -76,16 +98,25 @@ Konno.Kana.To.Kanji.Conversion
                 format     : 'json',
                 callback   : '?'
             }, function(json){
-                json.query
-                    .categorymembers
-                    .forEach(function(cm){
-                        var sortkey =
-                            cm.sortkey
-                              .split(/[\s_]/)[0];
-                        if ( sortkey != toSortkey(query) ) return;
-                        var title = cm.title;
-                        callback(title);
-                    });
+                var candidates = [];
+                try {
+                    json.query
+                        .categorymembers
+                        .forEach(function(cm){
+                            var sortkey =
+                                cm.sortkey
+                                  .split(/[\s_]/)[0];
+                            if ( sortkey            != query &&
+                                 toSortkey(sortkey) !=
+                                 toSortkey(query) ) throw null;
+                            var title = cm.title;
+                            if ( title            == query ||
+                                 toSortkey(title) ==
+                                 toSortkey(query) ) return;
+                            candidates.push(title);
+                        });
+                } catch (e) {}
+                callback(candidates);
             });
         };
         return this;
@@ -108,14 +139,28 @@ Array.prototype
             if (query == oldQuery) return;
             oldQuery = query;
             if ( !query.trim() ) return;
-            var candidates = [];
-            (new Konno.Kana.To.Kanji.Conversion).convert(
-                query,
-                function(candidate){
-                    candidates.push(candidate);
+            var phrases = [];
+            var tmp     = '';
+            (function(query){
+                var BLOCK = arguments.callee;
+                (new Konno.Kana.To.Kanji.Conversion).convert(
+                    query,
+                    function(candidates){
+                        if (element.value != query) return;
+                        if (!candidates.length) {
+                            var k = query.length - 1;
+                            tmp += query.slice(k, 1);
+                            BLOCK( query.slice(0, k) );
+                            return;
+                        }
+                        phrases.push(candidates);
 console.log( JSON.stringify(candidates) );
-                }
-            );
+                        if (tmp != '') {
+                            BLOCK(tmp);
+                        }
+                    }
+                );
+            })(query);
          }, 1);
      });
 
