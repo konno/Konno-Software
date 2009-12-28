@@ -6,34 +6,22 @@
 // ==/UserScript==
 BEGIN(function(){
 
-var toSortkey = (function(obj){
+var toSortkey = (function(){
     var __toSortkey__ = {};
-    for (var i in obj)
-        Array.prototype.forEach.call(
-            obj[i],
-            function(c){
-                __toSortkey__[c] =
-                    String.fromCharCode(
-                        c.charCodeAt(0) + i * 1
-                    );
-            }
-        );
+    {
+        
+    }
     return function(str){
         var sortkeyText = '';
-        Array.prototype.forEach.call(
-            str,
-            function(c){
-                sortkeyText +=
+        Array.prototype
+             .forEach
+             .call(str, function(c){
+                 sortkeyText +=
                     __toSortkey__[c] || c;
-            }
-        );
+             });
         return sortkeyText;
     };
-})({
-    '-2': 'ぱぴぷぺぽ',
-    '-1': 'がぎぐげござじずぜぞだぢづでどばびぶべぼ',
-     '1': 'ぁぃぅぇぉっゃゅょゎ'
-});
+})();
 
 var getJSON = function(url, data, callback){
     var flag = true;
@@ -66,146 +54,79 @@ var getJSON = function(url, data, callback){
     document.body.appendChild(script);
 };
 
-var $ = (function(element){
-    return function(selectors){
-        if ( !element[selectors] )
-            element[selectors] =
-                document.querySelector(selectors);
-        return element[selectors];
-    };
-})({});
-
-var $$ = (function(elementList){
-    return function(selectors){
-        if ( !elementList[selectors] )
-            elementList[selectors] =
-                document.querySelectorAll(selectors);
-        return elementList[selectors];
-    };
-})({});
-
-if (!this.Konno)
-    this.Konno          = {};
-if (!Konno.Kana)
-    Konno.Kana          = {};
-if (!Konno.Kana.To)
-    Konno.Kana.To       = {};
-if (!Konno.Kana.To.Kanji)
-    Konno.Kana.To.Kanji = {};
-
-this.Konno.Kana.To.Kanji.Conversion = function(){
-    this.convert = (function(sources){
-        return function(text, callback){
-            var target     = toSortkey(text);
-            var cmcontinue = target + '|';
-            sources.forEach(function(src){
-                getJSON('http://' + src.hostname + '/w/api.php', {
-                    action     : 'query',
-                    list       : 'categorymembers',
-                    cmtitle    : src.cmtitle,
-                    cmprop     : 'title|sortkey',
-                    cmnamespace: 0,
-                    cmcontinue : cmcontinue,
-                    cmlimit    : 500,
-                    format     : 'json',
-                    callback   : '?'
-                }, function(json){
-                    try {
-                        json.query
-                            .categorymembers
-                            .forEach(function(cm){
-                                var key = cm.sortkey
-                                            .split(/[\s_]/)[0];
-                                if (key != target) throw null;
-                                callback(cm.title);
-                            });
-                    } catch (e) {}
-                });
-            });
-            var srsearch = encodeURIComponent(
-                               text
-                           ).replace(/%20/g, '+');
-            getJSON('http://ja.wikipedia.org/w/api.php', {
-                action  : 'query',
-                list    : 'search',
-                srsearch: text,
-                srwhat  : 'text',
-                srinfo  : 'suggestion',
-                srprop  : '',
-                srlimit : 500,
-                format  : 'json',
-                callback: '?'
+var Konno
+  = {};
+Konno.Kana
+  = {};
+Konno.Kana.To
+  = {};
+Konno.Kana.To.Kanji
+  = {};
+Konno.Kana.To.Kanji.Conversion
+  = function(){
+        this.convert = function(query, callback){
+            getJSON('http://ja.wiktionary.org/w/api.php', {
+                action     : 'query',
+                list       : 'categorymembers',
+                cmtitle    : 'Category:日本語',
+                cmprop     : 'title|sortkey',
+                cmnamespace: 0,
+                cmcontinue : query + '|',
+                cmlimit    : 500,
+                format     : 'json',
+                callback   : '?'
             }, function(json){
                 json.query
-                    .search
-                    .forEach(function(sr){
-                        callback(sr.title);
+                    .categorymembers
+                    .forEach(function(cm){
+                        var sortkey =
+                            cm.sortkey
+                              .split(/[\s_]/)[0];
+                        if ( sortkey != toSortkey(query) ) return;
+                        var title = cm.title;
+                        callback(title);
                     });
             });
         };
-    })([
-        {
-            hostname: 'ja.wiktionary.org',
-            cmtitle : 'Category:日本語'
-        },
-        {
-            hostname: 'ja.wikipedia.org',
-            cmtitle : 'Category:存命人物'
-        }
-    ]);
-    return this;
-};
+        return this;
+    };
 
-Array.prototype.forEach.call($$('input'), function(input){
-    var listener;
-    var oq = input.value;
-    window.setInterval(function(){
-        var q = input.value;
-        if (q == oq) return;
-        oq = q;
-        var candidates = [oq];
-        if (listener) {
-            input.removeEventListener('keyup', listener, false);
-            listener = null;
-        }
-        if ( !q.trim() ) return;
-        (new Konno.Kana.To.Kanji.Conversion).convert(
-            q,
-            function(result){
-                var cq = input.value;
-                if (cq != q ||
-                    cq == result) return;
-                candidates.push(result);
-                console.log( JSON.stringify(candidates) );
-            }
-        );
-        listener = (function(i){
-            return function(event){
-                switch (event.keyCode) {
-                    case 38: /* Up */
-                        i--;
-                        if (i < 0)
-                            i = candidates.length - 1;
-                        input.value = oq = candidates[i];
-                        break;
-                    case 40: /* Down */
-                        i++;
-                        if (i >= candidates.length)
-                            i = 0;
-                        input.value = oq = candidates[i];
-                        break;
+var $$ = (function(elementList){
+    return function(selectors){
+        return elementList[selectors] ||
+             ( elementList[selectors]
+             = document.querySelectorAll(selectors) );
+    };
+})({});
+
+Array.prototype
+     .forEach
+     .call($$('input, textarea'), function(element){
+         var oldQuery = element.value;
+         window.setInterval(function(){
+            var query = element.value;
+            if (query == oldQuery) return;
+            oldQuery = query;
+            if ( !query.trim() ) return;
+            var candidates = [];
+            (new Konno.Kana.To.Kanji.Conversion).convert(
+                query,
+                function(candidate){
+                    candidates.push(candidate);
+console.log( JSON.stringify(candidates) );
                 }
-            };
-        })(0);
-        input.addEventListener('keyup', listener, false);
-    }, 1);
-});
+            );
+         }, 1);
+     });
 
 });
 
-function BEGIN(fn){
-    var script         = document.createElement('script');
-    script.type        = 'application/javascript';
-    script.textContent = '(' + fn.toString() + ')()';
+function BEGIN(fun){
+    var script
+      = document.createElement('script');
+    script.type
+      = 'application/javascript';
+    script.textContent
+      = '(' + fun.toString() + ')()';
     document.body.appendChild(script);
 }

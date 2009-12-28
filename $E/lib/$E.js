@@ -3,8 +3,7 @@
  */
 
 if (!this.$E) {
-    this.$E = function(){
-        return document.createElement
-                       .apply(this, arguments);
+    this.$E = function(tagName){
+        return document.createElement(tagName);
     };
 }
