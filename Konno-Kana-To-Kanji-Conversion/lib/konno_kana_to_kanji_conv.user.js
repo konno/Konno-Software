@@ -98,7 +98,7 @@ Konno.Kana.To.Kanji.Conversion
                 format     : 'json',
                 callback   : '?'
             }, function(json){
-                var candidates = [];
+                var candidates = [ query ];
                 try {
                     json.query
                         .categorymembers
@@ -133,34 +133,96 @@ var $$ = (function(elementList){
 Array.prototype
      .forEach
      .call($$('input, textarea'), function(element){
-         var oldQuery = element.value;
+         var oldText = element.value;
+         var listener;
          window.setInterval(function(){
-            var query = element.value;
-            if (query == oldQuery) return;
-            oldQuery = query;
-            if ( !query.trim() ) return;
-            var phrases = [];
-            var tmp     = '';
+            var text = element.value;
+            if (text == oldText) return;
+            if (listener) {
+                element.removeEventListener('keyup', listener, false);
+                listener = null;
+            }
+            oldText = text;
+            if ( !text.trim() ) return;
+            var selectedIndices = [];
+            var candidatesList  = [];
+            var tmp = '';
             (function(query){
                 var BLOCK = arguments.callee;
                 (new Konno.Kana.To.Kanji.Conversion).convert(
                     query,
                     function(candidates){
-                        if (element.value != query) return;
-                        if (!candidates.length) {
-                            var k = query.length - 1;
-                            tmp += query.slice(k, 1);
-                            BLOCK( query.slice(0, k) );
+                        if ( element.value != text ) return;
+                        if ( candidates.length < 2 &&
+                             query.length      > 1 ) {
+                            tmp += query[0];
+                            BLOCK( query.slice(1, query.length) );
                             return;
                         }
-                        phrases.push(candidates);
-console.log( JSON.stringify(candidates) );
-                        if (tmp != '') {
-                            BLOCK(tmp);
-                        }
+                        candidatesList.unshift(candidates);
+                        console && console.log(
+                            JSON.stringify(candidatesList)
+                        );
+                        console && console.log(
+                            JSON.stringify(selectedIndices)
+                        );
+                        if (tmp == '') return;
+                        console && console.log(
+                            JSON.stringify(selectedIndices)
+                        );
+                        BLOCK(tmp);
+                        tmp = '';
                     }
                 );
-            })(query);
+            })(text);
+            var i = -1;
+            listener = function(event){
+                if (!candidatesList.length) return;
+                if (i < 0)
+                    i += candidatesList.length;
+                else if (i >= candidatesList.length)
+                    i -= candidatesList.length;
+                switch (event.keyCode) {
+                    case 37: /* Left */
+                        i--;
+                        if (i < 0)
+                            i += candidatesList.length;
+                        break;
+                    case 38: /* Up */
+                        selectedIndices[i]--;
+                        element.value = oldText = text = '';
+                        for (var i = 0, l = candidatesList.length;
+                             i < l;
+                             element.value
+                          += oldText
+                          += text
+                          += candidatesList[i][
+                                 selectedIndices[i]
+                             ],
+                             i++);
+                        break;
+                    case 39: /* Right */
+                        i++;
+                        if (i >= candidatesList.length)
+                            i -= candidatesList.length;
+                        break;
+                    case 40: /* Down */
+                        selectedIndices[i]++;
+                        if ( selectedIndices[i] );
+                        element.value = oldText = text = '';
+                        for (var i = 0, l = candidatesList.length;
+                             i < l;
+                             element.value
+                          += oldText
+                          += text
+                          += candidatesList[i][
+                                 selectedIndices[i]
+                             ],
+                             i++);
+                        break;
+                }
+            };
+            element.addEventListener('keyup', listener, false);
          }, 1);
      });
 

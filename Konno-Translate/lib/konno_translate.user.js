@@ -96,16 +96,14 @@ window.addEventListener('mouseup', function(){
         tl  : tl,
         text: text
     }, function(result, canonical){
-        if ( getSelection().toString() != text ) return;
-        alert(
-            result
-          ? [
-                text.trim(),
-                canonical,
-                result
-            ].join(': ')
-          : 'No available translation of "' + text + '"'
-        );
+        if ( !result ||
+             getSelection()
+                .toString() != text ) return;
+        alert( [
+                   text.trim(),
+                   canonical,
+                   result
+               ].join(': ') );
     });
 }, false);
 
