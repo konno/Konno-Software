@@ -6,6 +6,12 @@
 // ==/UserScript==
 BEGIN(function(){
 
+const $DEBUG
+  = console && console.log;
+var warn = function(){
+    console.log.apply(this, arguments);
+};
+
 var toSortkey = (function(__toSortkey__){
     return function(str){
         var sortkeyText = '';
@@ -144,11 +150,15 @@ Array.prototype
             }
             oldText = text;
             if ( !text.trim() ) return;
-            var selectedIndices = [];
-            var candidatesList  = [];
-            var tmp = '';
+            var i                 = 0;
+            var candidatesList    = [];
+            var tmpList           = [ text ];
+            tmpList.selectedIndex = 0;
+            candidatesList.unshift(tmpList);
+            var tmp               = '';
             (function(query){
                 var BLOCK = arguments.callee;
+                $DEBUG && warn(query);
                 (new Konno.Kana.To.Kanji.Conversion).convert(
                     query,
                     function(candidates){
@@ -159,29 +169,30 @@ Array.prototype
                             BLOCK( query.slice(1, query.length) );
                             return;
                         }
+                        candidates.selectedIndex = 0;
+                        candidatesList.shift();
                         candidatesList.unshift(candidates);
-                        console && console.log(
+                        if (tmp == '') {
+                            i = candidatesList.length - 1;
+                            $DEBUG && warn(
+                                JSON.stringify(candidatesList)
+                            );
+                            return;
+                        }
+                        var tmpList           = [ tmp ];
+                        tmpList.selectedIndex = 0;
+                        candidatesList.unshift(tmpList);
+                        i = candidatesList.length - 1;
+                        $DEBUG && warn(
                             JSON.stringify(candidatesList)
-                        );
-                        console && console.log(
-                            JSON.stringify(selectedIndices)
-                        );
-                        if (tmp == '') return;
-                        console && console.log(
-                            JSON.stringify(selectedIndices)
                         );
                         BLOCK(tmp);
                         tmp = '';
                     }
                 );
             })(text);
-            var i = -1;
             listener = function(event){
-                if (!candidatesList.length) return;
-                if (i < 0)
-                    i += candidatesList.length;
-                else if (i >= candidatesList.length)
-                    i -= candidatesList.length;
+                if ( !candidatesList[i] ) return;
                 switch (event.keyCode) {
                     case 37: /* Left */
                         i--;
@@ -189,17 +200,18 @@ Array.prototype
                             i += candidatesList.length;
                         break;
                     case 38: /* Up */
-                        selectedIndices[i]--;
-                        element.value = oldText = text = '';
-                        for (var i = 0, l = candidatesList.length;
-                             i < l;
-                             element.value
-                          += oldText
-                          += text
-                          += candidatesList[i][
-                                 selectedIndices[i]
-                             ],
-                             i++);
+                        candidatesList[i].selectedIndex--;
+                        if ( candidatesList[i].selectedIndex < 0 )
+                            candidatesList[i].selectedIndex
+                         += candidatesList[i].length;
+                        element.value
+                          = oldText
+                          = text
+                          = candidatesList.map(function(candidates){
+                                return candidates[
+                                    candidates.selectedIndex
+                                ];
+                            }).join('');
                         break;
                     case 39: /* Right */
                         i++;
@@ -207,18 +219,19 @@ Array.prototype
                             i -= candidatesList.length;
                         break;
                     case 40: /* Down */
-                        selectedIndices[i]++;
-                        if ( selectedIndices[i] );
-                        element.value = oldText = text = '';
-                        for (var i = 0, l = candidatesList.length;
-                             i < l;
-                             element.value
-                          += oldText
-                          += text
-                          += candidatesList[i][
-                                 selectedIndices[i]
-                             ],
-                             i++);
+                        candidatesList[i].selectedIndex++;
+                        if ( candidatesList[i].selectedIndex >=
+                             candidatesList[i].length )
+                            candidatesList[i].selectedIndex
+                         -= candidatesList[i].length;
+                        element.value
+                          = oldText
+                          = text
+                          = candidatesList.map(function(candidates){
+                                return candidates[
+                                    candidates.selectedIndex
+                                ];
+                            }).join('');
                         break;
                 }
             };
