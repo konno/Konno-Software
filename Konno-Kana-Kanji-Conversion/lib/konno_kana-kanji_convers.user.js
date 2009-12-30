@@ -1,6 +1,6 @@
 // ==UserScript==
 // @version        $Id$
-// @name           Konno Kana To Kanji Conversion
+// @name           Konno Kana-Kanji Conversion
 // @namespace      http://userscripts.org/users/119444/scripts
 // @include        *
 // ==/UserScript==
@@ -86,11 +86,9 @@ var Konno
   = {};
 Konno.Kana
   = {};
-Konno.Kana.To
+Konno.Kana.Kanji
   = {};
-Konno.Kana.To.Kanji
-  = {};
-Konno.Kana.To.Kanji.Conversion
+Konno.Kana.Kanji.Conversion
   = function(){
         this.sources = [
             {
@@ -203,7 +201,7 @@ Array.prototype
             (function(query){
                 var BLOCK = arguments.callee;
                 $DEBUG && warn(query);
-                (new Konno.Kana.To.Kanji.Conversion).convert(
+                (new Konno.Kana.Kanji.Conversion).convert(
                     query,
                     function(candidates){
                         if ( element.value != text ) return;
