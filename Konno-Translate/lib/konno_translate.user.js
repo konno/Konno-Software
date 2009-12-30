@@ -99,11 +99,11 @@ window.addEventListener('mouseup', function(){
         if ( !result ||
              getSelection()
                 .toString() != text ) return;
-        alert( [
-                   text.trim(),
-                   canonical,
-                   result
-               ].join(': ') );
+        alert([
+            text.trim(),
+            canonical,
+            result
+        ].join(': '));
     });
 }, false);
 
