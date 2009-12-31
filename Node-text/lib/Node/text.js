@@ -4,8 +4,8 @@
 
 if (!Node.prototype.text) {
     Node.prototype.text = function(text){
-        if ( typeof text != 'undefined' )
-            this.textContent = text;
-        return this.textContent;
+        return text == null
+           ?   this.textContent
+           : ( this.textContent = text );
     };
 }
