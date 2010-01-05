@@ -9,13 +9,13 @@ if (!this.Konno)
 if (!Konno.Search)
     Konno.Search
       = function(){
-            this.search = function(lang, query, callback){
+            this.search = function(Opt, callback){
                 getJSON(
-                    'http://' + lang + '.wikipedia.org/w/api.php',
+                    'http://' + Opt.lang + '.wikipedia.org/w/api.php',
                     {
                         action   : 'query',
                         prop     : 'extlinks',
-                        titles   : query,
+                        titles   : Opt.query,
                         redirects: null,
                         ellimit  : 500,
                         format   : 'json',
@@ -27,7 +27,11 @@ if (!Konno.Search)
                             var page = pages[pageid];
                             if (!page.extlinks) continue;
                             page.extlinks.forEach(function(el){
-                                callback( el['*'] );
+                                callback(
+                                    decodeURIComponent(
+                                        el['*']
+                                    )
+                                );
                             });
                         }
                     }
