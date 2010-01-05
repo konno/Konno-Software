@@ -4,6 +4,7 @@
 
 if (!String.prototype.empty) {
     String.prototype.empty = function(){
-        return this == '';
+        return this == null
+            || this == '';
     };
 }
