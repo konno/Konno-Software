@@ -10,8 +10,8 @@ if (!this.CGI) {
                      .split('&')
                      .forEach(function(pair){
                          var splits = pair.split('=');
-                         var key    = splits[0];
-                         var value  = splits[1];
+                         var key    = splits.shift();
+                         var value  = splits.shift();
                          param[key] = value;
                      });
             return function(key){
