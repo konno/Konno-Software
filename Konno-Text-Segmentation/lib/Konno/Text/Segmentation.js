@@ -32,7 +32,7 @@ if (!Konno.Text.Segmentation)
                         morphs.push(query);
                         if (tmp != '') {
                             BLOCK(tmp);
-                            tmp = '';
+                            tmp =  '';
                             return;
                         }
                         callback(morphs);
