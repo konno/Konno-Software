@@ -2,8 +2,6 @@
  * $Id$
  */
 
-(function(){
-
 if ( String.fromCharCode(0x10000) != '\uD800\uDC00' ) {
     String.__fromCharCode__
       = String.fromCharCode;
@@ -26,5 +24,3 @@ if ( String.fromCharCode(0x10000) != '\uD800\uDC00' ) {
             return str;
         };
 }
-
-})();
