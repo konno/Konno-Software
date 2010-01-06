@@ -43,11 +43,3 @@ if (!Konno.Text.Segmentation)
         };
         return this;
     };
-
-(new Konno.Text.Segmentation).segment(
-    'The quick brown fox jumps over the lazy dog.',
-    'en',
-    function(morphs){
-    
-    }
-);
