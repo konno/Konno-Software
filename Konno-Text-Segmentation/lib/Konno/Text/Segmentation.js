@@ -25,7 +25,7 @@ if (!Konno.Text.Segmentation)
                     for (var pageid in json.query.pages) {
                         if ( pageid       < 0 && /* missing */
                              query.length > 1 ) {
-                            tmp = query.slice(-1) + tmp;
+                            tmp =  query.slice(-1) + tmp;
                             BLOCK( query.slice(0, -1) );
                             return;
                         }
