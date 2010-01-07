@@ -1,5 +1,5 @@
 /*
- * $Id$x.js 166 2009-12-27 14:21:37Z Konno.Software $
+ * $Id$
  */
 
 if (!this.$x) {
