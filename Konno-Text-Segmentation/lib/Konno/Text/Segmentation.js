@@ -10,12 +10,20 @@ if (!Konno.Text)
 
 if (!Konno.Text.Segmentation)
     Konno.Text.Segmentation = function(){
+        this.sources = [
+            'wikipedia.org',
+            'wiktionary.org'
+        ];
         this.segment = function(text, lang, callback){
-            var morphs = [];
-            var tmp    = '';
+            var sources = this.sources;
+            var tmp     = '';
+            var l       = sources.length;
+            var i       = 0;
             (function(query){
-                var BLOCK = arguments.callee;
-                getJSON('http://' + lang + '.wikipedia.org/w/api.php', {
+                var BLOCK    = arguments.callee;
+                var src      = sources[i];
+                var hostname = lang + '.' + src;
+                getJSON('http://' + hostname + '/w/api.php', {
                     action  : 'query',
                     prop    : 'info',
                     titles  : query,
@@ -25,17 +33,23 @@ if (!Konno.Text.Segmentation)
                     for (var pageid in json.query.pages) {
                         if ( pageid       < 0 && /* missing */
                              query.length > 1 ) {
+                            i++;
+                            if (i < l) {
+                                BLOCK(query);
+                                return;
+                            }
                             tmp =  query.slice(-1) + tmp;
+                            i   =  0;
                             BLOCK( query.slice(0, -1) );
                             return;
                         }
-                        morphs.push(query);
+                        callback(query, src);
                         if (tmp != '') {
+                            i    = 0;
                             BLOCK(tmp);
-                            tmp =  '';
+                            tmp  = '';
                             return;
                         }
-                        callback(morphs);
                         return;
                     }
                 });
