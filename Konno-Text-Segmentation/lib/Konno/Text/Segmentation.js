@@ -11,18 +11,19 @@ if (!Konno.Text)
 if (!Konno.Text.Segmentation)
     Konno.Text.Segmentation = function(){
         this.sources = [
-            'wikipedia.org',
-            'wiktionary.org'
+            'ja.wikipedia.org',
+            'ja.wiktionary.org',
+            'en.wikipedia.org',
+            'en.wiktionary.org'
         ];
-        this.segment = function(text, lang, callback){
+        this.segment = function(text, callback){
             var sources = this.sources;
             var tmp     = '';
             var l       = sources.length;
             var i       = 0;
             (function(query){
                 var BLOCK    = arguments.callee;
-                var src      = sources[i];
-                var hostname = lang + '.' + src;
+                var hostname = sources[i];
                 getJSON('http://' + hostname + '/w/api.php', {
                     action  : 'query',
                     prop    : 'info',
@@ -43,7 +44,7 @@ if (!Konno.Text.Segmentation)
                             BLOCK( query.slice(0, -1) );
                             return;
                         }
-                        callback(query, src);
+                        callback(query, hostname);
                         if (tmp != '') {
                             i    = 0;
                             BLOCK(tmp);
