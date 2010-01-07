@@ -13,7 +13,7 @@ if (!Konno.Translate)
                 getJSON('http://' + [
                     Opt.sl + '.wikipedia.org',
                     'w',
-                    'api.php'
+                    'api.php',
                 ].join('/'), {
                     action   : 'query',
                     prop     : 'langlinks',
@@ -21,7 +21,7 @@ if (!Konno.Translate)
                     redirects: null,
                     lllimit  : 500,
                     format   : 'json',
-                    callback : '?'
+                    callback : '?',
                 }, function(json){
                     var pages = json.query.pages;
                     for (var pageid in pages) {

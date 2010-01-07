@@ -49,7 +49,7 @@ Konno.Translate = function(){
         getJSON('http://' + [
             Opt.sl + '.wikipedia.org',
             'w',
-            'api.php'
+            'api.php',
         ].join('/'), {
             action   : 'query',
             prop     : 'langlinks',
@@ -57,7 +57,7 @@ Konno.Translate = function(){
             redirects: null,
             lllimit  : 500,
             format   : 'json',
-            callback : '?'
+            callback : '?',
         }, function(json){
             var pages = json.query.pages;
             for (var pageid in pages) {
@@ -102,7 +102,7 @@ window.addEventListener('mouseup', function(){
         alert([
             text.trim(),
             canonical,
-            result
+            result,
         ].join(': '));
     });
 }, false);

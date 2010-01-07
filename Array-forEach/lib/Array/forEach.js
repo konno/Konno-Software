@@ -13,7 +13,7 @@ if (!Array.prototype.forEach) {
                  thisObject,
                  this[i++],
                  i,
-                 this
+                 this,
              ));
     };
 }
@@ -51,7 +51,7 @@ if (i > 1) {
                              )
                          ),
                          i++,
-                         this
+                         this,
                      ));
             };
         })();

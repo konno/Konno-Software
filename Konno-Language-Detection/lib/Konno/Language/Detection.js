@@ -27,14 +27,14 @@ if (!Konno.Language.Detection)
                                 titles   : text,
                                 redirects: '',
                                 format   : 'json',
-                                callback : '?'
+                                callback : '?',
                             },
                             function(json){
                                 for (var pageid in json.query.pages) {
                                     if (pageid < 0) return; /* missing */
                                     callback(lang);
                                 }
-                            }
+                            },
                         );
                     });
                 };

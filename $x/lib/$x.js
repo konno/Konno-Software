@@ -1,5 +1,5 @@
 /*
- * $Id$
+ * $Id$x.js 166 2009-12-27 14:21:37Z Konno.Software $
  */
 
 if (!this.$x) {
@@ -8,7 +8,7 @@ if (!this.$x) {
         resultType,
         namespaceResolver,
         contextNode,
-        xpathResult
+        xpathResult,
     ){
         return function(xpathExpression){
             if ( !xpathResult[xpathExpression] ) {
@@ -18,7 +18,7 @@ if (!this.$x) {
                         contextNode,
                         namespaceResolver,
                         resultType,
-                        result
+                        result,
                     );
                 xpathResult[xpathExpression] = [];
                 for (var i = 0,
@@ -37,6 +37,6 @@ if (!this.$x) {
             return 'http://www.w3.org/1999/xhtml';
         },
         document,
-        {}
+        {},
     );
 }

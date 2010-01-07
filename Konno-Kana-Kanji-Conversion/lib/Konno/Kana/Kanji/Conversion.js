@@ -20,12 +20,12 @@ if (!Konno.Kana.Kanji.Conversion)
             this.sources = [
                 {
                     hostname: 'ja.wiktionary.org',
-                    cmtitle : 'Category:日本語'
+                    cmtitle : 'Category:日本語',
                 },
                 {
                     hostname: 'ja.wikipedia.org',
-                    cmtitle : 'Category:存命人物'
-                }
+                    cmtitle : 'Category:存命人物',
+                },
             ];
             this.convert = function(query, callback){
                 var sources    = this.sources;
@@ -44,7 +44,7 @@ if (!Konno.Kana.Kanji.Conversion)
                         cmcontinue : toSortkey(query) + '|',
                         cmlimit    : 500,
                         format     : 'json',
-                        callback   : '?'
+                        callback   : '?',
                     }, function(json){
                         try {
                             json.query
@@ -75,7 +75,7 @@ if (!Konno.Kana.Kanji.Conversion)
                                 srprop     : '',
                                 srlimit    : 50,
                                 format     : 'json',
-                                callback   : '?'
+                                callback   : '?',
                             }, function(json){
                                 json.query
                                     .search

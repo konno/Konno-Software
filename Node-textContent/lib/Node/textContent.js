@@ -16,15 +16,15 @@ if ( Object.defineProperty &&
         Object.defineProperty(
             Element.prototype,
             'textContent',
-            object
+            object,
         );
     })(
         Object.getOwnPropertyDescriptor(
             Element.prototype,
-            'innerText'
+            'innerText',
         ),
         Object.getOwnPropertyDescriptor(
             Element.prototype,
-            'textContent'
-        )
+            'textContent',
+        ),
     );

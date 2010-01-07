@@ -9,16 +9,18 @@ if (!this.XMLHttpRequest) {
                 'Msxml2.XMLHTTP.6.0',
                 'Msxml2.XMLHTTP.3.0',
                 'Msxml2.XMLHTTP',
-                'Microsoft.XMLHTTP'
+                'Microsoft.XMLHTTP',
             ].forEach(function(ProgID){
                 try {
                     var req = new ActiveXObject(ProgID);
-                } catch (e) {
+                }
+                catch (e) {
                     return;
                 }
                 throw req;
             });
-        } catch (e) {
+        }
+        catch (e) {
             return function(){
                 return e;
             };

@@ -12,7 +12,7 @@ if (!Konno.Text.Segmentation)
     Konno.Text.Segmentation = function(){
         this.sources = [
             'ja.wikipedia.org',
-            'ja.wiktionary.org'
+            'ja.wiktionary.org',
         ];
         this.segment = function(text, callback){
             var sources = this.sources;
@@ -27,7 +27,7 @@ if (!Konno.Text.Segmentation)
                     prop    : 'info',
                     titles  : query,
                     format  : 'json',
-                    callback: '?'
+                    callback: '?',
                 }, function(json){
                     for (var pageid in json.query.pages) {
                         if ( pageid       < 0 && /* missing */

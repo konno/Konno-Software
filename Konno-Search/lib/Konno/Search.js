@@ -19,7 +19,7 @@ if (!Konno.Search)
                         redirects: null,
                         ellimit  : 500,
                         format   : 'json',
-                        callback : '?'
+                        callback : '?',
                     },
                     function(json){
                         var pages = json.query.pages;
@@ -34,7 +34,7 @@ if (!Konno.Search)
                                 );
                             });
                         }
-                    }
+                    },
                 );
             };
             return this;
