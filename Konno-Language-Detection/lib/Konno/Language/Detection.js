@@ -34,7 +34,7 @@ if (!Konno.Language.Detection)
                                     if (pageid < 0) return; /* missing */
                                     callback(lang);
                                 }
-                            },
+                            }
                         );
                     });
                 };
