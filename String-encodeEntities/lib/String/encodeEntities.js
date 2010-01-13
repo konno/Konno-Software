@@ -6,9 +6,11 @@ if (!String.prototype.encodeEntities) {
     String.prototype.encodeEntities = (function(entity){
         return function(){
             var buf = '';
-            Array.prototype.forEach.call(this, function(c){
-                buf += entity[c] || c;
-            });
+            Array.prototype
+                 .forEach
+                 .call(this, function(char){
+                     buf += entity[char] || char;
+                 });
             return buf;
         };
     })({
