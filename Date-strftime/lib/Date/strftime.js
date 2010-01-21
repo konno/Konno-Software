@@ -47,6 +47,15 @@ if (!Date.prototype.strftime) {
             var localeTimeString = this.toLocaleTimeString();
             var twelveHourClock  = hours % 12;
             var meridiem         = hours < 12 ? 'AM' : 'PM';
+            var newYearsDay      = new Date( fullYear, 0, 1 );
+            var ISOWeekNumber    = Math.ceil(
+                                       (
+                                           (this - newYearsDay) / 864e5
+                                         + newYearsDay.getDay()
+                                         + 1
+                                       ) / 7
+                                   ).toString();
+            var ISOWeekNumberLength = ISOWeekNumber.length;
             return fmt.replace(regexp, (function(str){
                 return function(m, flag, seq){
                     var s = str[seq] || seq;
@@ -72,8 +81,11 @@ if (!Date.prototype.strftime) {
                 'D': [ month, date, year ].join('/'),
                 'e': date,
                 'F': [ fullYear, month, date ].join('-'),
-//                'g': ,
-//                'G': ,
+                'g': ISOWeekNumber.slice(
+                         ISOWeekNumberLength - 2,
+                         ISOWeekNumberLength
+                     ),
+                'G': ISOWeekNumber,
                 'h': abbreviatedMonthNames[month],
                 'H': hours,
                 'I': twelveHourClock,
@@ -94,7 +106,7 @@ if (!Date.prototype.strftime) {
                 'T': [ hours, minutes, seconds ].join(':'),
                 'u': day + 1,
 //                'U': ,
-//                'V': ,
+                'V': ISOWeekNumber,
                 'w': day,
 //                'W': ,
                 'x': localeDateString,
