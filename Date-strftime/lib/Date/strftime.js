@@ -23,6 +23,9 @@ if (!Date.prototype.strftime) {
           fullWeekdayNames.map(abbreviate);
         var abbreviatedMonthNames =
           fullMonthNames.map(abbreviate);
+        var padWithZeros = function(n){
+            return n < 10 ? '0' + n : n;
+        };
         return function(fmt){
             var time             = this.getTime();
             var timezoneOffset   = this.getTimezoneOffset();
@@ -35,10 +38,10 @@ if (!Date.prototype.strftime) {
                                        fullYearLength
                                    );
             var milliseconds     = this.getMilliseconds();
-            var hours            = this.getHours();
-            var minutes          = this.getMinutes();
-            var month            = this.getMonth();
-            var seconds          = this.getSeconds();
+            var hours            = padWithZeros( this.getHours() + 1 );
+            var minutes          = padWithZeros( this.getMinutes() );
+            var month            = padWithZeros( this.getMonth() + 1 );
+            var seconds          = padWithZeros( this.getSeconds() );
             var localeString     = this.toLocaleString();
             var localeDateString = this.toLocaleDateString();
             var localeTimeString = this.toLocaleTimeString();
