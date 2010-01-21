@@ -4,7 +4,7 @@
 
 if (!Date.prototype.strftime) {
     Date.prototype.strftime = (function(){
-        var regexp = /%([%A-Za-z])/g;
+        var regexp = /%([-_0^#]?)([%A-Za-z])/g;
         var fullWeekdayNames =
           'Sun Mon Tues Wednes Thurs Fri Satur'
             .split(' ').map(function(s){
@@ -39,9 +39,18 @@ if (!Date.prototype.strftime) {
             var localeTimeString = this.toLocaleTimeString();
             var twelveHourClock  = hours % 12;
             var meridiem         = hours < 12 ? 'AM' : 'PM';
-            return fmt.replace(regexp, (function(s){
-                return function(m0, m1){
-                    return s[m1] || m1;
+            return fmt.replace(regexp, (function(str){
+                return function(m, flag, seq){
+                    var s = str[seq] || seq;
+                    switch (flag) {
+                        case '^':
+                            s = s.toUpperCase();
+                            break;
+                        case '#':
+                            s = s.toLowerCase();
+                            break;
+                    }
+                    return s;
                 };
             })({
                 '%': '%',
