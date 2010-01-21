@@ -7,25 +7,22 @@ if (!Date.prototype.strftime) {
         var regexp = /%([%A-Za-z])/g;
         var fullWeekdayNames =
           'Sun Mon Tues Wednes Thurs Fri Satur'
-            .split(' ')
-            .map(function(s){
+            .split(' ').map(function(s){
                 return s + 'day';
             });
         var fullMonthNames = [
-            'January February March',
-            'April   May      June',
-            'July    August   September',
-            'October November December',
+          'January February March',
+          'April   May      June',
+          'July    August   September',
+          'October November December',
         ].join(' ').split(/\s+/);
         var abbreviate = function(s){
             return s.slice(0, 3);
         };
         var abbreviatedWeekdayNames =
-          fullWeekdayNames
-            .map(abbreviate);
+          fullWeekdayNames.map(abbreviate);
         var abbreviatedMonthNames =
-          fullMonthNames
-            .map(abbreviate);
+          fullMonthNames.map(abbreviate);
         return function(fmt){
             var date     = this.getDate();
             var day      = this.getDay();
