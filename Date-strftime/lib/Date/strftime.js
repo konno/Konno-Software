@@ -49,14 +49,14 @@ if (!Date.prototype.strftime) {
             var meridiem         = hours < 12 ? 'AM' : 'PM';
             var newYearsDay      = new Date( fullYear, 0, 1 );
             var elapsedDays      = (this - newYearsDay) / 864e5;
-            var ISOWeekNumber    = Math.ceil(
+            var weekNumber       = Math.ceil(
                                        (
                                            elapsedDays
                                          + newYearsDay.getDay()
                                          + 1
                                        ) / 7
                                    ).toString();
-            var ISOWeekNumberLength = ISOWeekNumber.length;
+            var weekNumberLength = weekNumber.length;
             var dayOfYear        = Math.ceil(elapsedDays);
             return fmt.replace(regexp, (function(str){
                 return function(m, flag, seq){
@@ -83,11 +83,11 @@ if (!Date.prototype.strftime) {
                 'D': [ month, date, year ].join('/'),
                 'e': date,
                 'F': [ fullYear, month, date ].join('-'),
-                'g': ISOWeekNumber.slice(
-                         ISOWeekNumberLength - 2,
-                         ISOWeekNumberLength
+                'g': weekNumber.slice(
+                         weekNumberLength - 2,
+                         weekNumberLength
                      ),
-                'G': ISOWeekNumber,
+                'G': weekNumber,
                 'h': abbreviatedMonthNames[month],
                 'H': hours,
                 'I': twelveHourClock,
@@ -107,10 +107,10 @@ if (!Date.prototype.strftime) {
                 't': '\t',
                 'T': [ hours, minutes, seconds ].join(':'),
                 'u': day + 1,
-                'U': ISOWeekNumber,
-                'V': ISOWeekNumber,
+                'U': weekNumber,
+                'V': weekNumber,
                 'w': day,
-                'W': ISOWeekNumber,
+                'W': weekNumber,
                 'x': localeDateString,
                 'X': localeTimeString,
                 'y': fullYear.slice(fullYearLength - 2, fullYearLength),
