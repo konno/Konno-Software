@@ -24,15 +24,21 @@ if (!Date.prototype.strftime) {
         var abbreviatedMonthNames =
           fullMonthNames.map(abbreviate);
         return function(fmt){
+            var time             = this.getTime();
             var date             = this.getDate();
             var day              = this.getDay();
             var fullYear         = this.getFullYear();
+            var fullYearLength   = fullYear.length;
+            var milliseconds     = this.getMilliseconds();
             var hours            = this.getHours();
             var minutes          = this.getMinutes();
             var month            = this.getMonth();
             var seconds          = this.getSeconds();
             var localeString     = this.toLocaleString();
             var localeDateString = this.toLocaleDateString();
+            var localeTimeString = this.toLocaleTimeString();
+            var twelveHourClock  = hours % 12;
+            var meridiem         = hours < 12 ? 'AM' : 'PM';
             return fmt.replace(regexp, (function(s){
                 return function(m0, m1){
                     return s[m1] || m1;
@@ -49,6 +55,40 @@ if (!Date.prototype.strftime) {
                 'D': localeDateString,
                 'e': date,
                 'F': [ fullYear, month, date ].join('-'),
+//                'g': ,
+//                'G': ,
+                'h': abbreviatedMonthNames[month],
+                'H': hours,
+                'I': twelveHourClock,
+//                'j': ,
+                'k': hours,
+                'l': twelveHourClock,
+                'm': month,
+                'M': minutes,
+                'n': '\n',
+                'N': milliseconds,
+                'p': meridiem,
+                'P': meridiem.toLowerCase(),
+                'r': localeTimeString,
+                'R': [ hours, minutes ].join(':'),
+                's': time,
+                'S': seconds,
+                't': '\t',
+                'T': [ hours, minutes, seconds ].join(':'),
+                'u': day + 1,
+//                'U': ,
+//                'V': ,
+                'w': day,
+//                'W': ,
+                'x': localeDateString(),
+                'X': localeTimeString(),
+                'y': fullYear.slice(fullYearLength - 2, fullYearLength),
+                'Y': fullYear,
+                'z': timezoneOffset,
+               ':z': timezoneOffset,
+              '::z': timezoneOffset,
+             ':::z': timezoneOffset,
+                'Z': localeString.split(' ').pop(),
             }));
         };
     })();
