@@ -29,6 +29,10 @@ if (!Date.prototype.strftime) {
             var day              = this.getDay();
             var fullYear         = this.getFullYear();
             var fullYearLength   = fullYear.length;
+            var year             = fullYear.slice(
+                                       fullYearLength - 2,
+                                       fullYearLength
+                                   );
             var milliseconds     = this.getMilliseconds();
             var hours            = this.getHours();
             var minutes          = this.getMinutes();
@@ -61,7 +65,7 @@ if (!Date.prototype.strftime) {
                 'c': localeString,
                 'C': fullYear.slice(0, 2),
                 'd': date,
-                'D': localeDateString,
+                'D': [ month, date, year ].join('/'),
                 'e': date,
                 'F': [ fullYear, month, date ].join('-'),
 //                'g': ,
