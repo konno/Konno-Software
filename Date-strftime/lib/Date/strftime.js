@@ -25,9 +25,10 @@ if (!Date.prototype.strftime) {
           fullMonthNames.map(abbreviate);
         return function(fmt){
             var time             = this.getTime();
+            var timezoneOffset   = this.getTimezoneOffset();
             var date             = this.getDate();
             var day              = this.getDay();
-            var fullYear         = this.getFullYear();
+            var fullYear         = this.getFullYear().toString();
             var fullYearLength   = fullYear.length;
             var year             = fullYear.slice(
                                        fullYearLength - 2,
