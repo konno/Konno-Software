@@ -39,13 +39,17 @@ if (!Date.prototype.strftime) {
              },
         'a': (function(abbreviatedWeekdayNames){
                  return function(){
-                     return abbreviatedWeekdayNames[ this.getDay() ];
+                     return abbreviatedWeekdayNames[
+                                this.strftime('%w')
+                            ];
                  };
              })( 'Sun Mon Tue Wed Thu Fri Sat'
                    .split(' ') ),
         'A': (function(fullWeekdayNames){
                  return function(){
-                     return fullWeekdayNames[ this.getDay() ];
+                     return fullWeekdayNames[
+                                this.strftime('%w')
+                            ];
                  };
              })( 'Sun Mon Tues Wednes Thurs Fri Satur'
                    .split(' ')
@@ -94,7 +98,7 @@ if (!Date.prototype.strftime) {
                  return this.strftime('%y');
              },
         'G': function(){
-                 return this.getFullYear();
+                 return this.strftime('%Y');
              },
         'h': function(){
                  return this.strftime('%b');
