@@ -128,7 +128,8 @@ if (!Date.prototype.strftime) {
                  return m < 10 ? '0' + m : m;
              },
         'M': function(){
-                 return this.getMinutes();
+                 var m = this.getMinutes();
+                 return m < 10 ? '0' + m : m;
              },
         'n': function(){
                  return '\n'; // should this be OS-sensitive?
@@ -156,7 +157,8 @@ if (!Date.prototype.strftime) {
                  return Math.floor( this.getTime() / 1e3 );
              },
         'S': function(){
-                 return this.getSeconds();
+                 var s = this.getSeconds();
+                 return s < 10 ? '0' + s : s;
              },
         't': function(){
                  return '\t';
