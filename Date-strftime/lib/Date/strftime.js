@@ -38,41 +38,33 @@ if (!Date.prototype.strftime) {
              },
         'a': (function(abbreviatedWeekdayNames){
                  return function(){
-                     return abbreviatedWeekdayNames[
-                                this.strftime('%w')
-                            ];
+                     return abbreviatedWeekdayNames[ this.strftime('%w') ];
                  };
-             })( 'Sun Mon Tue Wed Thu Fri Sat'
-                   .split(' ') ),
+             })('Sun Mon Tue Wed Thu Fri Sat'.split(' ')),
         'A': (function(fullWeekdayNames){
                  return function(){
-                     return fullWeekdayNames[
-                                this.strftime('%w')
-                            ];
+                     return fullWeekdayNames[ this.strftime('%w') ];
                  };
-             })( 'Sun Mon Tues Wednes Thurs Fri Satur'
-                   .split(' ')
-                   .map(function(s){
-                       return s + 'day';
-                   }) ),
+             })('Sun Mon Tues Wednes Thurs Fri Satur'
+                  .split(' ')
+                  .map(function(s){
+                      return s + 'day';
+                  })),
         'b': (function(abbreviatedMonthNames){
                  return function(){
                      return abbreviatedMonthNames[ this.getMonth() ];
                  };
-             })( 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'
-                   .split(' ') ),
+             })('Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' ')),
         'B': (function(fullMonthNames){
                  return function(){
                      return fullMonthNames[ this.getMonth() ];
                  };
-             })( [
-                   'January February March',
-                   'April   May      June',
-                   'July    August   September',
-                   'October November December',
-                 ]
-                   .join(' ')
-                   .split(/\s+/) ),
+             })([
+                  'January February March',
+                  'April   May      June',
+                  'July    August   September',
+                  'October November December',
+                ].join(' ').split(/\s+/)),
         'c': function(){
                  return this.toLocaleString();
              },
@@ -216,9 +208,9 @@ if (!Date.prototype.strftime) {
      ':::z': function(){
                  var z = this.getTimezoneOffset() / -60;
                  return [
-                     z < 0    ? '-' : '+',
-                     z < 1000 ? '0' : '',
-                     z,
+                   z < 0    ? '-' : '+',
+                   z < 1000 ? '0' : '',
+                   z,
                  ].join('');
              },
         'Z': function(){
