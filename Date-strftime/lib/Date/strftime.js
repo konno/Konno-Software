@@ -3,124 +3,239 @@
  */
 
 if (!Date.prototype.strftime) {
-    Date.prototype.strftime = (function(){
-        var regexp = /%([-_0^#]?)([%A-Za-z])/g;
-        var fullWeekdayNames =
-          'Sun Mon Tues Wednes Thurs Fri Satur'
-            .split(' ').map(function(s){
-                return s + 'day';
-            });
-        var fullMonthNames = [
-          'January February March',
-          'April   May      June',
-          'July    August   September',
-          'October November December',
-        ].join(' ').split(/\s+/);
-        var abbreviate = function(s){
-            return s.slice(0, 3);
-        };
-        var abbreviatedWeekdayNames =
-          fullWeekdayNames.map(abbreviate);
-        var abbreviatedMonthNames =
-          fullMonthNames.map(abbreviate);
-        var padWithZeros = function(n){
-            return n < 10 ? '0' + n : n;
-        };
+    Date.prototype.strftime = (function(interpret){
+        var regexp = /%([-_0^#]?)(:{0,3}[%A-Za-z])/g;
         return function(fmt){
-            var time             = this.getTime();
-            var timezoneOffset   = this.getTimezoneOffset();
-            var date             = this.getDate();
-            var day              = this.getDay();
-            var fullYear         = this.getFullYear().toString();
-            var fullYearLength   = fullYear.length;
-            var year             = fullYear.slice(
-                                       fullYearLength - 2,
-                                       fullYearLength
-                                   );
-            var milliseconds     = this.getMilliseconds();
-            var hours            = padWithZeros( this.getHours() + 1 );
-            var minutes          = padWithZeros( this.getMinutes() );
-            var month            = padWithZeros( this.getMonth() + 1 );
-            var seconds          = padWithZeros( this.getSeconds() );
-            var localeString     = this.toLocaleString();
-            var localeDateString = this.toLocaleDateString();
-            var localeTimeString = this.toLocaleTimeString();
-            var twelveHourClock  = hours % 12;
-            var meridiem         = hours < 12 ? 'AM' : 'PM';
-            var newYearsDay      = new Date( fullYear, 0, 1 );
-            var elapsedDays      = (this - newYearsDay) / 864e5;
-            var weekNumber       = Math.ceil(
-                                       (
-                                           elapsedDays
-                                         + newYearsDay.getDay()
-                                         + 1
-                                       ) / 7
-                                   ).toString();
-            var weekNumberLength = weekNumber.length;
-            var dayOfYear        = Math.ceil(elapsedDays);
-            return fmt.replace(regexp, (function(str){
-                return function(m, flag, seq){
-                    var s = str[seq] || seq;
-                    switch (flag) {
-                        case '^':
-                            s = s.toUpperCase();
-                            break;
-                        case '#':
-                            s = s.toLowerCase();
-                            break;
-                    }
-                    return s;
-                };
-            })({
-                '%': '%',
-                'a': abbreviatedWeekdayNames[day],
-                'A': fullWeekdayNames[day],
-                'b': abbreviatedMonthNames[month],
-                'B': fullMonthNames[month],
-                'c': localeString,
-                'C': fullYear.slice(0, 2),
-                'd': date,
-                'D': [ month, date, year ].join('/'),
-                'e': date,
-                'F': [ fullYear, month, date ].join('-'),
-                'g': weekNumber.slice(
-                         weekNumberLength - 2,
-                         weekNumberLength
-                     ),
-                'G': weekNumber,
-                'h': abbreviatedMonthNames[month],
-                'H': hours,
-                'I': twelveHourClock,
-                'j': dayOfYear,
-                'k': hours,
-                'l': twelveHourClock,
-                'm': month,
-                'M': minutes,
-                'n': '\n',
-                'N': milliseconds,
-                'p': meridiem,
-                'P': meridiem.toLowerCase(),
-                'r': localeTimeString,
-                'R': [ hours, minutes ].join(':'),
-                's': time,
-                'S': seconds,
-                't': '\t',
-                'T': [ hours, minutes, seconds ].join(':'),
-                'u': day + 1,
-                'U': weekNumber,
-                'V': weekNumber,
-                'w': day,
-                'W': weekNumber,
-                'x': localeDateString,
-                'X': localeTimeString,
-                'y': fullYear.slice(fullYearLength - 2, fullYearLength),
-                'Y': fullYear,
-                'z': timezoneOffset,
-               ':z': timezoneOffset,
-              '::z': timezoneOffset,
-             ':::z': timezoneOffset,
-                'Z': localeString.split(' ').pop(),
-            }));
+            var self     = this;
+            var callback = function(m0, flag, seq){
+                var s =
+                    interpret[seq] ? interpret[seq].call(self)
+                                   : seq;
+                switch (flag) {
+                    case '-':
+                        if (!s) break;
+                        s = s.toString().replace(/^0/, '');
+                        break;
+                    case '_':
+                        s = s.toString().replace(/^0/, ' ');
+                        break;
+                    case '0':
+                        s = s.toString().replace(/^ /, '0');
+                        break;
+                    case '^':
+                        s = s.toString().toUpperCase();
+                        break;
+                    case '#':
+                        s = s.toString().toLowerCase();
+                        break;
+                }
+                return s;
+            };
+            return fmt.replace(regexp, callback);
         };
-    })();
+    })({
+        '%': function(){
+                 return '%';
+             },
+        'a': (function(abbreviatedWeekdayNames){
+                 return function(){
+                     return abbreviatedWeekdayNames[ this.getDay() ];
+                 };
+             })( 'Sun Mon Tue Wed Thu Fri Sat'
+                   .split(' ') ),
+        'A': (function(fullWeekdayNames){
+                 return function(){
+                     return fullWeekdayNames[ this.getDay() ];
+                 };
+             })( 'Sun Mon Tues Wednes Thurs Fri Satur'
+                   .split(' ')
+                   .map(function(s){
+                       return s + 'day';
+                   }) ),
+        'b': (function(abbreviatedMonthNames){
+                 return function(){
+                     return abbreviatedMonthNames[ this.getMonth() ];
+                 };
+             })( 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'
+                   .split(' ') ),
+        'B': (function(fullMonthNames){
+                 return function(){
+                     return fullMonthNames[ this.getMonth() ];
+                 };
+             })( [
+                   'January February March',
+                   'April   May      June',
+                   'July    August   September',
+                   'October November December',
+                 ]
+                   .join(' ')
+                   .split(/\s+/) ),
+        'c': function(){
+                 return this.toLocaleString();
+             },
+        'C': function(){
+                 return Math.floor( this.getFullYear() / 100 );
+             },
+        'd': function(){
+                 var d = this.getDate();
+                 return d < 10 ? '0' + d : d;
+             },
+        'D': function(){
+                 return this.strftime('%m/%d/%y');
+             },
+        'e': function(){
+                 var m = this.getDate();
+                 return m < 10 ? ' ' + m : m;
+             },
+        'F': function(){
+                 return this.strftime('%Y-%m-%d');
+             },
+        'g': function(){
+                 var y = this.getFullYear().toString();
+                 var l = y.length;
+                 return y.slice(l - 2, l);
+             },
+        'G': function(){
+                 return this.getFullYear();
+             },
+        'h': function(){
+                 return this.strftime('%b');
+             },
+        'H': function(){
+                 var h = this.getHours();
+                 return h < 10 ? '0' + h : h;
+             },
+        'I': function(){
+                 var h = this.getHours() % 12 || 12;
+                 return h < 10 ? '0' + h : h;
+             },
+        'j': function(){
+                 var d = this.getDate();
+                 return d < 10  ? '00' + d
+                      : d < 100 ? '0'  + d
+                      :           d;
+             },
+        'k': function(){
+                 var h = this.getHours();
+                 return h < 10 ? ' ' + h : h;
+             },
+        'l': function(){
+                 var h = this.getHours() % 12 || 12;
+                 return h < 10 ? ' ' + h : h;
+             },
+        'm': function(){
+                 var m = this.getMonth() + 1;
+                 return m < 10 ? '0' + m : m;
+             },
+        'M': function(){
+                 return this.getMinutes();
+             },
+        'n': function(){
+                 return '\n'; // should this be OS-sensitive?
+             },
+        'N': function(){
+                 var ms = this.getMilliseconds();
+                 ms = ms < 10  ? '00' + ms
+                    : ms < 100 ? '0'  + ms
+                    :            ms;
+                 return ms + '000000';
+             },
+        'p': function(){
+                 return this.getHours() < 12 ? 'AM' : 'PM';
+             },
+        'P': function(){
+                 return this.getHours() < 12 ? 'am' : 'pm';
+             },
+        'r': function(){
+                 return this.strftime('%I:%M:%S %p');
+             },
+        'R': function(){
+                 return this.strftime('%H:%M');
+             },
+        's': function(){
+                 return Math.floor( this.getTime() / 1e3 );
+             },
+        'S': function(){
+                 return this.getSeconds();
+             },
+        't': function(){
+                 return '\t';
+             },
+        'T': function(){
+                 return this.strftime('%H:%M:%S');
+             },
+        'u': function(){
+                 return this.getDay();
+             },
+        'U': function(){
+                 var d = new Date( this.getFullYear(), 0, 1 );
+                 var w = Math.floor(
+                             (
+                                 (this - d) / 864e5
+                               + d.getDay()
+                               + 1
+                             ) / 7
+                         );
+                 return w < 10 ? '0' + w : w;
+             },
+        'V': function(){
+                 var d = new Date( this.getFullYear(), 0, 1 );
+                 var w = Math.floor(
+                             (
+                                 (this - d) / 864e5
+                               + d.getDay()
+                               + 1
+                             ) / 7
+                         );
+                 return w < 10 ? '0' + w : w;
+             },
+        'w': function(){
+                 return this.getDay();
+             },
+        'W': function(){
+                 var d = new Date( this.getFullYear(), 0, 1 );
+                 var w = Math.floor(
+                             (
+                                 (this - d) / 864e5
+                               + d.getDay()
+                               + 1
+                             ) / 7
+                         );
+                 return w < 10 ? '0' + w : w;
+             },
+        'x': function(){
+                 return this.toLocaleDateString();
+             },
+        'X': function(){
+                 return this.toLocaleTimeString();
+             },
+        'y': function(){
+                 var y = this.getFullYear().toString();
+                 var l = y.length;
+                 return y.slice(l - 2, l);
+             },
+        'Y': function(){
+                 return this.getFullYear();
+             },
+        'z': function(){
+                 return this.strftime('%:::z00');
+             },
+       ':z': function(){
+                 return this.strftime('%:::z:00');
+             },
+      '::z': function(){
+                 return this.strftime('%:::z:00:00');
+             },
+     ':::z': function(){
+                 var z = this.getTimezoneOffset() / -60;
+                 return [
+                     z < 0    ? '-' : '+',
+                     z < 1000 ? '0' : '',
+                     z,
+                 ].join('');
+             },
+        'Z': function(){
+                 return this.toLocaleString().split(' ').pop();
+             },
+    });
 }
