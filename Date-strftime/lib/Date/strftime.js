@@ -74,7 +74,7 @@ if (!Date.prototype.strftime) {
                  return this.toLocaleString();
              },
         'C': function(){
-                 return Math.floor( this.getFullYear() / 100 );
+                 return Math.floor( this.strftime('%Y') / 100 );
              },
         'd': function(){
                  var d = this.getDate();
@@ -165,7 +165,7 @@ if (!Date.prototype.strftime) {
                  return this.strftime('%H:%M:%S');
              },
         'u': function(){
-                 return this.getDay();
+                 return this.strftime('%w');
              },
         'U': function(){
                  return this.strftime('%W');
@@ -177,11 +177,11 @@ if (!Date.prototype.strftime) {
                  return this.getDay();
              },
         'W': function(){
-                 var d = new Date( this.getFullYear(), 0, 1 );
+                 var d = new Date( this.strftime('%Y'), 0, 1 );
                  var w = Math.floor(
                              (
                                  (this - d) / 864e5
-                               + d.getDay()
+                               + d.strftime('%w')
                                + 1
                              ) / 7
                          );
@@ -194,7 +194,7 @@ if (!Date.prototype.strftime) {
                  return this.toLocaleTimeString();
              },
         'y': function(){
-                 var y = this.getFullYear().toString();
+                 var y = this.strftime('%Y').toString();
                  var l = y.length;
                  return y.slice(l - 2, l);
              },
@@ -219,7 +219,7 @@ if (!Date.prototype.strftime) {
                  ].join('');
              },
         'Z': function(){
-                 return this.toLocaleString().split(' ').pop();
+                 return this.strftime('%c').split(' ').pop();
              },
     });
 }
