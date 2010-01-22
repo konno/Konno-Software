@@ -91,9 +91,7 @@ if (!Date.prototype.strftime) {
                  return this.strftime('%Y-%m-%d');
              },
         'g': function(){
-                 var y = this.getFullYear().toString();
-                 var l = y.length;
-                 return y.slice(l - 2, l);
+                 return this.strftime('%y');
              },
         'G': function(){
                  return this.getFullYear();
@@ -142,10 +140,10 @@ if (!Date.prototype.strftime) {
                  return ms + '000000';
              },
         'p': function(){
-                 return this.getHours() < 12 ? 'AM' : 'PM';
+                 return ( this.getHours() < 12 ? 'A' : 'P' ) + 'M';
              },
         'P': function(){
-                 return this.getHours() < 12 ? 'am' : 'pm';
+                 return this.strftime('%p').toLowerCase();
              },
         'r': function(){
                  return this.strftime('%I:%M:%S %p');
@@ -170,26 +168,10 @@ if (!Date.prototype.strftime) {
                  return this.getDay();
              },
         'U': function(){
-                 var d = new Date( this.getFullYear(), 0, 1 );
-                 var w = Math.floor(
-                             (
-                                 (this - d) / 864e5
-                               + d.getDay()
-                               + 1
-                             ) / 7
-                         );
-                 return w < 10 ? '0' + w : w;
+                 return this.strftime('%W');
              },
         'V': function(){
-                 var d = new Date( this.getFullYear(), 0, 1 );
-                 var w = Math.floor(
-                             (
-                                 (this - d) / 864e5
-                               + d.getDay()
-                               + 1
-                             ) / 7
-                         );
-                 return w < 10 ? '0' + w : w;
+                 return this.strftime('%W');
              },
         'w': function(){
                  return this.getDay();
