@@ -147,7 +147,7 @@ if (!Date.prototype.strftime) {
                  return ( this.getHours() < 12 ? 'A' : 'P' ) + 'M';
              },
         'P': function(){
-                 return this.strftime('%p').toLowerCase();
+                 return this.strftime('%#p');
              },
         'r': function(){
                  return this.strftime('%I:%M:%S %p');
