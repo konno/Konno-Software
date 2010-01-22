@@ -7,10 +7,9 @@ if (!Date.prototype.strftime) {
         var regexp = /%([-_0^#]?)(:{0,3}[%A-Za-z])/g;
         return function(fmt){
             var self     = this;
-            var callback = function(m0, flag, seq){
-                var s =
-                    interpret[seq] ? interpret[seq].call(self)
-                                   : seq;
+            var callback = function(m, flag, seq){
+                if ( !interpret[seq] ) return m;
+                var s = interpret[seq].call(self);
                 switch (flag) {
                     case '-':
                         if (!s) break;
