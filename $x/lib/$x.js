@@ -1,5 +1,5 @@
 /*
- * $Id$
+ * $Id$x.js 208 2010-01-07 09:34:43Z Konno.Software $
  */
 
 if (!this.$x) {
@@ -8,22 +8,20 @@ if (!this.$x) {
         resultType,
         namespaceResolver,
         contextNode,
-        xpathResult,
+        xpathResult
     ){
         return function(xpathExpression){
             if ( !xpathResult[xpathExpression] ) {
-                var nodesSnapshot
-                  = document.evaluate(
-                        xpathExpression,
-                        contextNode,
-                        namespaceResolver,
-                        resultType,
-                        result,
-                    );
+                var nodesSnapshot =
+                  document.evaluate(
+                      xpathExpression,
+                      contextNode,
+                      namespaceResolver,
+                      resultType,
+                      result
+                  );
                 xpathResult[xpathExpression] = [];
-                for (var i = 0,
-                     l = nodesSnapshot.snapshotLength;
-                     i < l;
+                for (var i = 0, l = nodesSnapshot.snapshotLength; i < l;
                      xpathResult[xpathExpression].push(
                          nodesSnapshot.snapshotItem(i++)
                      ));
@@ -37,6 +35,6 @@ if (!this.$x) {
             return 'http://www.w3.org/1999/xhtml';
         },
         document,
-        {},
+        {}
     );
 }
