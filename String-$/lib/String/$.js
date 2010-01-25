@@ -1,5 +1,5 @@
 /*
- * $Id$.js 183 2009-12-30 14:24:24Z Konno.Software $
+ * $Id$
  */
 
 if (!String.prototype.$) {
