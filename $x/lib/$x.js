@@ -7,34 +7,30 @@ if (!this.$x) {
         result,
         resultType,
         namespaceResolver,
-        contextNode,
-        xpathResult
+        node
     ){
-        return function(xpathExpression){
-            if ( !xpathResult[xpathExpression] ) {
-                var nodesSnapshot =
-                  document.evaluate(
-                      xpathExpression,
-                      contextNode,
-                      namespaceResolver,
-                      resultType,
-                      result
-                  );
-                xpathResult[xpathExpression] = [];
-                for (var i = 0, l = nodesSnapshot.snapshotLength; i < l;
-                     xpathResult[xpathExpression].push(
-                         nodesSnapshot.snapshotItem(i++)
-                     ));
+        return function(xpathExpression, contextNode){
+            if ( !node[xpathExpression] ) {
+                if (!contextNode) contextNode = document;
+                try {
+                    node[xpathExpression] =
+                      document.evaluate(
+                          xpathExpression,
+                          contextNode,
+                          namespaceResolver,
+                          resultType,
+                          result
+                      ).iterateNext();
+                } catch (e) {}
             }
-            return xpathResult[xpathExpression];
+            return node[xpathExpression];
         };
     })(
         null,
-        XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+        XPathResult.ANY_TYPE,
         function(){
             return 'http://www.w3.org/1999/xhtml';
         },
-        document,
         {}
     );
 }
