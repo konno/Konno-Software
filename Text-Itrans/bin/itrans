@@ -28,12 +28,12 @@ GetOptions(\%ARGV, qw(
   output=s silent verbose
   help|?   usage  version|V
 )) or usage();
-$DEBUG++  if     $ARGV{verbose};
-version() if     $ARGV{version};
-usage()   if     $ARGV{usage};
-help()    if     $ARGV{help};
-usage()   unless $ARGV{'from-lang'};
-usage()   unless $ARGV{'to-lang'};
+$DEBUG++  if $ARGV{verbose};
+version() if $ARGV{version};
+usage()   if $ARGV{usage};
+help()    if $ARGV{help};
+usage() unless $ARGV{'from-lang'};
+usage() unless $ARGV{'to-lang'};
 
 my $utf8 = find_encoding('utf8');
 my $translator = Text::Itrans->new(
