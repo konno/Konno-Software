@@ -7,7 +7,7 @@ use warnings;
 use ExtUtils::MakeMaker;
 
 my @exe_files = qw(
-  itrans pitrans
+  itrans
 );
 
 WriteMakefile(
@@ -21,7 +21,6 @@ WriteMakefile(
     PL_FILES            => {},
     PREREQ_PM => {
         'Test::More'     => 0,
-        'List::Util'     => 0,
         'URI'            => 0,
         'LWP::UserAgent' => 0,
         'YAML::Syck'     => 0,
