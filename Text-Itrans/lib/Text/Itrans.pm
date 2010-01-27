@@ -1,12 +1,18 @@
 package Text::Itrans;
 use warnings;
 use strict;
-our $VERSION = sprintf "%.2f", (q$Revision$ =~ /(\d+)/g)[0] / 100;
 use Carp;
-use List::Util qw(first);
 use URI;
 use LWP::UserAgent;
-use YAML::Syck;
+BEGIN {
+    ( *Load, *Dump ) =
+        eval { require YAML::XS   } ? ( \&YAML::XS::Load,   \&YAML::XS::Dump )
+      : eval { require YAML::Syck } ? ( \&YAML::Syck::Load, \&YAML::Syck::Dump )
+      : eval { require YAML       } ? ( \&YAML::Load,       \&YAML::Dump )
+      :                               die $@;
+}
+our $VERSION = sprintf "%.2f", (q$Revision$ =~ /(\d+)/g)[0] / 100;
+our $DEBUG = 0;
 
 sub new{
     my $class = shift;
@@ -16,9 +22,9 @@ sub new{
         @_
     };
     $self->{base_uri} ||=
-        'http://' . $self->{fromlang} . '.wikipedia.org/w/api.php';
+      'http://' . $self->{fromlang} . '.wikipedia.org/w/api.php';
     unless ( $self->{ua} ) {
-        my $ua = LWP::UserAgent->new;
+        my $ua = LWP::UserAgent->new( keep_alive => 1 );
         $ua->agent( __PACKAGE__ . '/' . $VERSION );
         $self->{ua} = $ua;
     }
@@ -27,7 +33,7 @@ sub new{
 
 for my $meth (qw/base_uri ua fromlang tolang/) {
     no strict 'refs';
-    *$meth = sub{
+    *{ __PACKAGE__ . '::' . $meth } = sub{
         my $self = shift;
         $self->{$meth} = shift if @_;
         $self->{$meth};
@@ -36,38 +42,39 @@ for my $meth (qw/base_uri ua fromlang tolang/) {
 
 sub swap {
     my $self = shift;
-    ($self->{fromlang}, $self->{tolang}) =
-        ($self->{tolang}, $self->{fromlang});
-    return $self;
+    ( $self->{fromlang}, $self->{tolang} ) =
+      ( $self->{tolang}, $self->{fromlang} );
+    $self;
 }
 
 sub translate {
     my $self  = shift;
     my $query = join '|', @_;
-    my $uri = URI->new( $self->{base_uri} );
+    my $uri   = URI->new( $self->{base_uri} );
     $uri->query_form(
         action    => 'query',
         prop      => 'langlinks',
         titles    => $query,
         redirects => 1,
         lllimit   => 500,
-        format    => 'yaml'
+        format    => 'yaml',
     );
     my $res = $self->{ua}->get($uri);
     return unless $res->is_success;
-    my $api = YAML::Syck::Load( $res->content );
-    my @translations;
+    my $api = Load( $res->content );
+    $DEBUG and warn Dump($api);
+    my @trans;
     PAGE:
     for my $page ( @{ $api->{query}{pages} } ) {
         for my $langlink ( @{ $page->{langlinks} } ) {
             next unless $langlink->{lang} eq $self->{tolang};
-            push @translations, $langlink->{'*'};
+            push @trans, $langlink->{'*'};
             next PAGE;
         }
     }
     return wantarray
-         ? @translations
-         : $translations[0];
+         ? @trans
+         : $trans[0];
 }
 
 1; # End of Text::Itrans
@@ -83,8 +90,8 @@ $Id$
 =head1 SYNOPSIS
 
     use Text::Itrans;
-    my $translator = Text::Itrans->new($fromlang, $tolang);
-    my $translated = $translator->translate($str0, $str1, ... $strN);
+    my $translator = Text::Itrans->new( $fromlang, $tolang );
+    my $translated = $translator->translate( $str0, $str1, ... $strN );
 
 =head1 DESCRIPTION
 
@@ -111,7 +118,7 @@ None.
 Create the translator object.
 
     # via constructor
-    my $translator = Text::Itrans->new($fromlang, $tolang);
+    my $translator = Text::Itrans->new( $fromlang, $tolang );
     # or setter
     $translator->fromlang($fromlang);
     $translator->tolang($tolang);
@@ -161,6 +168,7 @@ automatically be notified of progress on your bug as I make changes.
 You can find documentation for this module with the perldoc command.
 
     perldoc Text::Itrans
+
 
 You can also look for information at:
 

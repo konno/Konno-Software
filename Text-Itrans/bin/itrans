@@ -10,7 +10,7 @@ use strict;
 use warnings;
 use utf8;
 use open ':utf8';
-binmode STDIN, ':utf8';
+binmode STDIN,  ':utf8';
 binmode STDOUT, ':utf8';
 use Encode;
 use Text::Itrans;
@@ -23,10 +23,10 @@ our $NAME = 'Text::' . ucfirst($name);
 
 use Getopt::Long qw(:config no_ignore_case);
 GetOptions(\%ARGV, qw(
-    from-lang=s to-lang=s
-    list
-    output=s silent verbose
-    help|?   usage  version|V
+  from-lang=s to-lang=s
+  list
+  output=s silent verbose
+  help|?   usage  version|V
 )) or usage();
 $DEBUG++  if     $ARGV{verbose};
 version() if     $ARGV{version};
@@ -37,7 +37,8 @@ usage()   unless $ARGV{'to-lang'};
 
 my $utf8 = find_encoding('utf8');
 my $translator = Text::Itrans->new(
-    $ARGV{'from-lang'}, $ARGV{'to-lang'}
+    $ARGV{'from-lang'},
+    $ARGV{'to-lang'},
 );
 $| = 1;
 while (<>) {
@@ -46,10 +47,9 @@ while (<>) {
          $i < $l; $j--) {
         my $query = substr $_, $i, $j;
         $DEBUG and warn $query;
-        my $result =
-            $utf8->decode(
-                $translator->translate($query) || ''
-            );
+        my $result = $utf8->decode(
+            $translator->translate($query) || ''
+        );
         print $result 
            || ($j == 1 && $query)
            || next;
@@ -85,7 +85,7 @@ Mandatory or optional arguments to long options are also mandatory or optional
 for any corresponding short options.
 
 For bug reporting instructions, please see:
-<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Text-Itrans>.
+<http://code.google.com/p/konno/issues/entry>.
 EOT
     exit;
 }
@@ -102,7 +102,7 @@ EOT
 sub version{
     print <<"EOT";
 $name ($NAME) $VERSION
-Copyright (C) 2009 Konno Software.
+Copyright (C) 2009-2010 Konno Software.
 This is free software; see the soruce for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 Written by Yuki Konno.
