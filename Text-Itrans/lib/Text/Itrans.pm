@@ -35,8 +35,9 @@ for my $meth (qw/base_uri ua fromlang tolang/) {
     no strict 'refs';
     *{ __PACKAGE__ . '::' . $meth } = sub{
         my $self = shift;
-        $self->{$meth} = shift if @_;
-        $self->{$meth};
+        return $self->{$meth} unless @_;
+        $self->{$meth} = shift;
+        $self;
     };
 }
 
