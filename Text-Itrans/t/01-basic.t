@@ -2,8 +2,8 @@
 use strict;
 use warnings;
 use Text::Itrans;
-use Text::More tests => 1;
+use Test::More tests => 1;
 
-my $t = Text::Itrans->new('en', 'ar');
-my $translated = $t->translate('Perl');
-ok($translated eq $t->swap->translate($translated));
+my $i = Text::Itrans->new('en', 'ar');
+my $t = 'Perl';
+is $i->swap->translate( $i->translate($t) ), $t;

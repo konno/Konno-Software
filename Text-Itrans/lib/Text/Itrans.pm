@@ -17,12 +17,12 @@ our $DEBUG = 0;
 sub new{
     my $class = shift;
     my $self  = {
-        fromlang => shift,
-        tolang   => shift,
-        @_
+        @_ == 2
+      ? ( fromlang => shift,
+          tolang   => shift )
+      : @_
     };
-    $self->{base_uri} ||=
-      'http://' . $self->{fromlang} . '.wikipedia.org/w/api.php';
+    $self->{base_uri} ||= 'http://%s.wikipedia.org/w/api.php';
     unless ( $self->{ua} ) {
         my $ua = LWP::UserAgent->new( keep_alive => 1 );
         $ua->agent( __PACKAGE__ . '/' . $VERSION );
@@ -50,7 +50,7 @@ sub swap {
 sub translate {
     my $self  = shift;
     my $query = join '|', @_;
-    my $uri   = URI->new( $self->{base_uri} );
+    my $uri   = URI->new( sprintf $self->{base_uri}, $self->{fromlang} );
     $uri->query_form(
         action    => 'query',
         prop      => 'langlinks',
@@ -59,6 +59,7 @@ sub translate {
         lllimit   => 500,
         format    => 'yaml',
     );
+    $DEBUG and warn $uri;
     my $res = $self->{ua}->get($uri);
     return unless $res->is_success;
     my $api = Load( $res->content );
