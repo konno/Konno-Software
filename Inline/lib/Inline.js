@@ -6,11 +6,11 @@ document.ready(function(){
     Array.prototype.forEach.call(
         document.getElementsByTagName('script'),
         function(script){
-            var src = script.textContent.trim();
-            if ( !src || !/^#!/(src) ) return;
+            var s = script.textContent;
+            if ( !s || !/^\s*#!/(s) ) return;
             getJSON('http://api.dan.co.jp/lleval.cgi', {
                 c: '?',
-                s: src,
+                s: s,
             }, function(json){
                 var parentNode = script.parentNode;
                 var div        = document.createElement('div');
