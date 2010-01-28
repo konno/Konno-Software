@@ -18,7 +18,7 @@ if (!this.use) {
           + Module.replace(/\./g, '/')
           + '.js';
         ( document.getElementsByTagName('head')[0] ||
-          document.getElementsByTagName('body')[0] )
+          document.body )
                   .appendChild(script);
     };
 }
