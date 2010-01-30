@@ -10,6 +10,6 @@ this.eval     = function(string, callback){
         c: '?',
         s: string,
     }, function(json){
-        callback(json.stdout, json.stderr);
+        callback( json.stdout, json.stderr );
     });
 };
