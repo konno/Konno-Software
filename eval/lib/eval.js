@@ -5,7 +5,7 @@
 this.__eval__ = this.eval;
 this.eval     = function(string, callback){
     if ( !string || !/^\s*#!/(string) )
-        return this.__eval__.apply(this, arguments);
+        return this.__eval__(string);
     getJSON('http://api.dan.co.jp/lleval.cgi', {
         c: '?',
         s: string,
