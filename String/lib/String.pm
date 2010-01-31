@@ -7,7 +7,9 @@ our $VERSION = sprintf "%.2f", (q$Revision$ =~ /(\d+)/g)[0] / 100;
 use Carp;
 use overload
     q("") => \&toString,
-    q(==) => sub { overload::StrVal($_[0]) eq overload::StrVal($_[1]) },
+    q(==) => sub { ! $_[0]->localeCompare($_[1]) },
+    q(<)  => sub {   $_[0]->localeCompare($_[1]) < 0 },
+    q(>)  => sub {   $_[0]->localeCompare($_[1]) > 0 },
     fallback => 1,
     ;
 
@@ -20,8 +22,7 @@ sub new {
 
 sub length {
     my $this = shift;
-    $this->{length} = CORE::length $this
-        unless defined $this->{length};
+    $this->{length} = CORE::length $this unless defined $this->{length};
     $this->{length};
 }
 
@@ -43,12 +44,12 @@ sub toSource {
 sub toString { $_[0]->{toString} }
 
 sub charAt {
-    my ($this, $index) = @_;
+    my ( $this, $index ) = @_;
     __PACKAGE__->new( substr $this->{toString}, $index, 1 );
 }
 
 sub charCodeAt {
-    my ($this, $index) = @_;
+    my ( $this, $index ) = @_;
     ord substr $this, $index, 1;
 }
 
@@ -65,6 +66,41 @@ sub indexOf {
             : index $this->{toString}, $_[0], $_[1];
 }
 
+sub lastIndexOf {
+    my $this = shift;
+    croak unless @_ > 0;
+    @_ == 1 ? rindex $this->{toString}, $_[0]
+            : rindex $this->{toString}, $_[0], $_[1];
+}
+
+sub localeCompare {
+    my ( $this, $str ) = @_;
+    return $this->{toString} lt $str ? -1
+         : $this->{toString} gt $str ? 1
+         :                               0;
+}
+
+sub match {
+    my ( $this, $regexp ) = @_;
+    $this =~ $regexp;
+}
+
+sub quote {
+    my $this = shift;
+    __PACKAGE__->new( qq("$this") );
+}
+
+sub replace {
+    my ( $this, $regexp, $new, $flags ) = @_;
+    $regexp = quotemeta $regexp unless ref $regexp eq 'Regexp';
+    my $code = '$this =~ s/($regexp)/$new';
+    $code .= ref $new eq 'CODE' ? '->($1)/e' : '/';
+    $code .= $flags if $flags;
+    eval $code;
+    croak if $@;
+    __PACKAGE__->new($this);
+}
+
 1; # End of String
 
 =head1 NAME
@@ -76,10 +112,6 @@ String - wraps Perl's string primitive data type
 $Id$
 
 =head1 SYNOPSIS
-
-Quick summary of what the module does.
-
-Perhaps a little code snippet.
 
     use String;
     new String($string);
@@ -93,9 +125,15 @@ String literals take the form:
 
 None.
 
-=head1 FUNCTIONS
+=head1 METHODS
 
-Under construction.
+=head2 new
+
+Create the string object.
+
+=head2 fromCharCode
+
+Returns a string created by using the specified sequence of Unicode values.
 
 =head1 AUTHOR
 
@@ -112,6 +150,7 @@ automatically be notified of progress on your bug as I make changes.
 You can find documentation for this module with the perldoc command.
 
     perldoc String
+
 
 You can also look for information at:
 
@@ -148,5 +187,3 @@ under the terms of either: the GNU General Public License as published
 by the Free Software Foundation; or the Artistic License.
 
 See http://dev.perl.org/licenses/ for more information.
-
-=cut
