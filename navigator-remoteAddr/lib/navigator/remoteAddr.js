@@ -3,9 +3,9 @@
  */
 
 if (!navigator.remoteAddr) {
-    getJSON('http://jsonip.appspot.com/', {
+    getJSON('http://konno-freesoftware.appspot.com/env', {
         callback: '?',
-    }, function(json){
-        navigator.remoteAddr = json.ip;
+    }, function(env){
+        navigator.remoteAddr = env.REMOTE_ADDR;
     });
 }
