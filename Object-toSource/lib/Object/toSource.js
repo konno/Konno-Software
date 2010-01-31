@@ -2,4 +2,8 @@
  * $Id$
  */
 
-if (!Object.toSource) Object.toSource = JSON.stringify;
+if (!Object.prototype.toSource) {
+    Object.prototype.toSource = function(){
+        return JSON.stringify(this);
+    };
+}
