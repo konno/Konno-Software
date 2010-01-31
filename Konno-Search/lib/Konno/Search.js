@@ -34,7 +34,7 @@ if (!Konno.Search)
                                 );
                             });
                         }
-                    },
+                    }
                 );
             };
             return this;
