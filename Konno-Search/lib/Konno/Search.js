@@ -22,6 +22,7 @@ if (!Konno.Search)
                         callback : '?',
                     },
                     function(json){
+                        if (!json.query) return;
                         var pages = json.query.pages;
                         for (var pageid in pages) {
                             var page = pages[pageid];
