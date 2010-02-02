@@ -7,8 +7,8 @@ if (!this.get) {
         getJSON('http://konno-freesoftware.appspot.com/get', {
             uri     : uri,
             callback: '?',
-        }, function(json){
-            callback(json.content);
+        }, function(content){
+            callback(content);
         });
     };
 }
