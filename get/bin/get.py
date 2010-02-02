@@ -7,7 +7,7 @@ except:
 try:
     import json
 except:
-    from django.utils import simplejson as json
+    from django.utils   import simplejson as json
 
 form     = cgi.FieldStorage()
 uri      = form.getfirst('uri',      'http://www.example.com/')
