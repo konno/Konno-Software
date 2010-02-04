@@ -12,11 +12,11 @@ if (!this.CGI) {
                          var splits = pair.split('=');
                          var key    = decodeURIComponent(
                                           splits.shift()
-                                                .replace(/\+/g, '')
+                                                .replace(/\+/g, ' ')
                                       );
                          var value  = decodeURIComponent(
                                           splits.shift()
-                                                .replace(/\+/g, '')
+                                                .replace(/\+/g, ' ')
                                       );
                          param[key] = value;
                      });
