@@ -10,8 +10,14 @@ if (!this.CGI) {
                      .split('&')
                      .forEach(function(pair){
                          var splits = pair.split('=');
-                         var key    = decodeURIComponent( splits.shift() );
-                         var value  = decodeURIComponent( splits.shift() );
+                         var key    = decodeURIComponent(
+                                          splits.shift()
+                                                .replace(/\+/g, '')
+                                      );
+                         var value  = decodeURIComponent(
+                                          splits.shift()
+                                                .replace(/\+/g, '')
+                                      );
                          param[key] = value;
                      });
             return function(key){
