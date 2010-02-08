@@ -7,5 +7,5 @@ if (!String.prototype.isSurrogate) {
         return function(){
             return !!isSurrogate(this);
         }:
-    })(/^[\uD800-\uD8FF\uDC00-\uDFFF]$/);
+    })(/^[\uD800-\uD8FF][\uDC00-\uDFFF]$/);
 }
