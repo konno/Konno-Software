@@ -6,7 +6,7 @@
 
 if (!Array.prototype.forEach) {
     Array.prototype.forEach = function(callback, thisObject){
-        if (typeof callback != 'function')
+        if ( typeof callback != 'function' )
             throw new TypeError();
         for (var i = 0, l = this.length >>> 0; i < l;
              callback.call(
@@ -36,7 +36,7 @@ if (i > 1) {
                      .apply( this, arguments );
                 return;
             }
-            if (typeof callback != 'function')
+            if ( typeof callback != 'function' )
                 throw new TypeError();
             for (var i = 0, l = this.length >>> 0; i < l;
                  callback.call(
