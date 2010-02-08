@@ -28,27 +28,26 @@ Array.prototype.forEach.call(
 
 if (i > 1) {
     Array.prototype.__forEach__ = Array.prototype.forEach;
-    Array.prototype.forEach = (function(isSurrogate){
-        return function(callback, thisObject){
-            if ( !(this instanceof String) ) {
-                Array.prototype
-                     .__forEach__
-                     .apply( this, arguments );
-                return;
-            }
-            if ( typeof callback != 'function' )
-                throw new TypeError();
-            for (var i = 0, l = this.length >>> 0; i < l;
-                 callback.call(
-                     thisObject,
-                     String.fromCharCode(
-                         this.charCodeAt( isSurrogate(this) ? i : ++i )
-                     ),
-                     i++,
-                     this
-                 ));
-        };
-    })(/^[\uD800-\uD8FF\uDC00-\uDFFF]$/);
-}
+    Array.prototype.forEach = function(callback, thisObject){
+        if ( !(this instanceof String) ) {
+            Array.prototype
+                 .__forEach__
+                 .apply( this, arguments );
+            return;
+        }
+        if ( typeof callback != 'function' )
+            throw new TypeError();
+        for (var i = 0, l = this.length >>> 0; i < l;
+             callback.call(
+                 thisObject,
+                 String.fromCharCode(
+                     this.charCodeAt(
+                         this.charCodeAt(i) < 0x10000 ? i : ++i
+                     )
+                 ),
+                 i++,
+                 this
+             ));
+    };
 
 })();
