@@ -13,7 +13,7 @@ if (!Array.prototype.forEach) {
                  thisObject,
                  this[i++],
                  i,
-                 this,
+                 this
              ));
     };
 }
@@ -27,34 +27,32 @@ Array.prototype.forEach.call(
 );
 
 if (i > 1) {
-    Array.prototype.__forEach__
-      = Array.prototype.forEach;
-    Array.prototype.forEach
-      = (function(){
-            return function(callback, thisObject){
-                if ( !(this instanceof String) ) {
-                    Array.prototype
-                         .__forEach__
-                         .apply(this, arguments);
-                    return;
-                }
-                if (typeof callback != 'function')
-                    throw new TypeError();
-                for (var i = 0, l = this.length >>> 0; i < l;
-                     callback.call(
-                         thisObject,
-                         String.fromCharCode(
-                             this.charCodeAt(
-                                 this.charCodeAt(i) < 0x10000
-                               ? i
-                               : ++i
-                             )
-                         ),
-                         i++,
-                         this,
-                     ));
-            };
-        })();
+    Array.prototype.__forEach__ = Array.prototype.forEach;
+    Array.prototype.forEach = (function(){
+        return function(callback, thisObject){
+            if ( !(this instanceof String) ) {
+                Array.prototype
+                     .__forEach__
+                     .apply( this, arguments );
+                return;
+            }
+            if (typeof callback != 'function')
+                throw new TypeError();
+            for (var i = 0, l = this.length >>> 0; i < l;
+                 callback.call(
+                     thisObject,
+                     String.fromCharCode(
+                         this.charCodeAt(
+                             this.charCodeAt(i) < 0x10000
+                           ? i
+                           : ++i
+                         )
+                     ),
+                     i++,
+                     this
+                 ));
+        };
+    })();
 }
 
 })();
