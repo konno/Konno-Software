@@ -28,7 +28,7 @@ Array.prototype.forEach.call(
 
 if (i > 1) {
     Array.prototype.__forEach__ = Array.prototype.forEach;
-    Array.prototype.forEach = (function(){
+    Array.prototype.forEach = (function(isSurrogate){
         return function(callback, thisObject){
             if ( !(this instanceof String) ) {
                 Array.prototype
@@ -42,17 +42,13 @@ if (i > 1) {
                  callback.call(
                      thisObject,
                      String.fromCharCode(
-                         this.charCodeAt(
-                             this.charCodeAt(i) < 0x10000
-                           ? i
-                           : ++i
-                         )
+                         this.charCodeAt( isSurrogate(this) ? i : ++i )
                      ),
                      i++,
                      this
                  ));
         };
-    })();
+    })(/^[\uD800-\uD8FF\uDC00-\uDFFF]$/);
 }
 
 })();
