@@ -9,13 +9,8 @@ if (!Array.prototype.map) {
         var mappedArray = [];
         for (var i = 0, l = this.length >>> 0; i < l;
              i in this && mappedArray.push(
-                 callback.call(
-                     thisObject,
-                     this[i],
-                     i++,
-                     this
-                 )
-             ));
+                 callback.call( thisObject, this[i], i, this )
+             ), i++);
         return mappedArray;
     };
 }
@@ -33,15 +28,10 @@ if ( Array.prototype.map.call(
         var i = 0;
         var mappedArray = [];
         Array.prototype.forEach.call(this, function(c){
-            mappedArray.push(
-                callback.call(
-                    thisObject,
-                    c,
-                    i++,
-                    this
-                )
-            );
-        })
+            i in this && mappedArray.push(
+                callback.call( thisObject, c, i, this )
+            ), i++;
+        }, this)
         return mappedArray;
     };
 }
