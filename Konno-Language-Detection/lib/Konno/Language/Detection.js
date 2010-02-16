@@ -21,14 +21,14 @@ if (!Konno.Language.Detection)
                             action   : 'query',
                             prop     : 'revisions',
                             titles   : text,
-                            redirects: '',
+                            redirects: null,
                             format   : 'json',
                             callback : '?',
                         },
                         function(json){
                             for (var pageid in json.query.pages) {
-                                if ( pageid < 0 ) return; /* missing */
-                                callback(lang);
+                                if ( /* missing */ pageid < 0 ) return;
+                                callback( lang, text );
                             }
                         }
                     );
