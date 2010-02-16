@@ -21,7 +21,7 @@ if (!Konno.Translation)
                 for ( var pageid in pages ) {
                     var page  = pages[pageid];
                     var title = page.title;
-                    if ( Opt.sl == Opt.tl ) {
+                    if ( Opt.sl == Opt.tl || Opt.tl == '*' ) {
                         callback( title, title );
                         continue;
                     }
