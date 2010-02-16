@@ -21,8 +21,8 @@ if (!Konno.Translation)
                 for ( var pageid in pages ) {
                     var page  = pages[pageid];
                     var title = page.title;
-                    if ( Opt.sl == Opt.tl || Opt.tl == '*' ) {
-                        callback( title, title );
+                    if ( Opt.sl == Opt.tl ) {
+                        callback( title, title, Opt.tl );
                         continue;
                     }
                     var langlinks = page.langlinks;
@@ -32,8 +32,9 @@ if (!Konno.Translation)
                     }
                     try {
                         langlinks.forEach(function(ll){
-                            if ( ll.lang != Opt.tl ) return;
-                            callback( ll['*'], title );
+                            if ( Opt.tl != '*' &&
+                                 Opt.tl != ll.lang ) return;
+                            callback( ll['*'], title, ll.lang );
                             throw null;
                         });
                         callback();
