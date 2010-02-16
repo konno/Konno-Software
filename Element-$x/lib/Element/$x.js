@@ -2,8 +2,8 @@
  * $Id$
  */
 
-if (!this.$x) {
-    this.$x = (function(
+if (!Element.prototype.$x) {
+    Element.prototype.$x = (function(
         result,
         resultType,
         namespaceResolver,
@@ -11,7 +11,7 @@ if (!this.$x) {
     ){
         return function(xpathExpression, contextNode){
             if ( !node[xpathExpression] ) {
-                if (!contextNode) contextNode = document;
+                if (!contextNode) contextNode = this;
                 try {
                     node[xpathExpression] =
                         document.evaluate(
