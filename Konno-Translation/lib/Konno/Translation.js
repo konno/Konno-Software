@@ -2,16 +2,16 @@
  * $Id$
  */
 
-if (!this.Konno)
+if ( !this.Konno )
     this.Konno = {};
 
-if (!Konno.Translation)
+if ( !Konno.Translation )
     Konno.Translation = function(){
-        this.translate = function( Opt, callback ){
-            getJSON('http://' + Opt.sl + '.wikipedia.org/w/api.php', {
+        this.translate = function( text, sl, tl, callback ){
+            getJSON('http://' + sl + '.wikipedia.org/w/api.php', {
                 action   : 'query',
                 prop     : 'langlinks',
-                titles   : Opt.text,
+                titles   : text,
                 redirects: null,
                 lllimit  : 500,
                 format   : 'json',
@@ -21,23 +21,19 @@ if (!Konno.Translation)
                 for ( var pageid in pages ) {
                     var page  = pages[pageid];
                     var title = page.title;
-                    if ( Opt.sl == Opt.tl ) {
-                        callback( title, title, Opt.tl );
+                    if ( sl == tl ) {
+                        callback( title, tl, );
                         continue;
                     }
                     var langlinks = page.langlinks;
-                    if ( !langlinks ) {
-                        callback();
-                        continue;
-                    }
+                    if ( !langlinks ) continue;
                     try {
                         langlinks.forEach(function(ll){
                             if ( Opt.tl != '*' &&
                                  Opt.tl != ll.lang ) return;
-                            callback( ll['*'], title, ll.lang );
+                            callback( ll['*'], tl, );
                             throw null;
                         });
-                        callback();
                     }
                     catch (e) {}
                 }

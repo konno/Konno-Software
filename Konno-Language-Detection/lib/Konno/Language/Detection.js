@@ -2,16 +2,16 @@
  * $Id$
  */
 
-if (!this.Konno)
+if ( !this.Konno )
     this.Konno = {};
 
-if (!Konno.Language)
+if ( !Konno.Language )
     Konno.Language = {};
 
-if (!Konno.Language.Detection)
+if ( !Konno.Language.Detection )
     Konno.Language.Detection = function(){
         this.detect = (function(defaultSuspects){
-            return function(text, suspects, callback){
+            return function( text, suspects, callback ){
                 if ( !suspects || !suspects.length )
                     suspects = defaultSuspects;
                 suspects.forEach(function(lang){
@@ -26,7 +26,7 @@ if (!Konno.Language.Detection)
                             callback : '?',
                         },
                         function(json){
-                            for (var pageid in json.query.pages) {
+                            for ( var pageid in json.query.pages ) {
                                 if ( /* missing */ pageid < 0 ) return;
                                 callback( lang, text );
                             }
@@ -38,8 +38,8 @@ if (!Konno.Language.Detection)
             (function(){
                 var a = 'a'.charCodeAt(0);
                 var defaultSuspects = [];
-                for (var i = 0; i < 26; i++)
-                    for (var j = 0; j < 26; j++)
+                for ( var i = 0; i < 26; i++ )
+                    for ( var j = 0; j < 26; j++ )
                         defaultSuspects.push(
                             String.fromCharCode(a + i) +
                             String.fromCharCode(a + j)
