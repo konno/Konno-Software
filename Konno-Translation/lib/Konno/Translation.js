@@ -26,14 +26,18 @@ if ( !Konno.Translation )
                         continue;
                     }
                     var langlinks = page.langlinks;
-                    if ( !langlinks ) continue;
+                    if ( !langlinks ) {
+                        callback();
+                        continue;
+                    }
                     try {
                         langlinks.forEach(function(ll){
-                            if ( Opt.tl != '*' &&
-                                 Opt.tl != ll.lang ) return;
+                            if ( tl != '*' &&
+                                 tl != ll.lang ) return;
                             callback( ll['*'], tl );
                             throw null;
                         });
+                        callback();
                     }
                     catch (e) {}
                 }
