@@ -29,7 +29,6 @@ if ( !Konno.Kanji.Kana.Conversion ) (function(){
             var queryContinue = json['query-continue'];
             if ( queryContinue )
                 BLOCK(
-                    dict,
                     hostname,
                     cmtitle,
                     queryContinue.categorymembers.cmcontinue
