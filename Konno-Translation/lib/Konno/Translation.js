@@ -7,11 +7,11 @@ if ( !this.Konno )
 
 if ( !Konno.Translation )
     Konno.Translation = function(){
-        this.translate = function( text, sl, tl, callback ){
-            getJSON('http://' + sl + '.wikipedia.org/w/api.php', {
+        this.translate = function( Opt, callback ){
+            getJSON('http://' + Opt.sl + '.wikipedia.org/w/api.php', {
                 action   : 'query',
                 prop     : 'langlinks',
-                titles   : text,
+                titles   : Opt.text,
                 redirects: null,
                 lllimit  : 500,
                 format   : 'json',
@@ -21,8 +21,8 @@ if ( !Konno.Translation )
                 for ( var pageid in pages ) {
                     var page  = pages[pageid];
                     var title = page.title;
-                    if ( sl == tl ) {
-                        callback( title, tl );
+                    if ( Opt.sl == Opt.tl ) {
+                        callback( title, Opt.tl );
                         continue;
                     }
                     var langlinks = page.langlinks;
@@ -31,11 +31,11 @@ if ( !Konno.Translation )
                         langlinks.forEach(function(ll){
                             var lang   = ll.lang;
                             var result = ll['*'];
-                            if ( tl == '*' ) {
+                            if ( Opt.tl == '*' ) {
                                 callback( result, lang );
                                 return;
                             }
-                            if ( lang != tl ) return;
+                            if ( lang != Opt.tl ) return;
                             callback( result, lang );
                             throw null;
                         });
