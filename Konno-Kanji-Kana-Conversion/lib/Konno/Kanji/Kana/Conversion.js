@@ -13,8 +13,7 @@ if ( !Konno.Kanji.Kana )
 
 if ( !Konno.Kanji.Kana.Conversion ) (function(){
     var dict = {};
-    (function( hostname, cmtitle, cmcontinue ){
-        var BLOCK = arguments.callee;
+    (function BLOCK( hostname, cmtitle, cmcontinue ){
         getJSON('http://' + hostname + '/w/api.php', {
             action     : 'query',
             list       : 'categorymembers',

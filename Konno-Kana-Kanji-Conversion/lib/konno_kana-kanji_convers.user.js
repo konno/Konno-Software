@@ -105,8 +105,7 @@ Konno.Kana.Kanji.Conversion
             var candidates = [ query ];
             var i          = 0;
             var l          = sources.length;
-            (function(){
-                var BLOCK = arguments.callee;
+            (function BLOCK(){
                 var src   = sources[i];
                 getJSON('http://' + src.hostname + '/w/api.php', {
                     action     : 'query',

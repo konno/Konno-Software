@@ -19,8 +19,7 @@ if (!Konno.Text.Segmentation)
             var tmp     = '';
             var l       = sources.length;
             var i       = 0;
-            (function(query){
-                var BLOCK    = arguments.callee;
+            (function BLOCK(query){
                 var hostname = sources[i];
                 getJSON('http://' + hostname + '/w/api.php', {
                     action  : 'query',
