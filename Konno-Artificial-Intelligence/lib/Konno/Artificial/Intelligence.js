@@ -12,6 +12,7 @@ if ( !Konno.Artificial.Intelligence ) {
     Konno.Artificial.Intelligence = function(){
         return this;
     };
+
     Konno.Artificial.Intelligence.prototype.talk = (function(quotemeta){
         return function( text, callback ){
             var uri = 'http://ja.wikipedia.org/w/api.php';
