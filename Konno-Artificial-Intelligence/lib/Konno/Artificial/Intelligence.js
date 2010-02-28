@@ -29,6 +29,7 @@ if ( !Konno.Artificial.Intelligence ) {
             }, function(json){
                 var distance;
                 var answer;
+                var title;
                 var search = json.query.search;
                 var l = search.length;
                 var i = 0;
@@ -71,12 +72,13 @@ if ( !Konno.Artificial.Intelligence ) {
                               + m[2].length
                               + m[3].length;
                             if ( answer == null || newDistance < distance ) {
+                                title    = sr.title;
                                 answer   = m[4];
                                 distance = newDistance;
                             }
                         }
                         if ( ++i < l || answer == null ) return;
-                        callback(answer);
+                        callback( answer, title );
                     });
                 });
             });
