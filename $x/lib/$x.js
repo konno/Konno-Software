@@ -2,16 +2,16 @@
  * $Id$
  */
 
-if (!this.$x) {
+if ( !this.$x ) {
     this.$x = (function(
         result,
         resultType,
         namespaceResolver,
         node
     ){
-        return function(xpathExpression, contextNode){
-            if ( !node[xpathExpression] ) {
-                if (!contextNode) contextNode = document;
+        return function( xpathExpression, contextNode, flag ){
+            if ( !node[xpathExpression] || flag ) {
+                if ( !contextNode ) contextNode = document;
                 try {
                     node[xpathExpression] =
                         document.evaluate(

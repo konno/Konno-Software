@@ -2,12 +2,13 @@
  * $Id$
  */
 
-if (!Element.prototype.$$) {
+if ( !Element.prototype.$$ ) {
     Element.prototype.$$ = (function(elementList){
-        return function(selectors){
-            return elementList[selectors] ||
+        return function( selectors, flag ){
+            return !flag &&
+                   elementList[selectors] ||
                  ( elementList[selectors] =
-                   document.querySelectorAll(selectors) );
+                     this.querySelectorAll(selectors) );
         };
     })({});
 }

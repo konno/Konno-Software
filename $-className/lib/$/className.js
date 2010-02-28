@@ -2,11 +2,12 @@
  * $Id$
  */
 
-if (!this.$) this.$ = {};
+if ( !this.$ ) this.$ = {};
 
 $.className = (function(element){
-    return function(name){
-        return element[name] ||
+    return function( name, flag ){
+        return !flag &&
+               element[name] ||
              ( element[name] =
                  document.getElementsByClassName(name)[0] );
     };

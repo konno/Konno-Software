@@ -2,28 +2,28 @@
  * $Id$
  */
 
-if (!Element.prototype.$$x) {
+if ( !Element.prototype.$$x ) {
     Element.prototype.$$x = (function(
         result,
         resultType,
         namespaceResolver,
         nodes
     ){
-        return function(xpathExpression, contextNode){
-            if ( !nodes[xpathExpression] ) {
-                if (!contextNode) contextNode = this;
+        return function( xpathExpression, contextNode, flag ){
+            if ( !nodes[xpathExpression] || flag ) {
+                if ( !contextNode ) contextNode = this;
                 nodes[xpathExpression] = [];
                 try {
-                    for (var xpathResult =
-                             document.evaluate(
-                                 xpathExpression,
-                                 contextNode,
-                                 namespaceResolver,
-                                 resultType,
-                                 result
-                             ),
-                         node; node = xpathResult.iterateNext();
-                         nodes[xpathExpression].push(node));
+                    for ( var xpathResult =
+                              document.evaluate(
+                                  xpathExpression,
+                                  contextNode,
+                                  namespaceResolver,
+                                  resultType,
+                                  result
+                              ),
+                          node; node = xpathResult.iterateNext();
+                          nodes[xpathExpression].push(node) );
                 }
                 catch (e) {}
             }

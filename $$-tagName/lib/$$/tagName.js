@@ -2,11 +2,12 @@
  * $Id$
  */
 
-if (!this.$$) this.$$ = {};
+if ( !this.$$ ) this.$$ = {};
 
 $$.tagName = (function(elements){
-    return function(name){
-        return elements[name] ||
+    return function( name, flag ){
+        return !flag &&
+               elements[name] ||
              ( elements[name] =
                  document.getElementsByTagName(name) );
     };

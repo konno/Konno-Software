@@ -2,9 +2,9 @@
  * $Id$
  */
 
-if (!this.$) {
+if ( !this.$ ) {
     this.$ = (function(element){
-        return function(selectors, flag){
+        return function( selectors, flag ){
             return !flag &&
                    element[selectors] ||
                  ( element[selectors] =

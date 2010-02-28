@@ -2,10 +2,11 @@
  * $Id$
  */
 
-if (!String.prototype.$) {
+if ( !String.prototype.$ ) {
     String.prototype.$ = (function(element){
-        return function(){
-            return element[this] ||
+        return function(flag){
+            return !flag &&
+                   element[this] ||
                  ( element[this] =
                      document.querySelector(this) );
         };

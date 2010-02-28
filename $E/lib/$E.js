@@ -2,7 +2,7 @@
  * $Id$
  */
 
-if (!this.$E) {
+if ( !this.$E ) {
     this.$E = function(tagName){
         return document.createElement(tagName);
     };
