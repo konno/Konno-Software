@@ -70,7 +70,7 @@ if ( !Konno.Artificial.Intelligence ) {
                                 m[1].length
                               + m[2].length
                               + m[3].length;
-                            if ( answer == null || newDistance <= distance ) {
+                            if ( answer == null || newDistance < distance ) {
                                 answer   = m[4];
                                 distance = newDistance;
                             }
