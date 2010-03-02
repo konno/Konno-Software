@@ -3,7 +3,7 @@
  */
 
 try {
-    for each ( var v in {} ) {}
+    eval('for each ( var v in {} ) {}');
 }
 catch (e) {
     Array.prototype.forEach.call(
