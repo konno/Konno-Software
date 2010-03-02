@@ -10,20 +10,12 @@ catch (e) {
         document.getElementsByTagName('script'),
         (function( regexp, callback ){
             return function(script){
-                var type = script.type;
-                if ( !type ) return;
-                try {
-                    type.split(';').forEach(function(pair){
-                        var splits = pair.split('=');
-                        var key    = splits.shift();
-                        var value  = splits.shift();
-                        if ( key   != 'version' ||
-                             value != '1.6' ) return;
-                        throw null;
-                    });
-                    return;
-                }
-                catch (e) {}
+                if ( !script.type || !script.textContent ) return;
+                var matches = script.type.match(/;version=(.+?)(?:$|;)/);
+                if ( matches == null ) return;
+                var number = matches[1];
+                if ( number * 1 < 1.6 ) return;
+                script.type = script.type.replace(';version=' + number, '');
                 eval( script.textContent
                     = script.textContent.replace( regexp, callback ) );
             };
