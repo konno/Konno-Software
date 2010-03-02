@@ -16,7 +16,7 @@ catch (e) {
                 var number = matches[1];
                 if ( number * 1 < 1.6 ) return;
                 script.type = script.type.replace(';version=' + number, '');
-                script.textContent = script.textContent.replace( regexp, callback ) );
+                script.textContent = script.textContent.replace( regexp, callback );
             };
         })(
             /for\s+each\s*\(\s*([\s\S]+?)\s+in\s+([\s\S]+?)\s*\)\s*\{/g,
