@@ -18,7 +18,20 @@ Array.prototype.forEach.call(
         /for(?:each)?\s+var\s+(.+?)\s*\(\s*([\s\S]+?)\s*\)\s*\{([\s\S]*?)\}/g,
         Array.prototype.forEach
       ? function( m0, m1, m2, m3 ){
-            return m2 + '.forEach(function(' + m1 + '){' + m3 + '});';
+            return [
+                'Array.prototype.forEach.call(',
+                    m2,
+                    ', ',
+                    'function',
+                    '(',
+                        m1,
+                    ')',
+                    '{',
+                        m3,
+                    '}',
+                ')',
+                ';',
+            ].join('');
         }
       : function( m0, m1, m2, m3 ){
             return [
