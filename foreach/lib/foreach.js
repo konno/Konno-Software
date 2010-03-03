@@ -16,8 +16,7 @@ Array.prototype.forEach.call(
         }
     })(
         /for(?:each)?\s+var\s+(.+?)\s*\(\s*([\s\S]+?)\s*\)\s*\{([\s\S]*?)\}/g,
-        Array.prototype.forEach
-      ? function( m0, m1, m2, m3 ){
+        function( m0, m1, m2, m3 ){
             return [
                 'Array.prototype.forEach.call(',
                     m2,
@@ -32,27 +31,6 @@ Array.prototype.forEach.call(
                 ')',
                 ';',
             ].join('');
-        }
-      : function( m0, m1, m2, m3 ){
-            return [
-                '(function(){',
-                    'for',
-                    '(',
-                        'var',
-                        'i',
-                        '=',
-                        '0,',
-                        'l',
-                        '=',
-                        m2 + '.length;',
-                        'i',
-                        '<',
-                        'l;',
-                        'i++',
-                    ')',
-                    '{' + m3 + '}',
-                '})();',
-            ].join(' ');
         }
     )
 );
