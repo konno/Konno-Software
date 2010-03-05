@@ -7,8 +7,8 @@ Array.prototype.forEach.call(
     (function( regexp, callback ){
         return function(script){
             if ( !script.type || !script.textContent ) return;
-            var m = script.type.match(/;foreach=(.+?)(?=$|;)/);
-            if ( m == null || !m[1] ) return;
+            var m = script.type.match(/;filter=foreach(?=$|;)/);
+            if ( m == null ) return;
             script.type =
               script.type.replace( m[0], '' );
             script.textContent =
