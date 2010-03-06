@@ -13,6 +13,8 @@ Array.prototype.forEach.call(
               script.type.replace( m[0], '' );
             script.textContent =
               script.textContent.replace( regexp, callback );
+            if ( /;filter=/( script.type ) ) return;
+            eval( script.textContent );
         }
     })(
         /"(.*?)"\s+"(.*?)"/g,
