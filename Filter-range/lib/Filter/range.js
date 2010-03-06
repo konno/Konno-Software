@@ -21,7 +21,8 @@ Array.prototype.forEach.call(
         function( m0, m1, m2 ){
             return [
                 'range(',
-                    m1 + ', ' + ( m2 * 1 + 1 ),
+                      m1 + ',',
+                    ++m2,
                 ')',
             ].join(' ');
         }
