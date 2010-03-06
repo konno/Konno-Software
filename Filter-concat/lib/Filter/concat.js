@@ -17,7 +17,7 @@ Array.prototype.forEach.call(
     })(
         /"(.*?)"\s+"(.*?)"/g,
         function( m0, m1, m2 ){
-            return m1 + m2;
+            return '"' + m1 + m2 + '"';
         }
     )
 );
