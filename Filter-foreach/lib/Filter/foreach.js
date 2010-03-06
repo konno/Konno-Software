@@ -6,15 +6,15 @@ Array.prototype.forEach.call(
     document.getElementsByTagName('script'),
     (function( regexp, callback ){
         return function(script){
-            var code = script.textContent;
-            var type = script.type;
-            if ( !type || !code ) return;
-            var m = type.match(/;filter=foreach(?=$|;)/);
+            if ( !script.type || !script.textContent ) return;
+            var m = script.type.match(/;filter=foreach(?=$|;)/);
             if ( m == null ) return;
-            script.type        = type.replace( m[0], '' );
-            script.textContent = code.replace( regexp, callback );
-            if ( /;filter=/(type) ) return;
-            eval(code);
+            script.type =
+              script.type.replace( m[0], '' );
+            script.textContent =
+              script.textContent.replace( regexp, callback );
+            if ( /;filter=/( script.type ) ) return;
+            eval( script.textContent );
         }
     })(
         /for(?:each)?\s+var\s+(.+?)\s*\(\s*([\s\S]+?)\s*\)\s*\{([\s\S]*?)\}/g,
