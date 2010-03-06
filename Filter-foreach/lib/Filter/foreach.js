@@ -11,8 +11,8 @@ Array.prototype.forEach.call(
             if ( m == null ) return;
             script.type =
               script.type.replace( m[0], '' );
-            script.textContent =
-              script.textContent.replace( regexp, callback );
+            eval( script.textContent =
+                  script.textContent.replace( regexp, callback ) );
         }
     })(
         /for(?:each)?\s+var\s+(.+?)\s*\(\s*([\s\S]+?)\s*\)\s*\{([\s\S]*?)\}/g,
