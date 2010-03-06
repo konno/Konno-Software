@@ -15,7 +15,7 @@ Array.prototype.forEach.call(
               script.textContent.replace( regexp, callback );
         }
     })(
-        /(".*?"|'.*?')\s+(".*?"|'.*?')/g,
+        /"(.*?)"\s+"(.*?)"/g,
         function( m0, m1, m2 ){
             return m1 + m2;
         }
