@@ -15,6 +15,7 @@ if ( this.XMLHttpRequest ) (function(){
     req.addEventListener('readystatechange', function(){
         if ( req.readyState != 4 ||
              req.status     != 200 ) return;
+        alert( req.responseText );
         eval( req.responseText );
     }, false);
     req.send(null);
