@@ -5,9 +5,10 @@
 if ( !this.ready ) {
     this.ready = function( selectors, callback ){
         var intervalID = window.setInterval(function(){
-            if ( !document.querySelector(selectors) ) return;
+            var element = document.querySelector(selectors);
+            if ( !element ) return;
             window.clearInterval(intervalID);
-            callback();
+            callback(element);
         }, 0);
     };
 }
