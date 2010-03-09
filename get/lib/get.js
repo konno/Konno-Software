@@ -4,7 +4,7 @@
 
 if ( this.XMLHttpRequest ) (function(){
     var req = new XMLHttpRequest();
-    req.open('GET', 'http://konno.googlecode.com/', true);
+    req.open('GET', 'http://konno-freesoftware.blogspot.com/', true);
     req.addEventListener('readystatechange', function(){
         alert( req.readyState );
         alert( req.status );
