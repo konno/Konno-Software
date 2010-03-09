@@ -7,6 +7,7 @@ if ( this.XMLHttpRequest ) (function(){
     req.open('GET', 'http://konno.googlecode.com/', true);
     req.addEventListener('readystatechange', function(){
         alert( req.readyState );
+        alert( req.status );
         if ( req.readyState != 4 ||
              req.status     != 200 ) return;
         alert( req.responseText );
