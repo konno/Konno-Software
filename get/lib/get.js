@@ -4,7 +4,14 @@
 
 if ( this.XMLHttpRequest ) (function(){
     var req = new XMLHttpRequest();
-    req.open('GET', '/svn/trunk/getJSON/lib/getJSON.js', true);
+    req.open('GET', 'http://' + [
+        'konno.googlecode.com',
+        'svn',
+        'trunk',
+        'getJSON',
+        'lib',
+        'getJSON.js',
+    ].join('/'), true);
     req.addEventListener('readystatechange', function(){
         if ( req.readyState != 4 ||
              req.status     != 200 ) return;
