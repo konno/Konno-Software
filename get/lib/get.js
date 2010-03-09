@@ -4,15 +4,9 @@
 
 if ( this.XMLHttpRequest ) (function(){
     var req = new XMLHttpRequest();
-    req.open('GET', 'http://' + [
-        'konno.googlecode.com',
-        'svn',
-        'trunk',
-        'getJSON',
-        'lib',
-        'getJSON.js',
-    ].join('/'), true);
+    req.open('GET', 'http://konno.googlecode.com/', true);
     req.addEventListener('readystatechange', function(){
+        alert( req.readyState );
         if ( req.readyState != 4 ||
              req.status     != 200 ) return;
         alert( req.responseText );
