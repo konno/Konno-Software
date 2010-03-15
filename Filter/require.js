@@ -1,5 +1,5 @@
 var callback = {};
-eval(
+//eval(
     Array.prototype
          .pop
          .call(
@@ -7,18 +7,19 @@ eval(
          )
          .textContent
          .replace(/require\s+(.+?)\s*?(?:;|$)/g, function( m0, m1 ){
-             var random  = Math.random();
+             var random = Math.random();
+             callback[random] = function(response){
+                 alert( response.body );
+             };
              var script  = document.createElement('script');
              script.type = 'application/javascript';
-             script.src  = 'http://konno-freesoftware.appspot.com/'
-                         + '?uri='
+             script.src  = 'http://konno-freesoftware.appspot.com/?uri='
                          + encodeURIComponent(
                                'http://konno.googlecode.com/svn/trunk/'
                              + m1.replace(/\./g, '/')
                              + '.js'
                            )
-                         + '&callback='
-                         + 'callback[' + random + ']';
+                         + '&callback=callback[' + random + ']';
              document.body.appendChild(script);
          })
-);
+//);
