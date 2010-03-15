@@ -2,7 +2,7 @@ eval(
     Array.prototype
          .pop
          .call(
-             document.getElemenetsByTagName('script')
+             document.getElementsByTagName('script')
          )
          .textContent
          .replace(/require\s+(.+?)\s*?(?:;|$)/g, function( m0, m1 ){
