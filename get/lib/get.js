@@ -23,8 +23,8 @@ if ( !this.get ) (function(){
             getJSON('http://konno-freesoftware.appspot.com/get', {
                 uri     : uri,
                 callback: '?',
-            }, function(content){
-                callback(content);
+            }, function(response){
+                callback( response.body );
             });
         };
     }, 0);
