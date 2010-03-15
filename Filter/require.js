@@ -13,13 +13,15 @@ var callback = {};
              };
              var script  = document.createElement('script');
              script.type = 'application/javascript';
-             script.src  = 'http://konno-freesoftware.appspot.com/?uri='
+             script.src  = 'http://konno-freesoftware.appspot.com/get?uri='
                          + encodeURIComponent(
                                'http://konno.googlecode.com/svn/trunk/'
                              + m1.replace(/\./g, '/')
                              + '.js'
                            )
-                         + '&callback=callback[' + random + ']';
+                         + encodeURIComponent(
+                               '&callback=callback[' + random + ']'
+                           );
              document.body.appendChild(script);
          })
 //);
