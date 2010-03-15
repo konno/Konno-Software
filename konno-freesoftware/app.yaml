@@ -1,0 +1,17 @@
+application: konno-freesoftware
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /
+  script: index.py
+
+- url: /env
+  script: env.py
+
+- url: /get
+  script: get.py
+
+- url: /get_title
+  script: get_title.py

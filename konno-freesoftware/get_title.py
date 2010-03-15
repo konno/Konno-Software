@@ -1,0 +1,1 @@
+/home/yuki/konno/Konno-Search/bin/get_title.py

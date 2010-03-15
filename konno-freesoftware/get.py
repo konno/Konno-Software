@@ -1,0 +1,1 @@
+/home/yuki/konno/get/bin/get.py
