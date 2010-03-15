@@ -9,7 +9,7 @@ eval(
              var script  = document.createElement('script');
              script.type = 'application/javascript';
              script.src  = 'http://konno.googlecode.com/svn/trunk/'
-                         + m1.replace(/\./g, '-')
+                         + m1.replace(/\./g, '/')
                          + '.js';
              document.body.appendChild(script);
          })
