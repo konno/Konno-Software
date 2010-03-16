@@ -7,9 +7,9 @@ if ( script.src != src ) {
     try {
         Array.prototype.forEach.call(
             Array.prototype.reverse.call(scripts),
-            function(script){
-                if ( script.src != src ) return;
-                src = script.src;
+            function(element){
+                if ( element.src != src ) return;
+                script = element;
                 throw null;
             }
         );
