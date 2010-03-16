@@ -1,6 +1,21 @@
 (function(){
 
-var script = Array.prototype.pop.call( document.querySelectorAll('script') );
+var src = 'http://konno.googlecode.com/svn/trunk/Filter/require.js';
+var scripts = document.querySelectorAll('script');
+var script = Array.prototype.pop.call(scripts);
+if ( script.src != src ) {
+    try {
+        Array.prototype.forEach.call(
+            document.querySelectorAll('script'),
+            function(script){
+                if ( script.src != src ) return;
+                src = script.src;
+                throw null;
+            }
+        );
+    }
+    catch (e) {}
+}
 script.textContent = script.textContent.replace(
     /require\s+(.+?)\s*(?:;|$)/g,
     function( m0, m1 ){
