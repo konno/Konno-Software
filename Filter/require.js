@@ -1,29 +1,40 @@
-var callback = {};
-//eval(
-    Array.prototype
-         .pop
-         .call(
-             document.getElementsByTagName('script')
-         )
-         .textContent
-         .replace(/require\s+(.+?)\s*?(?:;|$)/g, function( m0, m1 ){
-             var random = Math.random();
-             callback[random] = function(response){
-                 alert( response.body );
-             };
-             var script  = document.createElement('script');
-             script.type = 'application/javascript';
-             script.src  = 'http://konno-freesoftware.appspot.com/get'
-                         + '?uri='
-                         + encodeURIComponent(
-                               'http://konno.googlecode.com/svn/trunk/'
-                             + m1.replace(/\./g, '/')
-                             + '.js'
-                           )
-                         + '&callback='
-                         + encodeURIComponent(
-                               'callback[' + random + ']'
-                           );
-             document.body.appendChild(script);
-         })
-//);
+(function(){
+
+var script = Array.prototype.pop.call( document.querySelectorAll('script') );
+script.textContent = script.textContent.replace(
+    /require\s+(.+?)\s*(?:;|$)/g,
+    function( m0, m1 ){
+        var script  = document.createElement('script');
+        script.type = 'application/javascript';
+        script.src  = 'http://konno.googlecode.com/svn/trunk/'
+                    + m1.replace(/\./g, '/')
+                    + '.js';
+        document.body.appendChild(script);
+        return '';
+    }
+);
+script.textContent = [
+    'var',
+    'intervalID',
+    '=',
+    'window.setInterval(function(){',
+        'try',
+        '{',
+            'eval("'
+          + script.textContent
+                  .replace(/["\\]/g, function(m0){
+                      return '\\' + m0;
+                  })
+          + '");',
+        '}',
+        'catch',
+        '(e)',
+        '{',
+            'return;',
+        '}',
+        'window.clearInterval(intervalID);',
+    '}, 0);',
+].join(' ');
+eval( script.textContent );
+
+})();
