@@ -14,26 +14,29 @@ script.textContent = script.textContent.replace(
     }
 );
 script.textContent = [
-    'var',
-    'intervalID',
-    '=',
-    'window.setInterval(function(){',
-        'try',
-        '{',
-            'eval("'
-          + script.textContent
-                  .replace(/["\\]/g, function(m0){
-                      return '\\' + m0;
-                  })
-          + '");',
-        '}',
-        'catch',
-        '(e)',
-        '{',
-            'return;',
-        '}',
-        'window.clearInterval(intervalID);',
-    '}, 0);',
+    '(function(){',
+        'var',
+        'intervalID',
+        '=',
+        'window.setInterval(function(){',
+            'try',
+            '{',
+                'eval("'
+              + script.textContent
+                      .trim()
+                      .replace(/["\\]/g, function(m0){
+                          return '\\' + m0;
+                      })
+              + '");',
+            '}',
+            'catch',
+            '(e)',
+            '{',
+                'return;',
+            '}',
+            'window.clearInterval(intervalID);',
+        '}, 0);',
+    '})();',
 ].join(' ');
 eval( script.textContent );
 
