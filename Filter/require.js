@@ -10,6 +10,7 @@ if ( script.src != src ) {
             function(script){
                 if ( script.src != src ) return;
                 src = script.src;
+alert( script.textContent );
                 throw null;
             }
         );
