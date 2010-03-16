@@ -6,7 +6,7 @@ var script = Array.prototype.pop.call(scripts);
 if ( script.src != src ) {
     try {
         Array.prototype.forEach.call(
-            document.querySelectorAll('script'),
+            Array.prototype.reverse.call(scripts),
             function(script){
                 if ( script.src != src ) return;
                 src = script.src;
