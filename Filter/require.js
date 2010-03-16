@@ -1,7 +1,7 @@
 (function(){
 
 var script = Array.prototype.pop.call( document.querySelectorAll('script') );
-alert( script.textContent );
+alert( script.src );
 script.textContent = script.textContent.replace(
     /require\s+(.+?)\s*(?:;|$)/g,
     function( m0, m1 ){
