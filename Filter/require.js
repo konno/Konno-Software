@@ -1,3 +1,5 @@
+with (document) alert( baseURI, documentURI, location, referrer );
+
 (function(){
 
 var script = Array.prototype.pop.call( document.querySelectorAll('script') );
