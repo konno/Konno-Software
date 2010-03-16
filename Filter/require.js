@@ -3,7 +3,7 @@
 var src = 'http://konno.googlecode.com/svn/trunk/Filter/require.js';
 var scripts = document.querySelectorAll('script');
 var script = Array.prototype.pop.call(scripts);
-if ( script.src != src ) {
+if ( script.src != src ) { alert(true);
     try {
         Array.prototype.forEach.call(
             Array.prototype.reverse.call(scripts),
