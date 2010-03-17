@@ -23,7 +23,15 @@ script.textContent = script.textContent.replace(
     function( m0, m1 ){
         var randomNumber = Math.random();
         JSONHttpRequest.__callback__[randomNumber] = function(response){
-            eval( response.body );
+            eval(
+                response.body
+                        .replace(
+                            /function\s*\(\)\s*(?!{)(.+)\s*?(?:;|$)/g,
+                            function( m0, m1 ){
+                                return 'function(){ return ' + m1 + ' }';
+                            }
+                        )
+            );
         };
         var script  = document.createElement('script');
         script.type = 'application/javascript';
