@@ -1,1 +1,0 @@
-/home/yuki/konno/navigator-remoteAddr/bin/env.py
