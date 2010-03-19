@@ -19,8 +19,7 @@ if ( !this.require )
                               'konno.googlecode.com',
                               'svn',
                               'trunk',
-                              module.replace(/\./g, '/'),
-                              '.js',
+                              module.replace(/\./g, '/') + '.js',
                           ].join('/')),
             'callback=' + encodeURIComponent([
                               '__callback__[',
