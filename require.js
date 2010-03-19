@@ -28,11 +28,11 @@ if ( !this.require )
                           ].join('')),
         ].join('&');
         document.body.appendChild(script);
-        module = module.replace(/\.(.+?)(?=\.|$)/g, function( m0, m1 ){
+        var object = module.replace(/\.(.+?)(?=\.|$)/g, function( m0, m1 ){
             return '["' + m1 + '"]';
         });
         var intervalID = window.setInterval(function(){
-            if ( !eval(module) ) return;
+            if ( !eval(object) ) return;
             window.clearInterval(intervalID);
             callback();
         }, 0);

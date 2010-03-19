@@ -1,83 +1,72 @@
-var JSONHttpRequest = { __callback__: {} };
-(function(){
+(function($0){
 
-var src = 'http://konno.googlecode.com/svn/trunk/Filter/require.js';
-var scripts = document.querySelectorAll('script');
-var script = Array.prototype.pop.call(scripts);
+if ( !this.__callback__ )
+    this.__callback__ = {};
 
-if ( script.src != src )
-    try {
-        Array.prototype.forEach.call(
-            Array.prototype.reverse.call(scripts),
-            function(element){
-                if ( element.src != src ) return;
-                script = element;
-                throw null;
-            }
-        );
-    }
-    catch (e) {}
-
-script.textContent = script.textContent.replace(
-    /require\s+(.+?)\s*(?:;|$)/g,
-    function( m0, m1 ){
+if ( !this.require )
+    this.require = function( module, callback ){
         var randomNumber = Math.random();
-        JSONHttpRequest.__callback__[randomNumber] = function(response){
-            eval(
-                response.body
-                        .replace(
-                            /function\s*\(\)\s*(?!{)(.+)\s*?(?:;|$)/g,
-                            function( m0, m1 ){
-                                return 'function(){ return ' + m1 + ' }';
-                            }
-                        )
-            );
+        __callback__[randomNumber] = function(response){
+            var src = response.body;
+            if ( this.Filter )
+                Object.keys(Filter).forEach(function(x){
+                    src = Filter[x](src);
+                });
+            eval(src);
         };
         var script  = document.createElement('script');
         script.type = 'application/javascript';
         script.src  = 'http://konno-freesoftware.appspot.com/get?' + [
-            'uri='      + encodeURIComponent([
-                              'http://konno.googlecode.com/svn/trunk/',
-                              m1.replace(/\./g, '/'),
-                              '.js',
-                          ].join('')),
+            'uri='      + encodeURIComponent('http://' + [
+                              'konno.googlecode.com',
+                              'svn',
+                              'trunk',
+                              module.replace(/\./g, '/') + '.js',
+                          ].join('/')),
             'callback=' + encodeURIComponent([
-                              'JSONHttpRequest.__callback__[',
+                              '__callback__[',
                                   randomNumber,
                               ']',
                           ].join('')),
         ].join('&');
         document.body.appendChild(script);
-        return '';
-    }
-);
+        var object = module.replace(/\.(.+?)(?=\.|$)/g, function( m0, m1 ){
+            return '["' + m1 + '"]';
+        });
+        var intervalID = window.setInterval(function(){
+            if ( !eval(object) ) return;
+            window.clearInterval(intervalID);
+            callback();
+        }, 0);
+    };
 
-script.textContent = [
-    '(function(){',
-        'var',
-        'intervalID',
-        '=',
-        'window.setInterval(function(){',
-            'try',
-            '{',
-                'eval("'
-              + script.textContent
-                      .trim()
-                      .replace(/["\\]/g, function(m0){
-                          return '\\' + m0;
-                      })
-              + '");',
-            '}',
-            'catch',
-            '(e)',
-            '{',
-                'return;',
-            '}',
-            'window.clearInterval(intervalID);',
-        '}, 0);',
-    '})();',
-].join(' ');
+if ( !String.prototype.repeat )
+    require('String.prototype.repeat', function(){
 
-eval( script.textContent );
+if ( !this.Filter )
+    this.Filter = {};
 
-})();
+if ( !Filter.require )
+    Filter.require = function(src){
+        var n = 0;
+        var begin = '';
+        src = src.replace(/require\s+(.+?);/g, function( m0, m1 ){
+            begin += 'require("' + m1 + '", function(){ ';
+            n++;
+            return '';
+        });
+        var end = ' })'.repeat(n);
+        return begin + src + end + ';';
+    };
+
+var scripts = document.querySelectorAll('script');
+for ( var i = scripts.length - 1; i >= 0; i-- ) {
+    var script = scripts[i];
+    if ( script.src != $0 ) continue;
+    eval( script.textContent = Filter.require( script.textContent ) );
+    break;
+}
+
+});
+
+})('http://konno.googlecode.com/svn/trunk/Filter/require.js');

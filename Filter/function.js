@@ -6,12 +6,7 @@ if ( !Filter['function'] )
         return src.replace(
             /function\s*\(\)\s*(?!{)(.+?)(?=;)/g,
             function( m0, m1 ){
-                return [
-                    'function(){',
-                        'return',
-                        m1,
-                    '}',
-                ].join(' ');
+                return 'function(){ return ' + m1 + '}';
             }
         );
     };
