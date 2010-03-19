@@ -23,7 +23,7 @@ if ( !this.require )
                               '.js',
                           ].join('/')),
             'callback=' + encodeURIComponent([
-                              'callback[',
+                              '__callback__[',
                                   randomNumber,
                               ']',
                           ].join('')),
