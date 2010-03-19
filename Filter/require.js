@@ -50,7 +50,7 @@ if ( !Filter.require )
     Filter.require = function(src){
         var n = 0;
         var begin = '';
-        src = src.replace(/require\s+(.+?);/g, function( m0, m1 ){
+        src = src.replace(/require\s+(.+?);\s*/g, function( m0, m1 ){
             begin += 'require("' + m1 + '", function(){ ';
             n++;
             return '';
