@@ -12,15 +12,8 @@ except:
     from django.utils   import simplejson as json
 
 form     = cgi.FieldStorage()
-uri      = form.getfirst('uri')
+uri      = form.getfirst('uri', 'http://www.example.com/')
 callback = form.getfirst('callback', 'jsonp')
-
-if not uri:
-    print('Content-Type: text/plain; charset=UTF-8')
-    print('')
-    for line in open( sys.argv[0] ):
-        sys.stdout.write(line)
-    sys.exit()
 
 agent    = 'Mozilla/5.0 (compatible; \
 Googlebot/2.1; +http://www.google.com/bot.html)'
