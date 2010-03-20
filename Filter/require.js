@@ -52,7 +52,7 @@ require('String.prototype.repeat', function(){
             var n = 0;
             var begin = '';
             src = src.trim().replace(
-                /require\s+(.+?);/g,
+                /require\s+(.+?);\s*/g,
                 function( m0, m1 ){
                     begin += 'require("' + m1 + '", function(){ ';
                     n++;
