@@ -1,10 +1,16 @@
-(function($0){
+var __callback__ = {};
 
-if ( !this.__callback__ )
-    this.__callback__ = {};
+(function($0){
 
 if ( !this.require )
     this.require = function( module, callback ){
+        var object = module.replace(/\.(.+?)(?=\.|$)/g, function( m0, m1 ){
+            return '["' + m1 + '"]';
+        });
+        if ( eval(object) ) {
+            callback();
+            return;
+        }
         var randomNumber = Math.random();
         __callback__[randomNumber] = function(response){
             var src = response.body;
@@ -30,9 +36,6 @@ if ( !this.require )
                           ].join('')),
         ].join('&');
         document.body.appendChild(script);
-        var object = module.replace(/\.(.+?)(?=\.|$)/g, function( m0, m1 ){
-            return '["' + m1 + '"]';
-        });
         var intervalID = window.setInterval(function(){
             if ( !eval(object) ) return;
             window.clearInterval(intervalID);
@@ -40,33 +43,30 @@ if ( !this.require )
         }, 0);
     };
 
-if ( !String.prototype.repeat )
-    require('String.prototype.repeat', function(){
+require('String.prototype.repeat', function(){
+    if ( !this.Filter )
+        this.Filter = {};
 
-if ( !this.Filter )
-    this.Filter = {};
+    if ( !Filter.require )
+        Filter.require = function(src){
+            var n = 0;
+            var begin = '';
+            src = src.replace(/require\s+(.+?);/g, function( m0, m1 ){
+                begin += 'require("' + m1 + '", function(){ ';
+                n++;
+                return '';
+            });
+            var end = ' })'.repeat(n);
+            return begin + src + end + ';';
+        };
 
-if ( !Filter.require )
-    Filter.require = function(src){
-        var n = 0;
-        var begin = '';
-        src = src.replace(/require\s+(.+?);\s*/g, function( m0, m1 ){
-            begin += 'require("' + m1 + '", function(){ ';
-            n++;
-            return '';
-        });
-        var end = ' })'.repeat(n);
-        return begin + src + end + ';';
-    };
-
-var scripts = document.querySelectorAll('script');
-for ( var i = scripts.length - 1; i >= 0; i-- ) {
-    var script = scripts[i];
-    if ( script.src != $0 ) continue;
-    eval( script.textContent = Filter.require( script.textContent ) );
-    break;
-}
-
+    var scripts = document.querySelectorAll('script');
+    for ( var i = scripts.length - 1; i >= 0; i-- ) {
+        var script = scripts[i];
+        if ( script.src != $0 ) continue;
+        eval( script.textContent = Filter.require( script.textContent ) );
+        break;
+    }
 });
 
 })('http://konno.googlecode.com/svn/trunk/Filter/require.js');
