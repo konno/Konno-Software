@@ -2,13 +2,6 @@ var __callback__ = {};
 
 if ( !this.require )
     this.require = function( module, callback ){
-        var object = module.replace(/\.(.+?)(?=\.|$)/g, function( m0, m1 ){
-            return '["' + m1 + '"]';
-        });
-        if ( eval(object) ) {
-            callback();
-            return;
-        }
         var randomNumber = Math.random();
         __callback__[randomNumber] = function(response){
             var src = response.body;
@@ -17,6 +10,7 @@ if ( !this.require )
                     src = Filter[x](src);
                 });
             eval(src);
+            callback();
         };
         var script  = document.createElement('script');
         script.type = 'application/javascript';
@@ -34,9 +28,4 @@ if ( !this.require )
                           ].join('')),
         ].join('&');
         document.body.appendChild(script);
-        var intervalID = window.setInterval(function(){
-            if ( !eval(object) ) return;
-            window.clearInterval(intervalID);
-            callback();
-        }, 0);
     };
