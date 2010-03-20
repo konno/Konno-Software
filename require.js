@@ -1,6 +1,7 @@
-var __callback__ = {};
+if ( !this.hasOwnProperty('__callback__') )
+    this.__callback__ = {};
 
-if ( !this.require )
+if ( !this.hasOwnProperty('require') )
     this.require = function( module, callback ){
         var randomNumber = Math.random();
         __callback__[randomNumber] = function(response){
