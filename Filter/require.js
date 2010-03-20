@@ -8,7 +8,6 @@ if ( !this.hasOwnProperty('require') )
         var randomNumber = Math.random();
         __callback__[randomNumber] = function(response){
             var src = response.body;
-alert( this.Filter && Filter.require );
             if ( this.hasOwnProperty('Filter') )
                 Object.keys(Filter).forEach(function(x){
                     src = Filter[x](src);
@@ -41,15 +40,16 @@ require('String.prototype.repeat', function(){
 
     if ( !Filter.hasOwnProperty('require') )
         Filter.require = function(src){
+alert(src);
             var n = 0;
             var begin = '';
             src = src.replace(/require\s+(.+?);/g, function( m0, m1 ){
                 begin += 'require("' + m1 + '", function(){ ';
                 n++;
                 return '';
-            }).trim();
+            });
             var end = ' })'.repeat(n);
-            return begin + src + end + ';';
+            return begin + src.trim() + end + ';';
         };
 
     var scripts = document.querySelectorAll('script');
