@@ -16,8 +16,9 @@ if ( !this.require )
             var src = response.body;
             if ( this.Filter )
                 Object.keys(Filter).forEach(function(x){
-                    if ( !x ) return;
-                    src = Filter[x](src);
+                    var filter = Filter[x];
+                    if ( !filter ) return;
+                    src = filter(src);
                 });
             eval(src);
         };
