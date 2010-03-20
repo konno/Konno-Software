@@ -51,11 +51,11 @@ require('String.prototype.repeat', function(){
             return begin + src.trim() + end + ';';
         };
 
-alert( Filter.require );
     var scripts = document.querySelectorAll('script');
     for ( var i = scripts.length - 1; i >= 0; i-- ) {
         var script = scripts[i];
         if ( script.src != $0 ) continue;
+alert( Filter.require );
         eval( script.textContent = Filter.require( script.textContent ) );
         break;
     }
