@@ -8,8 +8,9 @@ if ( !this.hasOwnProperty('require') )
         var randomNumber = Math.random();
         __callback__[randomNumber] = function(response){
             var src = response.body;
-            if ( this.Filter )
+            if ( this.hasOwnProperty('Filter') )
                 Object.keys(Filter).forEach(function(x){
+alert(x);
                     src = Filter[x](src);
                 });
 alert(src);
@@ -35,10 +36,10 @@ alert(src);
     };
 
 require('String.prototype.repeat', function(){
-    if ( !this.Filter )
+    if ( !this.hasOwnProperty('Filter') )
         this.Filter = {};
 
-    if ( !Filter.require )
+    if ( !Filter.hasOwnProperty('require') )
         Filter.require = function(src){
             var n = 0;
             var begin = '';
