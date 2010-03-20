@@ -51,14 +51,11 @@ require('String.prototype.repeat', function(){
         Filter.require = function(src){
             var n = 0;
             var begin = '';
-            src = src.trim().replace(
-                /require\s+(.+?);\s*/g,
-                function( m0, m1 ){
-                    begin += 'require("' + m1 + '", function(){ ';
-                    n++;
-                    return '';
-                }
-            );
+            src = src.replace(/require\s+(.+?);\s*/g, function( m0, m1 ){
+                begin += 'require("' + m1 + '", function(){ ';
+                n++;
+                return '';
+            }).trim();
             var end = ' })'.repeat(n);
             return begin + src + end + ';';
         };
