@@ -1,3 +1,4 @@
+alert(true);
 var __callback__ = {};
 
 (function($0){
