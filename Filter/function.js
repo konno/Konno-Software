@@ -3,7 +3,7 @@ if ( !this.Filter )
 
 if ( !Filter['function'] )
     try {
-        eval('function() true');
+        eval('function() null');
         Filter['function'] = false;
     }
     catch (e) {
