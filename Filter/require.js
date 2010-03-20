@@ -41,6 +41,7 @@ alert(src);
         document.body.appendChild(script);
         var intervalID = window.setInterval(function(){
             if ( eval(object) == null ) return;
+alert(object);
             window.clearInterval(intervalID);
             callback();
         }, 0);
