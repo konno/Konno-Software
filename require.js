@@ -5,7 +5,7 @@ if ( !this.require )
         var object = module.replace(/\.(.+?)(?=\.|$)/g, function( m0, m1 ){
             return '["' + m1 + '"]';
         });
-        if ( eval(object) != null ) {
+        if ( eval(object) ) {
             callback();
             return;
         }
@@ -14,9 +14,7 @@ if ( !this.require )
             var src = response.body;
             if ( this.Filter )
                 Object.keys(Filter).forEach(function(x){
-                    var filter = Filter[x];
-                    if ( !filter ) return;
-                    src = filter(src);
+                    src = Filter[x](src);
                 });
             eval(src);
         };
@@ -37,7 +35,7 @@ if ( !this.require )
         ].join('&');
         document.body.appendChild(script);
         var intervalID = window.setInterval(function(){
-            if ( eval(object) == null ) return;
+            if ( !eval(object) ) return;
             window.clearInterval(intervalID);
             callback();
         }, 0);
