@@ -6,7 +6,7 @@ if ( !this.hasOwnProperty('require') )
         var randomNumber = Math.random();
         __callback__[randomNumber] = function(response){
             var src = response.body;
-            if ( this.Filter )
+            if ( this.hasOwnProperty('Filter') )
                 Object.keys(Filter).forEach(function(x){
                     src = Filter[x](src);
                 });
