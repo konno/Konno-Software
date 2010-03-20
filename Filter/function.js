@@ -7,7 +7,6 @@ if ( !Filter['function'] )
         Filter['function'] = false;
     }
     catch (e) {
-alert(e);
         Filter['function'] = function(src){
             return src.replace(
                 /function\s*\(\)\s*(?!{)(.+?)(?=;)/g,

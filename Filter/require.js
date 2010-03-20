@@ -1,4 +1,3 @@
-alert(true);
 var __callback__ = {};
 
 (function($0){
@@ -21,7 +20,6 @@ if ( !this.require )
                     if ( !filter ) return;
                     src = filter(src);
                 });
-alert(src);
             eval(src);
         };
         var script  = document.createElement('script');
@@ -42,7 +40,6 @@ alert(src);
         document.body.appendChild(script);
         var intervalID = window.setInterval(function(){
             if ( eval(object) == null ) return;
-alert(object);
             window.clearInterval(intervalID);
             callback();
         }, 0);
