@@ -55,7 +55,7 @@ require('String.prototype.repeat', function(){
     for ( var i = scripts.length - 1; i >= 0; i-- ) {
         var script = scripts[i];
         if ( script.src != $0 ) continue;
-alert( Filter.require );
+alert( Filter.require( script.textContent ) );
         eval( script.textContent = Filter.require( script.textContent ) );
         break;
     }
