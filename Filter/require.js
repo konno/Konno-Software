@@ -20,6 +20,7 @@ if ( !this.require )
                     if ( !filter ) return;
                     src = filter(src);
                 });
+alert(src);
             eval(src);
         };
         var script  = document.createElement('script');
