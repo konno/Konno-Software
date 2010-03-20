@@ -40,7 +40,6 @@ require('String.prototype.repeat', function(){
 
     if ( !Filter.hasOwnProperty('require') )
         Filter.require = function(src){
-alert(src);
             var n = 0;
             var begin = '';
             src = src.replace(/require\s+(.+?);/g, function( m0, m1 ){
@@ -52,6 +51,7 @@ alert(src);
             return begin + src.trim() + end + ';';
         };
 
+alert( Filter.require );
     var scripts = document.querySelectorAll('script');
     for ( var i = scripts.length - 1; i >= 0; i-- ) {
         var script = scripts[i];
