@@ -35,6 +35,7 @@ if ( !this.hasOwnProperty('require') )
             Object.keys(Filter).forEach(function(x){
                 src = Filter[x](src);
             });
+alert(src);
             eval(src);
             callback();
         };
