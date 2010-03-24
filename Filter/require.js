@@ -22,7 +22,7 @@ console.log(src);
             return '';
         });
         var end = ' })'.repeat(n);
-        return begin + src.trim() + end + ';';
+        return begin + src.trim() + end;
     };
 
 if ( !this.__callback__ )
