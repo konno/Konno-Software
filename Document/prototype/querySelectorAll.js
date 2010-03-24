@@ -1,5 +1,4 @@
-if ( typeof Document.prototype
-                    .querySelectorAll == 'undefined' )
+if ( !Document.prototype.querySelectorAll )
     Document.prototype
             .querySelectorAll = Document.prototype
                                         .getElementsByTagName;

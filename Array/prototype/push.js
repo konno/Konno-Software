@@ -1,4 +1,4 @@
-if ( typeof Array.prototype.push == 'undefined' )
+if ( !Array.prototype.push )
     Array.prototype.push = function(){
         for ( var i = 0, l = arguments.length, begin = this.length; i < l;
               this[ begin + i ] = arguments[i++] );

@@ -1,7 +1,7 @@
-if ( typeof Filter == 'undefined' )
+if ( !this.Filter )
     this.Filter = {};
 
-if ( typeof Filter['function'] == 'undefined' )
+if ( !Filter['function'] )
     Filter['function'] = function(src){
         return src.replace(
             /function\s*\(\)\s*(?!{)(.+?)(?=;)/g,

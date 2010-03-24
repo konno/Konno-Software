@@ -1,6 +1,6 @@
 (function($0){
 
-if ( typeof String.prototype.repeat == 'undefined' )
+if ( !String.prototype.repeat )
     String.prototype.repeat = function(n){
         for ( var buf = '', s = this; n > 0;
               ( n & 1 ) && ( buf += s ),
@@ -8,10 +8,10 @@ if ( typeof String.prototype.repeat == 'undefined' )
         return buf;
     };
 
-if ( typeof Filter == 'undefined' )
+if ( !this.Filter )
     this.Filter = {};
 
-if ( typeof Filter.require == 'undefined' )
+if ( !Filter.require )
     Filter.require = function(src){
         var n = 0;
         var begin = '';
@@ -24,10 +24,10 @@ if ( typeof Filter.require == 'undefined' )
         return begin + src.trim() + end + ';';
     };
 
-if ( typeof __callback__ == 'undefined' )
+if ( !this.__callback__ )
     this.__callback__ = {};
 
-if ( typeof require == 'undefined' )
+if ( !this.require )
     this.require = function( module, callback ){
         var randomNumber = Math.random();
         __callback__[randomNumber] = function(response){

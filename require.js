@@ -1,12 +1,12 @@
-if ( typeof __callback__ == 'undefined' )
+if ( !this.__callback__ )
     this.__callback__ = {};
 
-if ( typeof require == 'undefined' )
+if ( !this.require )
     this.require = function( module, callback ){
         var randomNumber = Math.random();
         __callback__[randomNumber] = function(response){
             var src = response.body;
-            if ( typeof Filter == 'undefined' )
+            if ( this.Filter )
                 Object.keys(Filter).forEach(function(x){
                     src = Filter[x](src);
                 });
