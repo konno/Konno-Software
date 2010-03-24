@@ -41,6 +41,7 @@ console.log(src);
             });
 console.log(src);
             eval(src);
+console.log($);
 console.log(callback);
             callback();
         };
