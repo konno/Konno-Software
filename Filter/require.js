@@ -37,6 +37,7 @@ if ( !this.require )
             });
 alert(src);
             eval(src);
+alert( this.$ );
             callback();
         };
         var script  = document.createElement('script');
