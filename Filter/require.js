@@ -35,9 +35,8 @@ if ( !this.require )
             Object.keys(Filter).forEach(function(x){
                 src = Filter[x](src);
             });
-alert(src);
             eval(src);
-alert( this.$ );
+alert(callback);
             callback();
         };
         var script  = document.createElement('script');
