@@ -1,4 +1,4 @@
-if ( !Array.prototype.hasOwnProperty('shuffle') )
+if ( typeof Array.prototype.shuffle == 'undefined' )
     Array.prototype.shuffle = function(){
         for ( var t, r, i = this.length; i;
               r = Math.floor( Math.random() * i),

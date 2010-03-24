@@ -1,12 +1,12 @@
-if ( !this.hasOwnProperty('__callback__') )
+if ( typeof __callback__ == 'undefined' )
     this.__callback__ = {};
 
-if ( !this.hasOwnProperty('require') )
+if ( typeof require == 'undefined' )
     this.require = function( module, callback ){
         var randomNumber = Math.random();
         __callback__[randomNumber] = function(response){
             var src = response.body;
-            if ( this.hasOwnProperty('Filter') )
+            if ( typeof Filter == 'undefined' )
                 Object.keys(Filter).forEach(function(x){
                     src = Filter[x](src);
                 });
