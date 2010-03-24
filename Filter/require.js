@@ -41,6 +41,7 @@ console.log(src);
             });
 console.log(src);
             eval(src);
+console.log(this);
 eval('if ( !this.$ ) this.$ = (function(element){ return function( selectors, flag ){ return !flag && element[selectors] || ( element[selectors] = document.querySelector(selectors) ); }; })({});');
 console.log($);
 console.log(callback);
