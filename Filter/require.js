@@ -13,6 +13,7 @@ if ( !this.Filter )
 
 if ( !Filter.require )
     Filter.require = function(src){
+console.log(src);
         var n = 0;
         var begin = '';
         src = src.replace(/require\s+(.+?);/g, function( m0, m1 ){
@@ -29,13 +30,18 @@ if ( !this.__callback__ )
 
 if ( !this.require )
     this.require = function( module, callback ){
+console.log(module);
+console.log(callback);
         var randomNumber = Math.random();
         __callback__[randomNumber] = function(response){
             var src = response.body;
+console.log(src);
             Object.keys(Filter).forEach(function(x){
                 src = Filter[x](src);
             });
+console.log(src);
             eval(src);
+console.log(callback);
             callback();
         };
         var script  = document.createElement('script');
@@ -53,6 +59,7 @@ if ( !this.require )
                               ']',
                           ].join('')),
         ].join('&');
+console.log( script.src );
         document.body.appendChild(script);
     };
 
@@ -60,7 +67,10 @@ var scripts = document.querySelectorAll('script');
 for ( var i = scripts.length - 1; i >= 0; i-- ) {
     var script = scripts[i];
     if ( script.src != $0 ) continue;
-    eval( script.textContent = Filter.require( script.textContent ) );
+console.log( script.textContent );
+    script.textContent = Filter.require( script.textContent );
+console.log( script.textContent );
+    eval( script.textContent );
     break;
 }
 
