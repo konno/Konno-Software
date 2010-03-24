@@ -35,6 +35,7 @@ if ( !this.require )
             Object.keys(Filter).forEach(function(x){
                 src = Filter[x](src);
             });
+alert(src);
             eval(src);
             callback();
         };
@@ -60,7 +61,7 @@ var scripts = document.querySelectorAll('script');
 for ( var i = scripts.length - 1; i >= 0; i-- ) {
     var script = scripts[i];
     if ( script.src != $0 ) continue;
-    alert( script.textContent = Filter.require( script.textContent ) );
+    eval( script.textContent = Filter.require( script.textContent ) );
     break;
 }
 
