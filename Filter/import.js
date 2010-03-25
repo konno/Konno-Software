@@ -27,7 +27,7 @@ if ( !this.__import__ )
         };
         var script  = document.createElement('script');
         script.type = 'application/javascript';
-        script.src  = 'http://konno-freesoftware.appspot.com/?' + [
+        script.src  = 'http://konno-freesoftware.appspot.com/get?' + [
             'uri='      + encodeURIComponent('http://' + [
                               'konno.googlecode.com',
                               'svn',
