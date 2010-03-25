@@ -17,8 +17,8 @@ if ( !this.__import__ )
             INC[package] = true;
             var id = Math.random();
             __callback__[id] = function(response){
-                var src = response.body;
-                src += '(' + callback.toString() + ')();';
+                var src = response.body
+                        + '(' + callback.toString() + ')();';
                 Object.keys(Filter).forEach(function(x){
                     src = Filter[x](src);
                 });
