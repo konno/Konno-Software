@@ -2,7 +2,16 @@ if ( !this.JSONHttpRequest ) {
     this.JSONHttpRequest = function(){
         return this;
     };
-    JSONHttpRequest.__callback__ = {};
+    JSONHttpRequest.__callback__ = function(response){
+        request.response = response;
+        if ( response && typeof response == 'object' ) {
+            request.responseJSON = response;
+            request.responseText = JSON.stringify(response);
+        }
+        request.status     = 200;
+        request.readyState = 4;
+        request.onreadystatechange();
+    };
     JSONHttpRequest.prototype.open = function(
         method,
         uri,
@@ -29,22 +38,12 @@ if ( !this.JSONHttpRequest ) {
                     else        request.uri += '&';
                     request.uri += encodeURIComponent(key);
                     if ( value == null ) return;
-                    if ( value === true ) {
-                        var id = Math.random();
-                        JSONHttpRequest.__callback__[id] = function(response){
-                            request.response = response;
-                            if ( response && typeof response == 'object' ) {
-                                request.responseJSON = response;
-                                request.responseText =
-                                  JSON.stringify(response);
-                            }
-                            request.status     = 200;
-                            request.readyState = 4;
-                            request.onreadystatechange();
-                        };
-                        value = 'JSONHttpRequest.__callback__[' + id + ']';
-                    }
-                    request.uri += '=' + encodeURIComponent(value);
+                    request.uri += '='
+                                +  encodeURIComponent(
+                                       value === true
+                                     ? 'JSONHttpRequest.__callback__'
+                                     : value
+                                   );
                 });
             }
             var script  = document.createElement('script');
