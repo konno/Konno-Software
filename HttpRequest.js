@@ -1,7 +1,7 @@
 import JSONHttpRequest;
 
 if ( !this.HttpRequest ) {
-    this.HttpRequest = function(uri){
+    this.HttpRequest = function HttpRequest(uri){
         this.__uri__ = uri || 'http://konno-freesoftware.appspot.com/get';
         return this;
     };
@@ -32,19 +32,9 @@ if ( !this.HttpRequest ) {
       function( method, uri, async, user, password ){
           if ( user && password )
               uri = this.__setAuthority__( uri, user, password );
-          this.__uri__ = this.__setQuery__( this.__uri__, {
-              uri: uri,
-              
-          } );
-          this.__uri__ = user && password
-                       ? this.__setAuthority__( uri, user, password )
-                       : uri;
+          this.__uri__ = this.__setQuery__(this.__uri__, {
+              uri     : uri,
+              callback: true,
+          });
       };
 }
-
-var req = new HttpRequest();
-req.open('GET', 'http://www.example.com/', true);
-req.onreadystatechange = function(){
-
-};
-req.send(null);

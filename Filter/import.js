@@ -8,40 +8,43 @@ if ( !this.INC )
     this.INC = {};
 
 if ( !this.__import__ )
-    this.__import__ = function( package, callback ){
-        if ( INC[package] ) {
-            callback();
-            return;
-        }
-        INC[package] = true;
-        var id = Math.random();
-        __callback__[id] = function(response){
-            var src = response.body;
-            Object.keys(Filter).forEach(function(x){
-                src = Filter[x](src);
-            });
-            (function(){
-                eval(src);
-            })();
-            callback();
+    this.__import__ = (function(node){
+        return function( package, callback ){
+            if ( INC[package] ) {
+                callback();
+                return;
+            }
+            INC[package] = true;
+            var id = Math.random();
+            __callback__[id] = function(response){
+                var src = response.body;
+                Object.keys(Filter).forEach(function(x){
+                    src = Filter[x](src);
+                });
+                (function(){
+                    eval(src);
+                })();
+                callback();
+            };
+            var script  = document.createElement('script');
+            script.type = 'application/javascript';
+            script.src  = 'http://konno-freesoftware.appspot.com/get?' + [
+                'uri='      + encodeURIComponent('http://' + [
+                                  'konno.googlecode.com',
+                                  'svn',
+                                  'trunk',
+                                  package.replace(/\./g, '/') + '.js',
+                              ].join('/')),
+                'callback=' + encodeURIComponent([
+                                  '__callback__[',
+                                      id,
+                                  ']',
+                              ].join('')),
+            ].join('&');
+            node.appendChild(script);
         };
-        var script  = document.createElement('script');
-        script.type = 'application/javascript';
-        script.src  = 'http://konno-freesoftware.appspot.com/get?' + [
-            'uri='      + encodeURIComponent('http://' + [
-                              'konno.googlecode.com',
-                              'svn',
-                              'trunk',
-                              package.replace(/\./g, '/') + '.js',
-                          ].join('/')),
-            'callback=' + encodeURIComponent([
-                              '__callback__[',
-                                  id,
-                              ']',
-                          ].join('')),
-        ].join('&');
-        document.body.appendChild(script);
-    };
+    })( document.body ||
+        document.getElementsByTagName('head')[0] );
 
 __import__('String.prototype.repeat', function(){
     if ( !Filter.import )

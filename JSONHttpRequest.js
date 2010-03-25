@@ -18,11 +18,6 @@ if ( !this.JSONHttpRequest ) {
         };
     };
 
-    JSONHttpRequest.prototype.__setCallback__ = function(id){
-        JSONHttpRequest.__callback__[id] = this.__initCallback__(request);
-        return 'JSONHttpRequest.__callback__[' + id + ']';
-    };
-
     JSONHttpRequest.prototype.__uri__  = '';
 
     JSONHttpRequest.prototype.__setQuery__ = function( uri, object ){
@@ -37,8 +32,8 @@ if ( !this.JSONHttpRequest ) {
                 var id = Math.random();
                 this.constructor.__callback__[id] =
                   this.__initCallback__(this);
-                value = this.constructor.name + '.__callback__
-                value = this.__setCallback__( Math.random() );
+                value = this.constructor.name
+                      + '.__callback__[' + id + ']';
             }
             uri += '='
                 +  encodeURIComponent(value)
