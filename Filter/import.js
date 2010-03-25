@@ -36,7 +36,7 @@ if ( !this.__import__ )
                           ].join('/')),
             'callback=' + encodeURIComponent([
                               '__callback__[',
-                                  randomNumber
+                                  randomNumber,
                               ']',
                           ].join('')),
         ].join('&');
