@@ -66,6 +66,7 @@ __import__('String.prototype.repeat', function(){
     for ( var i = scripts.length - 1; i >= 0; i-- ) {
         var script = scripts[i];
         if ( script.src != $0 ) return;
+alert( Filter.import( script.textContent ) );
         eval( script.textContent = Filter.import( script.textContent ) );
         return;
     }
