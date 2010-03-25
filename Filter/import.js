@@ -74,7 +74,7 @@ console.log( scripts.length );
         var script = scripts[i];
 console.log( script.src );
 console.log( script.textContent );
-        if ( script.src != $0 ) return;
+        if ( script.src != $0 ) continuel
 console.log( script.textContent );
 console.log( Filter.import( script.textContent ) );
         eval( script.textContent = Filter.import( script.textContent ) );
