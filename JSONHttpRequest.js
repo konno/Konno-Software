@@ -22,7 +22,6 @@ if ( !this.JSONHttpRequest ) {
 
     JSONHttpRequest.prototype.__setQuery__ = function( uri, object ){
         var flag = true;
-console.log(object);
         Object.keys(object).forEach(function(key){
             var value = object[key];
             if ( flag ) uri += '?', flag = false;
