@@ -14,13 +14,8 @@ if ( !this.HttpRequest ) {
         return function(response){
             request.response = response;
             if ( response && typeof response == 'object' ) {
-                request.responseText = response.body;
                 request.responseJSON = response;
-                request.responseXML  =
-                  ( new DOMParser ).parseFromString(
-                      response.body,
-                      'application/xhtml+xml'
-                  );
+                request.responseText = response.body;
             }
             request.status     = 200;
             request.readyState = 4;

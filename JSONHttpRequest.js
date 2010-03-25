@@ -9,8 +9,8 @@ if ( !this.JSONHttpRequest ) {
         return function(response){
             request.response = response;
             if ( response && typeof response == 'object' ) {
-                request.responseText = JSON.stringify(response);
                 request.responseJSON = response;
+                request.responseText = JSON.stringify(response);
             }
             request.status     = 200;
             request.readyState = 4;
