@@ -42,7 +42,6 @@ if ( !this.__import__ )
                               ].join('')),
             ].join('&');
             node.appendChild(script);
-            node.removeChild(script);
         };
     })( document.body ||
         document.getElementsByTagName('head')[0] );
