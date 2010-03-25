@@ -18,14 +18,13 @@ if ( !this.__import__ )
             var id = Math.random();
             __callback__[id] = function(response){
                 var src = response.body;
+                src += '(' + callback.toString() + ')();';
                 Object.keys(Filter).forEach(function(x){
                     src = Filter[x](src);
                 });
-alert(src);
                 (function(){
                     eval(src);
                 })();
-                callback();
             };
             var script  = document.createElement('script');
             script.type = 'application/javascript';
