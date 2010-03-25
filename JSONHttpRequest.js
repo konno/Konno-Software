@@ -2,15 +2,17 @@ if ( !this.JSONHttpRequest ) {
     this.JSONHttpRequest = function(){
         return this;
     };
-    JSONHttpRequest.__callback__ = function(response){
-        request.response = response;
-        if ( response && typeof response == 'object' ) {
-            request.responseJSON = response;
-            request.responseText = JSON.stringify(response);
-        }
-        request.status     = 200;
-        request.readyState = 4;
-        request.onreadystatechange();
+    JSONHttpRequest.__callback__ = function(request){
+        return function(response){
+            request.response = response;
+            if ( response && typeof response == 'object' ) {
+                request.responseJSON = response;
+                request.responseText = JSON.stringify(response);
+            }
+            request.status     = 200;
+            request.readyState = 4;
+            request.onreadystatechange();
+        };
     };
     JSONHttpRequest.prototype.open = function(
         method,
@@ -38,12 +40,14 @@ if ( !this.JSONHttpRequest ) {
                     else        request.uri += '&';
                     request.uri += encodeURIComponent(key);
                     if ( value == null ) return;
+                    if ( value === true ) {
+                        JSONHttpRequest.callback =
+                          JSONHttpRequest.__callback__(request);
+                        value = 'JSONHttpRequest.callback';
+                    }
                     request.uri += '='
-                                +  encodeURIComponent(
-                                       value === true
-                                     ? 'JSONHttpRequest.__callback__'
-                                     : value
-                                   ).replace(/%20/g, '+');
+                                +  encodeURIComponent(value)
+                                     .replace(/%20/g, '+');
                 });
             }
             var script  = document.createElement('script');
