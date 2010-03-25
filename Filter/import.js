@@ -45,9 +45,7 @@ console.log(callback);
                           ].join('')),
         ].join('&');
 console.log( script.src );
-        ( document.body ||
-          document.getElementsByTagName('head')[0] )
-                  .appendChild(script);
+        document.body.appendChild(script);
     };
 
 __import__('String.prototype.repeat', function(){
@@ -71,8 +69,11 @@ console.log(src);
 console.log( Filter.import );
     var $0 = 'http://konno.googlecode.com/svn/trunk/Filter/import.js';
     var scripts = document.getElementsByTagName('script');
+console.log( scripts.length );
     for ( var i = scripts.length - 1; i >= 0; i-- ) {
         var script = scripts[i];
+console.log( script.src );
+console.log( script.textContent );
         if ( script.src != $0 ) return;
 console.log( script.textContent );
 console.log( Filter.import( script.textContent ) );
