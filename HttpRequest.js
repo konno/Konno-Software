@@ -16,6 +16,11 @@ if ( !this.HttpRequest ) {
             if ( response && typeof response == 'object' ) {
                 request.responseJSON = response;
                 request.responseText = response.body;
+                request.responseXML  =
+                  ( new DOMParser ).parseFromString(
+                      response.body,
+                      'application/xhtml+xml'
+                  );
             }
             request.status     = 200;
             request.readyState = 4;
