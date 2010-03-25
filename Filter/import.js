@@ -1,4 +1,3 @@
-console.log(true);
 if ( !this.Filter )
     this.Filter = {};
 
@@ -10,7 +9,6 @@ if ( !this.INC )
 
 if ( !this.__import__ )
     this.__import__ = function( package, callback ){
-console.log(package);
         if ( INC[package] ) {
             callback();
             return;
@@ -22,11 +20,9 @@ console.log(package);
             Object.keys(Filter).forEach(function(x){
                 src = Filter[x](src);
             });
-console.log(src);
             (function(){
                 eval(src);
             })();
-console.log(callback);
             callback();
         };
         var script  = document.createElement('script');
@@ -44,15 +40,12 @@ console.log(callback);
                               ']',
                           ].join('')),
         ].join('&');
-console.log( script.src );
         document.body.appendChild(script);
     };
 
 __import__('String.prototype.repeat', function(){
-console.log(true);
     if ( !Filter.import )
         Filter.import = function(src){
-console.log(src);
             var n = 0;
             var begin = '';
             src = src.replace(
@@ -66,17 +59,11 @@ console.log(src);
             var end = ' })'.repeat(n);
             return begin + src.trim() + end;
         };
-console.log( Filter.import );
     var $0 = 'http://konno.googlecode.com/svn/trunk/Filter/import.js';
     var scripts = document.getElementsByTagName('script');
-console.log( scripts.length );
     for ( var i = scripts.length - 1; i >= 0; i-- ) {
         var script = scripts[i];
-console.log( script.src );
-console.log( script.textContent );
         if ( script.src != $0 ) continue;
-console.log( script.textContent );
-console.log( Filter.import( script.textContent ) );
         eval( script.textContent = Filter.import( script.textContent ) );
         return;
     }
