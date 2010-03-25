@@ -21,7 +21,6 @@ if ( !Konno.Web.Search.Engine )
             req.onreadystatechange = function(){
                 if ( req.readyState != 4 ||
                      req.status     != 200 ) return;
-console.log( req.response );
                 var pages = req.response.query.pages;
                 Object.keys(pages).forEach(function(pageid){
                     var page     = pages[pageid];
