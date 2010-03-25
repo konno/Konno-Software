@@ -51,12 +51,12 @@ __import__('String.prototype.repeat', function(){
             src = src.replace(
                 /import\s+(.+?);/g,
                 function( m0, m1 ){
-                    begin += '__import__("' + m1 + '", function(){ ';
+                    begin += '__import__("' + m1 + '", function(){\n';
                     n++;
                     return '';
                 }
             );
-            var end = ' })'.repeat(n);
+            var end = '\n})'.repeat(n);
             return begin + src.trim() + end + ';';
         };
     var $0 = 'http://konno.googlecode.com/svn/trunk/Filter/import.js';
