@@ -14,8 +14,8 @@ if ( !this.__import__ )
             return;
         }
         INC[package] = true;
-        var randomNumber = Math.random();
-        __callback__[randomNumber] = function(response){
+        var id = Math.random();
+        __callback__[id] = function(response){
             var src = response.body;
             Object.keys(Filter).forEach(function(x){
                 src = Filter[x](src);
@@ -36,7 +36,7 @@ if ( !this.__import__ )
                           ].join('/')),
             'callback=' + encodeURIComponent([
                               '__callback__[',
-                                  randomNumber,
+                                  id,
                               ']',
                           ].join('')),
         ].join('&');

@@ -2,6 +2,7 @@ if ( !this.JSONHttpRequest ) {
     this.JSONHttpRequest = function(){
         return this;
     };
+    JSONHttpRequest.__callback__ = {};
     JSONHttpRequest.prototype.open = function(
         method,
         uri,
@@ -15,13 +16,33 @@ if ( !this.JSONHttpRequest ) {
             });
         this.uri = uri;
     };
+    JSONHttpRequest.prototype.onreadystatechange = function(){};
+    JSONHttpRequest.prototype.send = (function(node){
+        return function(object){
+            this.status     = 200;
+            this.readyState = 4;
+            if ( object != null ) {
+                var flag = true;
+                for ( var key in object ) {
+                    var value = object[key];
+                    if ( flag ) this.uri += '?', flag = false;
+                    else        this.uri += '&';
+                    this.uri += encodeURIComponent(key);
+                    if ( value == null ) return;
+                    if ( value === true ) {
+                        var id = Math.random();
+                        JSONHttpRequest.__callback__[id] =
+                          this.onreadystatechange;
+                        value = 'JSONHttpRequest.__callback__[' + id + ']';
+                    }
+                    this.uri += '=' + encodeURIComponent(value);
+                }
+            }
+            var script  = document.createElement('script');
+            script.type = 'application/javascript';
+            script.src  = this.uri;
+            node.appendChild(script);
+        };
+    })( document.body ||
+        document.getElementsByTagName('head')[0] );
 }
-/*
-var req = new JSONHttpRequest();
-req.open('GET', 'http://www.example.com/', true);
-req.onreadystatechange = function(){
-    if ( req.readyState != 4 &&
-         req.status     != 200 ) return;
-};
-req.send(null);
-*/
