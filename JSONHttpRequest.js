@@ -66,6 +66,7 @@ if ( !this.JSONHttpRequest ) {
                         ? this.__uri__
                         : this.__setQuery__( this.__uri__, object );
             node.appendChild(script);
+            node.removeChild(script);
         };
     })( document.body ||
         document.getElementsByTagName('head')[0] );
