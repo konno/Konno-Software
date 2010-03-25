@@ -57,7 +57,7 @@ __import__('String.prototype.repeat', function(){
                 }
             );
             var end = ' })'.repeat(n);
-            return begin + src.trim() + end;
+            return begin + src.trim() + end + ';';
         };
     var $0 = 'http://konno.googlecode.com/svn/trunk/Filter/import.js';
     var scripts = document.getElementsByTagName('script');
