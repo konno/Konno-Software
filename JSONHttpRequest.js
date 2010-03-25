@@ -19,8 +19,6 @@ if ( !this.JSONHttpRequest ) {
     JSONHttpRequest.prototype.onreadystatechange = function(){};
     JSONHttpRequest.prototype.send = (function(node){
         return function(object){
-            this.status     = 200;
-            this.readyState = 4;
             if ( object != null ) {
                 var flag = true;
                 for ( var key in object ) {
@@ -31,8 +29,16 @@ if ( !this.JSONHttpRequest ) {
                     if ( value == null ) return;
                     if ( value === true ) {
                         var id = Math.random();
-                        JSONHttpRequest.__callback__[id] =
-                          this.onreadystatechange;
+                        JSONHttpRequest.__callback__[id] = function(response){
+                            this.response = response;
+                            if ( response && typeof response == 'object' ) {
+                                this.responseJSON = response;
+                                this.responseText = JSON.stringify(response);
+                            }
+                            this.status     = 200;
+                            this.readyState = 4;
+                            this.onreadystatechange();
+                        };
                         value = 'JSONHttpRequest.__callback__[' + id + ']';
                     }
                     this.uri += '=' + encodeURIComponent(value);
