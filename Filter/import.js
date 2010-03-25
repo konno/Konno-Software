@@ -21,6 +21,7 @@ if ( !this.__import__ )
                 Object.keys(Filter).forEach(function(x){
                     src = Filter[x](src);
                 });
+alert(src);
                 (function(){
                     eval(src);
                 })();
