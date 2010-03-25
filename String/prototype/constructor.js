@@ -1,6 +1,4 @@
-/*
- * require String.fromCharCode;
- */
+import String.fromCharCode;
 
 if ( String.prototype.constructor('\U00010000') !=
      String.fromCharCode(0x10000) ) {

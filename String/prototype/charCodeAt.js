@@ -1,6 +1,4 @@
-/*
- * require String.fromCharCode;
- */
+import String.fromCharCode;
 
 (function(c){
 
