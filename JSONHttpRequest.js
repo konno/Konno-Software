@@ -43,7 +43,7 @@ if ( !this.JSONHttpRequest ) {
                                        value === true
                                      ? 'JSONHttpRequest.__callback__'
                                      : value
-                                   );
+                                   ).replace(/%20/g, '+');
                 });
             }
             var script  = document.createElement('script');
