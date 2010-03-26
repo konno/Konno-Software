@@ -1,6 +1,5 @@
 if ( !this.CGI ) {
     this.CGI = function(uri){
-console.log(uri);
         if ( uri != null ) uri.replace(/.*?[#?]/)
                               .split('&')
                               .forEach(function(pair){
@@ -9,7 +8,6 @@ console.log(uri);
                                   var value  = splits.shift();
                                   if ( key   == null ||
                                        value == null ) return;
-console.log(this);
                                   this.__param__[
                                       decodeURIComponent(
                                           key.replace(/\+/g, ' ')
