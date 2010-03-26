@@ -17,6 +17,8 @@ if ( !this.CGI ) {
         return this;
     };
 
+    CGI.prototype.__param__ = {};
+
     CGI.prototype.param = function(key){
         return key == null                        ? this.__param__
              : this.__param__.hasOwnProperty(key) ? this.__param__[key]
