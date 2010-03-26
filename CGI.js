@@ -6,6 +6,8 @@ if ( !this.CGI ) {
                                   var splits = pair.split('=');
                                   var key    = splits.shift();
                                   var value  = splits.shift();
+                                  if ( key   == null ||
+                                       value == null ) return;
                                   this.__param__[
                                       decodeURIComponent(
                                           key.replace(/\+/g, ' ')
