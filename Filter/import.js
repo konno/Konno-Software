@@ -74,7 +74,13 @@ __import__('String.prototype.repeat', function(){
         if ( script.src != $0 ) continue;
         var src = script.textContent;
         if ( !src ) return;
-        eval( script.textContent = Filter.import(src) );
+        script.textContent = src = Filter.import(src);
+        try {
+            eval(src);
+        }
+        catch (e) {
+            throw e + ': ' + src;
+        }
         return;
     }
 });
