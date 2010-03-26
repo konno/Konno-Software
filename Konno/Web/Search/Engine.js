@@ -27,7 +27,10 @@ if ( !Konno.Web.Search.Engine )
                     var extlinks = page.extlinks;
                     if ( !extlinks ) return;
                     extlinks.forEach(function(el){
-                        callback( decodeURIComponent( el['*'] ) );
+                        callback(
+                            decodeURIComponent( el['*'] ),
+                            argument.query
+                        );
                     });
                 });
             };
