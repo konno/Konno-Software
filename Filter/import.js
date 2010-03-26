@@ -14,7 +14,6 @@ if ( !this.__import__ )
                 callback();
                 return;
             }
-            INC[package] = true;
             var id = Math.random();
             __callback__[id] = function(response){
                 var src = response.body
@@ -22,7 +21,6 @@ if ( !this.__import__ )
                 Object.keys(Filter).forEach(function(x){
                     src = Filter[x](src);
                 });
-alert(src);
                 (function(){
                     try {
                         eval(src);
@@ -31,6 +29,7 @@ alert(src);
                         throw e + ': ' + src;
                     }
                 })();
+                INC[package] = true;
             };
             var script  = document.createElement('script');
             script.type = 'application/javascript';
