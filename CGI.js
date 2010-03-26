@@ -14,7 +14,7 @@ console.log(this);
                                           key.replace(/\+/g, ' ')
                                       )
                                   ] = decodeURIComponent(
-                                          value.replace(/\+/g, '')
+                                          value.replace(/\+/g, ' ')
                                       );
                               }, this);
         return this;
