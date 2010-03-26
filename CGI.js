@@ -4,7 +4,7 @@ alert(uri);
         if ( uri != null ) uri.replace(/.*?[#?]/)
                               .split('&')
                               .forEach(function(pair){
-                                  var splits = pair.split('&');
+                                  var splits = pair.split('=');
                                   var key    = splits.shift();
                                   var value  = splits.shift();
                                   this.__param__[
