@@ -23,13 +23,7 @@ if ( !this.__import__ )
                     src = Filter[x](src);
                 });
                 (function(){
-                    try {
-                        eval(src);
-                    }
-                    catch (e) {
-console.log(true);
-                        throw e + ' ' + src;
-                    }
+                    eval(src);
                 })();
             };
             var script  = document.createElement('script');
@@ -75,14 +69,7 @@ __import__('String.prototype.repeat', function(){
         if ( script.src != $0 ) continue;
         var src = script.textContent;
         if ( !src ) return;
-        src = script.textContent = Filter.import(src);
-        try {
-            eval(src);
-        }
-        catch (e) {
-console.log(true);
-            throw e + ' ' + src;
-        }
+        eval( script.textContent = Filter.import(src) );
         return;
     }
 });
