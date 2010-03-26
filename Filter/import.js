@@ -27,8 +27,7 @@ if ( !this.__import__ )
                         eval(src);
                     }
                     catch (e) {
-console.log(e);
-                        throw e + ' ' + src;
+                        throw e + ': ' + src;
                     }
                 })();
             };
