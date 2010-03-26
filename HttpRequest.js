@@ -17,7 +17,7 @@ if ( !this.HttpRequest ) {
                 request.responseJSON = response;
                 request.responseText = response.body;
                 request.responseXML  =
-                  (new DOMParser).parseFromString(
+                  ( new DOMParser ).parseFromString(
                       response.body,
                       'application/xhtml+xml'
                   );
