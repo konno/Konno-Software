@@ -69,10 +69,12 @@ __import__('String.prototype.repeat', function(){
         };
     var $0 = 'http://konno.googlecode.com/svn/trunk/Filter/import.js';
     var scripts = document.getElementsByTagName('script');
-    for ( var i = scripts.length - 1; i >= 0; i-- ) {
+    for ( var i = 0, l = scripts.length; i < l; i++ ) {
         var script = scripts[i];
         if ( script.src != $0 ) continue;
+        script.removeAttribute('src');
         var src = script.textContent;
+alert(src);
         if ( !src ) return;
         script.textContent = src = Filter.import(src);
         try {
