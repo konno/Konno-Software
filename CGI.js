@@ -17,8 +17,8 @@ if ( !this.CGI ) {
     };
 
     CGI.prototype.param = function(key){
-        return this.__param__.hasOwnProperty(key)
-             ? this.__param__[key]
-             : this.__param__;
+        return key == null                        ? this.__param__
+             : this.__param__.hasOwnProperty(key) ? this.__param__[key]
+             :                                      null;
     };
 }
