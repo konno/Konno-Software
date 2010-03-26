@@ -6,7 +6,7 @@ if ( !Date.prototype.strftime ) {
             var callback = function( m0, flag, seq ){
                 if ( !interpret[seq] ) return m0;
                 var s = interpret[seq].call(self);
-                switch (flag) {
+                switch ( flag ) {
                     case '-':
                         if ( !s ) break;
                         s = s.toString().replace(/^0/, '');
