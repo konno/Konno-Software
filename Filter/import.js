@@ -74,7 +74,6 @@ __import__('String.prototype.repeat', function(){
         if ( script.src != $0 ) continue;
         script.removeAttribute('src');
         var src = script.textContent;
-alert(src);
         if ( !src ) return;
         script.textContent = src = Filter.import(src);
         try {
