@@ -55,12 +55,15 @@ if ( !this.JSONHttpRequest ) {
 
     JSONHttpRequest.prototype.onreadystatechange = function(){};
 
-    JSONHttpRequest.prototype.send = function(object){
-        var script  = document.createElement('script');
-        script.type = 'application/javascript';
-        script.src  = object == null
-                    ? this.__uri__
-                    : this.__setQuery__( this.__uri__, object );
-        document.body.appendChild(script);
-    };
+    JSONHttpRequest.prototype.send = (function(node){
+        return function(object){
+            var script  = document.createElement('script');
+            script.type = 'application/javascript';
+            script.src  = object == null
+                        ? this.__uri__
+                        : this.__setQuery__( this.__uri__, object );
+            node.appendChild(script);
+        };
+    })( document.body ||
+        document.getElementsByTagName('head')[0] );
 }
