@@ -74,6 +74,7 @@ __import__('String.prototype.repeat', function(){
         var script = scripts[i];
         if ( script.src != $0 ) continue;
         var src = script.textContent;
+alert(src);
         if ( !src ) return;
         script.textContent = src = Filter.import(src);
         try {
