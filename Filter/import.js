@@ -23,7 +23,13 @@ if ( !this.__import__ )
                     src = Filter[x](src);
                 });
                 (function(){
-                    eval(src);
+                    try {
+                        eval(src);
+                    }
+                    catch (e) {
+console.log(e);
+                        throw e + ' ' + src;
+                    }
                 })();
             };
             var script  = document.createElement('script');
