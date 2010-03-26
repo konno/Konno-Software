@@ -23,7 +23,12 @@ if ( !this.__import__ )
                     src = Filter[x](src);
                 });
                 (function(){
-                    eval(src);
+                    try {
+                        eval(src);
+                    }
+                    catch (e) {
+                        throw e + ' ' + src;
+                    }
                 })();
             };
             var script  = document.createElement('script');
@@ -67,8 +72,15 @@ __import__('String.prototype.repeat', function(){
     for ( var i = scripts.length - 1; i >= 0; i-- ) {
         var script = scripts[i];
         if ( script.src != $0 ) continue;
-        if ( script.textContent )
-            eval( script.textContent = Filter.import( script.textContent ) );
+        var src = script.textContent;
+        if ( !src ) return;
+        src = script.textContent = Filter.import(src);
+        try {
+            eval(src);
+        }
+        catch (e) {
+            throw e + ' ' + src;
+        }
         return;
     }
 });
