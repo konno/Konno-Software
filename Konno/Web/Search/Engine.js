@@ -1,3 +1,4 @@
+console.log(true);
 import JSONHttpRequest;
 
 if ( !this.Konno )
@@ -22,6 +23,7 @@ if ( !Konno.Web.Search.Engine )
                 if ( req.readyState != 4 ||
                      req.status     != 200 ) return;
                 var pages = req.response.query.pages;
+console.log(pages);
                 Object.keys(pages).forEach(function(pageid){
                     var page     = pages[pageid];
                     var extlinks = page.extlinks;
