@@ -1,4 +1,3 @@
-console.log(true);
 import JSONHttpRequest;
 
 if ( !this.Konno )
@@ -14,7 +13,7 @@ if ( !Konno.Web.Search.Engine )
     Konno.Web.Search.Engine = function(){
         this.search = function( argument, callback ){
             var req = new JSONHttpRequest();
-            req.send('GET', 'http://' + [
+            req.open('GET', 'http://' + [
                 argument.lang + '.wikipedia.org',
                 'w',
                 'api.php',
@@ -23,7 +22,6 @@ if ( !Konno.Web.Search.Engine )
                 if ( req.readyState != 4 ||
                      req.status     != 200 ) return;
                 var pages = req.response.query.pages;
-console.log(pages);
                 Object.keys(pages).forEach(function(pageid){
                     var page     = pages[pageid];
                     var extlinks = page.extlinks;
