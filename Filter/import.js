@@ -27,6 +27,7 @@ if ( !this.__import__ )
                         eval(src);
                     }
                     catch (e) {
+console.log(true);
                         throw e + ' ' + src;
                     }
                 })();
@@ -79,6 +80,7 @@ __import__('String.prototype.repeat', function(){
             eval(src);
         }
         catch (e) {
+console.log(true);
             throw e + ' ' + src;
         }
         return;
