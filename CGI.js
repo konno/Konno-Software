@@ -8,6 +8,7 @@ if ( !this.CGI ) {
                                   var value  = splits.shift();
                                   if ( key   == null ||
                                        value == null ) return;
+console.log(this);
                                   this.__param__[
                                       decodeURIComponent(
                                           key.replace(/\+/g, ' ')
