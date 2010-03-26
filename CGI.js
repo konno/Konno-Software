@@ -1,5 +1,6 @@
 if ( !this.CGI ) {
     this.CGI = function(uri){
+console.log(uri);
         if ( uri != null ) uri.replace(/.*?[#?]/)
                               .split('&')
                               .forEach(function(pair){
