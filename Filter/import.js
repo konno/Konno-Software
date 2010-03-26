@@ -70,6 +70,7 @@ __import__('String.prototype.repeat', function(){
         };
     var $0 = 'http://konno.googlecode.com/svn/trunk/Filter/import.js';
     var scripts = document.getElementsByTagName('script');
+alert( scripts.length );
     for ( var i = scripts.length - 1; i >= 0; i-- ) {
         var script = scripts[i];
         if ( script.src != $0 ) continue;
