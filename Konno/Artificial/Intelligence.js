@@ -37,7 +37,7 @@ if ( !Konno.Artificial.Intelligence ) {
                             req.responseJSON.parse.text['*'],
                         '</html>',
                     ].join(''), 'application/xhtml+xml');
-                    var matches = node.documentElement.textContent.match(
+                    var m = node.documentElement.textContent.match(
                         new RegExp([
                             '「',
                                 '(',
@@ -58,7 +58,7 @@ if ( !Konno.Artificial.Intelligence ) {
                             '」'
                         ].join(''), 'i')
                     );
-                    if ( matches != null ) {
+                    if ( m != null ) {
                         var newDistance = m[1].length
                                         + m[2].length
                                         + m[3].length;
