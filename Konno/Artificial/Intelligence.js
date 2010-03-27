@@ -30,8 +30,9 @@ if ( !Konno.Artificial.Intelligence ) {
                 var req = new JSONHttpRequest();
                 req.open('GET', api, true);
                 req.onreadystatechange = function(json){
-                    if ( req.readyState != 4 ||
-                         req.status     != 200 ) return;
+                    if ( req.readyState != 4   ||
+                         req.status     != 200 ||
+                        !req.responseJSON.parse ) return;
                     var node = ( new DOMParser ).parseFromString([
                         '<html>',
                             req.responseJSON.parse.text['*'],
