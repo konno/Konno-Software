@@ -19,9 +19,7 @@ if ( !this.HttpRequest ) {
                   response.body,
                   'application/xhtml+xml'
               );
-            request.status     = 200;
-            request.readyState = 4;
-            request.onreadystatechange();
+            request.onload();
         };
     };
 

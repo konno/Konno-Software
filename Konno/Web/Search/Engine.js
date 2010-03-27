@@ -18,9 +18,7 @@ if ( !Konno.Web.Search.Engine )
                 'w',
                 'api.php',
             ].join('/'));
-            req.onreadystatechange = function(){
-                if ( req.readyState != 4 ||
-                     req.status     != 200 ) return;
+            req.onload = function(){
                 var pages = req.responseJSON.query.pages;
                 Object.keys(pages).forEach(function(pageid){
                     var page     = pages[pageid];

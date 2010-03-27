@@ -9,9 +9,7 @@ if ( !this.JSONHttpRequest ) {
         return function(response){
             request.responseJSON = response;
             request.responseText = JSON.stringify(response);
-            request.status       = 200;
-            request.readyState   = 4;
-            request.onreadystatechange();
+            request.onload();
         };
     };
 
@@ -53,7 +51,7 @@ if ( !this.JSONHttpRequest ) {
                        : uri;
       };
 
-    JSONHttpRequest.prototype.onreadystatechange = function(){};
+    JSONHttpRequest.prototype.onload = function(){};
 
     JSONHttpRequest.prototype.send = (function(node){
         return function(object){
