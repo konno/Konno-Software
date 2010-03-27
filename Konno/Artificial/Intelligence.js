@@ -8,13 +8,14 @@ if ( !Konno.Artificial )
     Konno.Artificial = {};
 
 if ( !Konno.Artificial.Intelligence ) {
-    Konno.Artificial.Intelligence = function(uri){
-        this.api = uri || 'http://ja.wikipedia.org/w/api.php';
+    Konno.Artificial.Intelligence = function( hostname, pathname ){
+        this.hostname = hostname || 'ja.wikipedia.org';
+        this.pathname = pathname || '/w/api.php';
         return this;
     };
 
     Konno.Artificial.Intelligence.prototype.talk = function( text, callback ){
-        var api = this.api;
+        var api = 'http://' + this.hostname + this.pathname;
         var req = new JSONHttpRequest();
         req.open('GET', api, true);
         req.onreadystatechange = function(){
