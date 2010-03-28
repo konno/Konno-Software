@@ -75,9 +75,21 @@ __import__('String.prototype.repeat', function(){
                     end,
                 ].join('');
             };
-        })(/[\b\f\n\r\t\v'"\\]/g, function(m0){
-            return '\\' + m0;
-        });
+        })(
+            /[\b\f\n\r\t\v'"\\]/g,
+            (function(char){
+                return function(m0){
+                    return '\\' + ( char[m0] || m0 );
+                };
+            })({
+                '\b': 'b',
+                '\f': 'f',
+                '\n': 'n',
+                '\r': 'r',
+                '\t': 't',
+                '\v': 'v',
+            })
+        );
     var $0 = 'http://konno.googlecode.com/svn/trunk/Filter/import.js';
     var scripts = document.getElementsByTagName('script');
     for ( var i = 0, l = scripts.length; i < l; i++ ) {
