@@ -53,20 +53,31 @@ if ( !this.__import__ )
 
 __import__('String.prototype.repeat', function(){
     if ( !Filter.import )
-        Filter.import = function(src){
-            var n = 0;
-            var begin = '';
-            src = src.replace(
-                /import\s+(.+?);/g,
-                function( m0, m1 ){
-                    begin += '__import__("' + m1 + '", function(){\n';
-                    n++;
-                    return '';
-                }
-            );
-            var end = '\n});'.repeat(n);
-            return begin + src.trim() + end;
-        };
+        Filter.import = (function( regexp, callback ){
+            return function(src){
+                var n = 0;
+                var begin = '';
+                src = src.replace(
+                    /import\s+(.+?);/g,
+                    function( m0, m1 ){
+                        begin += '__import__("' + m1 + '", function(){\n';
+                        n++;
+                        return '';
+                    }
+                );
+                var end = '\n});'.repeat(n);
+                return [
+                    begin,
+                    'eval("',
+                        src.trim()
+                           .replace( regexp, callback ),
+                    '")',
+                    end,
+                ].join('');
+            };
+        })(/[\b\f\n\r\t\v'"\\]/g, function(m0){
+            return '\\' + m0;
+        });
     var $0 = 'http://konno.googlecode.com/svn/trunk/Filter/import.js';
     var scripts = document.getElementsByTagName('script');
     for ( var i = 0, l = scripts.length; i < l; i++ ) {
