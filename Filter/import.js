@@ -55,8 +55,8 @@ alert(src);
 
 __import__('String.prototype.repeat', function(){
     if ( !Filter.import )
-        Filter.import = (function( regexp, callback ){
-            return function(src){
+        Filter.import = /*(function( regexp, callback ){
+            return */function(src){
                 var n = 0;
                 var begin = '';
                 src = src.replace(
@@ -70,13 +70,13 @@ __import__('String.prototype.repeat', function(){
                 var end = '\n});'.repeat(n);
                 return [
                     begin,
-                    'eval("',
-                        src.trim()
-                           .replace( regexp, callback ),
-                    '")',
+//                    'eval("',
+                        src.trim()/*
+                           .replace( regexp, callback )*/,
+//                    '")',
                     end,
                 ].join('');
-            };
+            };/*
         })(
             /[\b\f\n\r\t\v'"\\]/g,
             (function(char){
@@ -91,7 +91,7 @@ __import__('String.prototype.repeat', function(){
                 '\t': 't',
                 '\v': 'v',
             })
-        );
+        );*/
     var $0 = 'http://konno.googlecode.com/svn/trunk/Filter/import.js';
     var scripts = document.getElementsByTagName('script');
     for ( var i = 0, l = scripts.length; i < l; i++ ) {
