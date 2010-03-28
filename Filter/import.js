@@ -19,9 +19,7 @@ if ( !this.__import__ )
                 var src = response.body
                         + '(' + callback.toString() + ')();';
                 Object.keys(Filter).forEach(function(x){
-alert(src);
                     src = Filter[x](src);
-alert(src);
                 });
                 (function(){
                     try {
