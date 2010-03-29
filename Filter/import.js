@@ -18,9 +18,12 @@ if ( !this.__import__ )
             __callback__[id] = function(response){
                 var src = response.body
                         + '(' + callback.toString() + ')();';
+console.log(src);
+console.log( Object.keys(Filter) );
                 Object.keys(Filter).forEach(function(x){
                     src = Filter[x](src);
                 });
+console.log(src);
                 (function(){
                     try {
                         eval(src);
@@ -75,9 +78,12 @@ __import__('String.prototype.repeat', function(){
         script.removeAttribute('src');
         var src = script.textContent;
         if ( !src ) return;
+console.log(src);
+console.log( Object.keys(Filter) );
         Object.keys(Filter).forEach(function(x){
             src = Filter[x](src);
         });
+console.log(src);
         script.textContent = src;
         try {
             eval(src);
