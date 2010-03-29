@@ -22,7 +22,7 @@ if ( !this.__import__ )
                         '"',
                             '(',
                                 callback.toString()
-                                        .replace(/[\n"]/g, function(m0){
+                                        .replace(/[\n"\\]/g, function(m0){
                                             return '\\' + ({
                                                 '\n': 'n',
                                             }[m0] || m0);
