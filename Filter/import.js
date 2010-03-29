@@ -47,6 +47,7 @@ if ( !this.__import__ )
                     ')',
                     ';',
                 ].join('');
+console.log(src);
                 Object.keys(Filter).forEach(function(x){
                     src = Filter[x](src);
                 });
