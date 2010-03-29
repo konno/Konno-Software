@@ -7,6 +7,11 @@ if ( !this.__callback__ )
 if ( !this.INC )
     this.INC = {};
 
+if ( !this.uneval )
+    this.uneval = function(){
+        
+    };
+
 if ( !this.__import__ )
     this.__import__ = (function(node){
         return function( package, callback ){
@@ -16,14 +21,20 @@ if ( !this.__import__ )
             }
             var id = Math.random();
             __callback__[id] = function(response){
-                var src = response.body
-                        + '(' + callback.toString() + ')();';
-console.log(src);
-console.log( Object.keys(Filter) );
+                var src = [
+                    response.body,
+                    'eval(',
+                        '"',
+                            '(',
+                                uneval( callback.toString() ),
+                            ')()',
+                        '"',
+                    ')',
+                    ';',
+                ].join('');
                 Object.keys(Filter).forEach(function(x){
                     src = Filter[x](src);
                 });
-console.log(src);
                 (function(){
                     try {
                         eval(src);
@@ -78,13 +89,7 @@ __import__('String.prototype.repeat', function(){
         script.removeAttribute('src');
         var src = script.textContent;
         if ( !src ) return;
-console.log(src);
-console.log( Object.keys(Filter) );
-        Object.keys(Filter).forEach(function(x){
-            src = Filter[x](src);
-        });
-console.log(src);
-        script.textContent = src;
+        script.textContent = src = Filter.import(src);
         try {
             eval(src);
         }
