@@ -7,6 +7,26 @@ if ( !this.__callback__ )
 if ( !this.INC )
     this.INC = {};
 
+if ( !this.uneval )
+    this.uneval = (function( regexp, callback ){
+        return function(str){
+            return str.toString().replace( regexp, callback );
+        };
+    })(
+        /[\t\n\v\f\r"'\\]/g,
+        (function(char){
+            return function(m0){
+                return '\\' + ( char[m0] || m0 );
+            };
+        })({
+            '\t': 't',
+            '\n': 'n',
+            '\v': 'v',
+            '\f': 'f',
+            '\r': 'r',
+        })
+    );
+
 if ( !this.__import__ )
     this.__import__ = (function(node){
         return function( package, callback ){
@@ -21,12 +41,7 @@ if ( !this.__import__ )
                     'eval(',
                         '"',
                             '(',
-                                callback.toString()
-                                        .replace(/[\n"\\]/g, function(m0){
-                                            return '\\' + ({
-                                                '\n': 'n',
-                                            }[m0] || m0);
-                                        }),
+                                uneval(callback),
                             ')()',
                         '"',
                     ')',
