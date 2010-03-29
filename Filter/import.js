@@ -7,26 +7,6 @@ if ( !this.__callback__ )
 if ( !this.INC )
     this.INC = {};
 
-if ( !this.uneval )
-    this.uneval = (function( regexp, callback ){
-        return function(str){
-            return str.toString().replace( regexp, callback );
-        };
-    })(
-        /[\t\n\v\f\r"'\\]/g,
-        (function(char){
-            return function(m0){
-                return '\\' + ( char[m0] || m0 );
-            };
-        })({
-            '\t': 't',
-            '\n': 'n',
-            '\v': 'v',
-            '\f': 'f',
-            '\r': 'r',
-        })
-    );
-
 if ( !this.__import__ )
     this.__import__ = (function(node){
         return function( package, callback ){
@@ -38,16 +18,10 @@ if ( !this.__import__ )
             __callback__[id] = function(response){
                 var src = [
                     response.body,
-                    'eval(',
-                        '"',
-                            '(',
-                                uneval(callback),
-                            ')()',
-                        '"',
-                    ')',
-                    ';',
+                    '(',
+                        callback.toString(),
+                    ')()',
                 ].join('');
-console.log(src);
                 Object.keys(Filter).forEach(function(x){
                     src = Filter[x](src);
                 });
