@@ -8,9 +8,24 @@ if ( !this.INC )
     this.INC = {};
 
 if ( !this.uneval )
-    this.uneval = function(){
-        
-    };
+    this.uneval = (function( regexp, callback ){
+        return function(){
+            return this.toString().replace( regexp, callback );
+        };
+    })(
+        /[\t\n\v\f\r"'\\]/g,
+        (function(char){
+            return function(m0){
+                return '\\' + ( char[m0] || m0 );
+            };
+        })({
+            '\t': 't',
+            '\n': 'n',
+            '\v': 'v',
+            '\f': 'f',
+            '\r': 'r',
+        })
+    );
 
 if ( !this.__import__ )
     this.__import__ = (function(node){
@@ -26,7 +41,7 @@ if ( !this.__import__ )
                     'eval(',
                         '"',
                             '(',
-                                uneval( callback.toString() ),
+                                uneval(callback),
                             ')()',
                         '"',
                     ')',
