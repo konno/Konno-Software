@@ -9,8 +9,8 @@ if ( !this.INC )
 
 if ( !this.uneval )
     this.uneval = (function( regexp, callback ){
-        return function(){
-            return this.toString().replace( regexp, callback );
+        return function(str){
+            return str.toString().replace( regexp, callback );
         };
     })(
         /[\t\n\v\f\r"'\\]/g,
