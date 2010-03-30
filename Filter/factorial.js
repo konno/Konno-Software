@@ -8,7 +8,7 @@ if ( !Filter.factorial )
         return src.replace(
             /(\d+)!/g,
             function( m0, m1 ) {
-                return Math.factorial(m1);
+                return Math.factorial( m1 * 1 );
             }
         );
     };
