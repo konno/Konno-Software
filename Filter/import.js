@@ -16,7 +16,12 @@ if ( !this.__import__ )
             }
             var id = Math.random();
             __callback__[id] = function(response){
-                var src = response.body;
+                var src = [
+                    response.body,
+                    '(',
+                        callback.toString(),
+                    ')()',
+                ].join('');
                 Object.keys(Filter).forEach(function(x){
                     src = Filter[x](src);
                 });
@@ -28,7 +33,6 @@ if ( !this.__import__ )
                         throw e + ': ' + src;
                     }
                 })();
-                callback();
                 INC[package] = true;
             };
             var script  = document.createElement('script');
