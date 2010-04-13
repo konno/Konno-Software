@@ -215,10 +215,11 @@ if ( !Date.prototype.strftime ) {
              },
      ':::z': function(){
                  var z = this.getTimezoneOffset() / -60;
+                 var a = Math.abs(z);
                  return [
-                     z >= 0 ? '+' : '',
-                     z < 10 ? '0' : '',
-                     z,
+                     z < 0  ? '-' : '+',
+                     a < 10 ? '0' : '',
+                     a,
                  ].join('');
              },
         'Z': function(){
