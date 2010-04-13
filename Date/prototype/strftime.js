@@ -216,8 +216,8 @@ if ( !Date.prototype.strftime ) {
      ':::z': function(){
                  var z = this.getTimezoneOffset() / -60;
                  return [
-                     z < 0    ? '-' : '+',
-                     z < 1000 ? '0' : '',
+                     z >= 0 ? '+' : '',
+                     z < 10 ? '0' : '',
                      z,
                  ].join('');
              },
