@@ -1,2 +1,2 @@
 if ( !String.prototype.quote )
-    String.prototype.quote = function() '"' + this + '"';
+    String.prototype.quote = function() JSON.stringify(this);
