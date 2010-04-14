@@ -104,8 +104,12 @@ if ( !Date.prototype.strftime ) {
                                :       h;
              },
         'j': function(){
-                 var d = new Date( this.strftime('%Y'), 0, 1 );
-                 return Math.ceil( ( this - d ) / 864e5 );
+                 return Math.ceil(
+                            (
+                                this
+                              - new Date( this.strftime('%Y'), 0, 1 )
+                            ) / 864e5
+                        );
              },
         'k': function(){
                  var h = this.getHours();
