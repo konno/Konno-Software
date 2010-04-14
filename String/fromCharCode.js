@@ -1,4 +1,4 @@
-if ( String.fromCharCode(0x10000) != '\uD800\uDC00' ) {
+if ( String.fromCharCode(0x10FFFF) != '\uDBFF\uDFFF' ) {
     String.__fromCharCode__ = String.fromCharCode;
     String.fromCharCode = function(){
         var buf = '';

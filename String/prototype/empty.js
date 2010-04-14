@@ -1,2 +1,2 @@
 if ( !String.prototype.empty )
-    String.prototype.empty = function() this == '';
+    String.prototype.empty = function() this.toString() == '';

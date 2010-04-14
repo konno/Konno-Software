@@ -4,16 +4,17 @@
  * import String.fromCharCode;
  */
 
-if ( String.fromCharCode(0x10000).split('').length > 1 ) {
+if ( String.fromCharCode(0x10FFFF).split('').length > 1 ) {
     String.prototype.__split__ = String.prototype.split;
     String.prototype.split = function( sep, limit ){
+        var str = this.toString();
         return limit != null && !limit
              ? []
-             : this.indexOf(sep) < 0
-             ? [this]
+             : str.indexOf(sep) < 0
+             ? [str]
              : sep == ''
              ? Array.prototype.map.call(
-                   this,
+                   str,
                    function(c){
                        return c;
                    }
@@ -21,13 +22,13 @@ if ( String.fromCharCode(0x10000).split('').length > 1 ) {
                    0,
                    limit == null ||
                    limit < 0
-                 ? this.length
+                 ? str.length
                  : limit
                )
              : JSON.parse([
                    '[',
                        '"',
-                           this.replace(
+                           str.replace(
                                new RegExp( RegExp.quote(sep), 'g' ),
                                '", "'
                            ),
@@ -37,7 +38,7 @@ if ( String.fromCharCode(0x10000).split('').length > 1 ) {
                    0,
                    limit == null ||
                    limit < 0
-                 ? this.length
+                 ? str.length
                  : limit
                );
     };

@@ -1,4 +1,4 @@
 if ( !String.prototype.localeCompare )
-    String.prototype.localeCompare = function(a, b){
-        return a.charCodeAt(0) - b.charCodeAt(0);
+    String.prototype.localeCompare = function(str){
+        return this.toString().charCodeAt(0) - str.charCodeAt(0);
     };
