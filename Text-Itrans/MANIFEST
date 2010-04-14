@@ -1,9 +1,0 @@
-Changes
-MANIFEST
-Makefile.PL
-README
-lib/Text/Itrans.pm
-bin/itrans
-t/00-load.t
-t/01-basic.t
-t/pod.t
