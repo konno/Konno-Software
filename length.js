@@ -1,8 +1,7 @@
-/*
- * $Id$
- */
+import Array.prototype.forEach;
+import String.fromCharCode;
 
-if ( String.fromCharCode(0x10000).length > 1 ) {
+if ( String.fromCharCode(0x10FFFF).length > 1 )
     this.length = function(str){
         var i = 0;
         Array.prototype.forEach.call(str, function(){
@@ -10,4 +9,3 @@ if ( String.fromCharCode(0x10000).length > 1 ) {
         });
         return i;
     };
-}
