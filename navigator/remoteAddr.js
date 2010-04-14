@@ -9,6 +9,6 @@ if ( !navigator.remoteAddr ) {
         navigator.remoteAddr = env.REMOTE_ADDR;
     };
     req.send({
-        callback: '?',
+        callback: true,
     });
 }
