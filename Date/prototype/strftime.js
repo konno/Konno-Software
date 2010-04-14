@@ -223,13 +223,7 @@ if ( !Date.prototype.strftime ) {
                  ].join('');
              },
         'Z': function(){
-                 return this.toString()
-                            .replace(
-                                /.*\(([^()]+?)\).*/,
-                                function( m0, m1 ){
-                                    return m1;
-                                }
-                            );
+                 return this.toString().match(/\(([^()]+?)\)/)[1];
              },
     });
 }
