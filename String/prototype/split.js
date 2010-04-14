@@ -1,6 +1,8 @@
-import RegExp.quote;
-import Array.prototype.map;
-import String.fromCharCode;
+/*
+ * import RegExp.quote;
+ * import Array.prototype.map;
+ * import String.fromCharCode;
+ */
 
 if ( String.fromCharCode(0x10000).split('').length > 1 ) {
     String.prototype.__split__ = String.prototype.split;

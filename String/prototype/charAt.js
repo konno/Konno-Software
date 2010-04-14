@@ -1,5 +1,7 @@
-import String.fromCharCode;
-import Array.prototype.map;
+/*
+ * import String.fromCharCode;
+ * import Array.prototype.map;
+ */
 
 (function(c){
 

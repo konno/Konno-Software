@@ -1,5 +1,7 @@
-import String.prototype.charCodeAt;
-import String.fromCharCode;
+/*
+ * import String.prototype.charCodeAt;
+ * import String.fromCharCode;
+ */
 
 if ( !Array.prototype.forEach )
     Array.prototype.forEach = function( callback, thisObject ){

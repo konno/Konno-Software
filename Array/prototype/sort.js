@@ -1,4 +1,6 @@
-import Array.prototype.shuffle;
+/*
+ * import Array.prototype.shuffle;
+ */
 
 if ( !Array.prototype.sort )
     Array.prototype.sort = (function(defaultCompareFunction){

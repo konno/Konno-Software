@@ -1,4 +1,6 @@
-import JSONHttpRequest;
+/*
+ * import JSONHttpRequest;
+ */
 
 if ( !this.Konno )
     this.Konno = {};

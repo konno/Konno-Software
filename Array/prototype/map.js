@@ -1,5 +1,7 @@
-import Array.prototype.forEach;
-import String.fromCharCode;
+/*
+ * import Array.prototype.forEach;
+ * import String.fromCharCode;
+ */
 
 if ( !Array.prototype.map )
     Array.prototype.map = function( callback, thisObject ){

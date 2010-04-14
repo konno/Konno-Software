@@ -1,4 +1,6 @@
-import AssertionError;
+/*
+ * import AssertionError;
+ */
 
 if ( !this.assert )
     this.assert = function( expr, message ){

@@ -1,5 +1,7 @@
-import RegExp.quote;
-import JSONHttpRequest;
+/*
+ * import RegExp.quote;
+ * import JSONHttpRequest;
+ */
 
 if ( !this.Konno )
     this.Konno = {};
