@@ -1,8 +1,4 @@
-/*
- * $Id$
- */
-
-if (!document.getElementsByTagName) {
+if ( !document.getElementsByTagName )
     document.getElementsByTagName = function(name){
         return name == '*'
              ? document.all
@@ -13,4 +9,3 @@ if (!document.getElementsByTagName) {
                    }
                );
     };
-}
