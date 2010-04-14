@@ -1,5 +1,5 @@
 /*
- * $Id$
+ * import JSONHttpRequest;
  */
 
 if ( !this.Konno )
@@ -19,37 +19,39 @@ if ( !Konno.Text.Segmentation )
             var tmp = '';
             var l = sources.length;
             var i = 0;
-            (function BLOCK(query){
+            (function redo(query){
                 var hostname = sources[i];
-                getJSON('http://' + hostname + '/w/api.php', {
+                var api = 'http://' + hostname + '/w/api.php';
+                var req = new JSONHttpRequest();
+                req.open('GET', api, true);
+                req.onload = function(json){
+                    for ( var pageid in json.query.pages ) {
+                        if ( pageid       < 0 &&
+                             query.length > 1 ) {
+                            i++;
+                            if ( i < l ) {
+                                redo(query);
+                                return;
+                            }
+                            tmp = query.slice(-1) + tmp;
+                            i = 0;
+                            redo( query.slice( 0, -1 ) );
+                            return;
+                        }
+                        callback( query, hostname );
+                        if ( tmp == '' ) return;
+                        i = 0;
+                        redo(tmp);
+                        tmp = '';
+                        return;
+                    }
+                };
+                req.send({
                     action  : 'query',
                     prop    : 'info',
                     titles  : query,
                     format  : 'json',
-                    callback: '?',
-                }, function(json){
-                    for ( var pageid in json.query.pages ) {
-                        if ( pageid       < 0 && /* missing */
-                             query.length > 1 ) {
-                            i++;
-                            if ( i < l ) {
-                                BLOCK(query);
-                                return;
-                            }
-                            tmp = query.slice(-1) + tmp;
-                            i   = 0;
-                            BLOCK( query.slice( 0, -1 ) );
-                            return;
-                        }
-                        callback( query, hostname );
-                        if ( tmp != '' ) {
-                            i = 0;
-                            BLOCK(tmp);
-                            tmp = '';
-                            return;
-                        }
-                        return;
-                    }
+                    callback: true,
                 });
             })(text);
         };
