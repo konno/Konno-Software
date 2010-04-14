@@ -1,8 +1,4 @@
-/*
- * $Id$
- */
-
-if (!this.XMLHttpRequest) {
+if ( !this.XMLHttpRequest )
     this.XMLHttpRequest = (function(){
         try {
             [
@@ -26,4 +22,3 @@ if (!this.XMLHttpRequest) {
             };
         }
     })();
-}
