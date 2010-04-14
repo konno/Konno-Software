@@ -1,8 +1,4 @@
-/*
- * $Id$
- */
-
-if ( !this.$$ ) {
+if ( !this.$$ )
     this.$$ = (function(elementList){
         return function( selectors, flag ){
             return !flag &&
@@ -11,4 +7,3 @@ if ( !this.$$ ) {
                      document.querySelectorAll(selectors) );
         };
     })({});
-}
