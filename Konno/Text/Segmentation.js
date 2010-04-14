@@ -24,7 +24,8 @@ if ( !Konno.Text.Segmentation )
                 var api = 'http://' + hostname + '/w/api.php';
                 var req = new JSONHttpRequest();
                 req.open('GET', api, true);
-                req.onload = function(json){
+                req.onload = function(){
+                    var json = req.responseJSON;
                     for ( var pageid in json.query.pages ) {
                         if ( pageid       < 0 &&
                              query.length > 1 ) {

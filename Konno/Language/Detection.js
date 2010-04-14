@@ -19,7 +19,8 @@ if ( !Konno.Language.Detection )
                     argument.suspects.forEach(function(lang){
                         var req = new JSONHttpRequest();
                         req.open('GET', api, true);
-                        req.onload = function(json){
+                        req.onload = function(){
+                            var json = req.responseJSON;
                             for ( var pageid in json.query.pages ) {
                                 if ( pageid < 0 ) return;
                                 callback( lang, argument.text );
