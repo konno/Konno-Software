@@ -1,2 +1,2 @@
-if ( !String.prototype.empty )
-    String.prototype.empty = function() this.toString() == '';
+if ( !String.prototype.isEmpty )
+    String.prototype.isEmpty = function() !this.toString().length;
