@@ -1,6 +1,5 @@
 if ( !Math.gcd )
     Math.gcd = function(a, b){
-        return b
-             ? arguments.callee(b, a % b)
-             : Math.abs(a);
+        for ( var t; b; t = b, b = a % b, a = t );
+        return a;
     };
