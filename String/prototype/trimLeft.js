@@ -1,4 +1,4 @@
 if ( !String.prototype.trimLeft )
-    String.prototype.trimLeft = (function(regexp){
-        return function() this.toString().replace( regexp, '' );
-    })(/^\s+/);
+    String.prototype.trimLeft = function(){
+        return this.toString().replace(/^\s+/, '');
+    };

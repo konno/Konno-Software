@@ -1,4 +1,4 @@
 if ( !String.prototype.trim )
-    String.prototype.trim = (function(regexp){
-        return function() this.toString().replace( regexp, '' );
-    })(/^\s+|\s+$/g);
+    String.prototype.trim = function(){
+        return this.toString().replace(/^\s+|\s+$/, '');
+    };
