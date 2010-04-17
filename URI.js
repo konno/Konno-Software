@@ -1,4 +1,4 @@
-if ( !this.URI )
+if ( !this.URI ) {
     this.URI = function(uri){
         var a = document.createElement('a');
         a.href = uri;
@@ -10,3 +10,12 @@ if ( !this.URI )
         }, this);
         return this;
     };
+
+    URI.prototype.basename = function(){
+        return this.href.replace(/.*\//, '');
+    };
+
+    URI.prototype.dirname = function(){
+        return this.href.replace(/\/[^\/]*\/?$/, '');
+    };
+}
