@@ -11,11 +11,11 @@ if ( !this.URI ) {
         return this;
     };
 
-    URI.prototype.basename = function(){
+    URI.prototype.__defineGetter__('basename', function(){
         return this.href.replace(/.*\//, '');
-    };
+    });
 
-    URI.prototype.dirname = function(){
+    URI.prototype.__defineGetter__('dirname', function(){
         return this.href.replace(/\/[^\/]*\/?$/, '');
-    };
+    });
 }
