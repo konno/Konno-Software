@@ -29,7 +29,8 @@ if ( c.charCodeAt(0) != c.charCodeAt(1) ) {
                                   - 0xD800
                                 ) * 0x400
                               + ( code - 0xDC00 )
-             : code;
+             :                  code
+             ;
     };
 }
 

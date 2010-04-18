@@ -42,6 +42,27 @@ if ( !Math.Matrix ) {
         return this.rows(i).columns(j).valueOf()[0][0];
     };
 
+    Math.Matrix.prototype.equals = function(matrix){
+        var m = this.rows().length;
+        var n = this.columns().length;
+        if ( m != matrix.rows().length ||
+             n != matrix.columns().length ) return false;
+        for ( var i = 1; i < m; i++ )
+            for ( var j = 1; j < n; j++ )
+                if ( this.entry(i, j) != matrix.entry(i, j) )
+                    return false;
+        return true;
+    };
+
+    Math.Matrix.prototype.forEach = function( callback, thisObject ){
+        if ( typeof callback != 'function' )
+            throw new TypeError( callback + ' is not a function' );
+        for ( var i = 1, m = this.rows().length; i < m; i++ )
+            for ( var j = 1, n = this.columns().length; j < n;
+                  callback.call( thisObject, this.entry(i, j), i, j, this ),
+                  j++ );
+    };
+
     Math.Matrix.prototype.rows = function(i){
         var rows = this.valueOf();
         return new Math.Matrix(
@@ -55,3 +76,19 @@ if ( !Math.Matrix ) {
         return JSON.stringify( this.valueOf() );
     };
 }
+
+var A = new Math.Matrix([
+    [ 9, 8, 6 ],
+    [ 1, 2, 7 ],
+    [ 4, 9, 2 ],
+    [ 6, 0, 5 ],
+]);
+
+var B = new Math.Matrix([
+    [ 9, 8, 6 ],
+    [ 1, 2, 7 ],
+    [ 4, 9, 2 ],
+    [ 6, 0, 5 ],
+]);
+
+print( A.equals(B) );
