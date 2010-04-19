@@ -1,13 +1,13 @@
 if ( !Object.prototype.print )
     Object.prototype.print = (function(){
         var puts = this.console &&
-                        console.log ? function(s){
-                                          return console.log(s);
+                        console.log ? function(str){
+                                          return console.log(str);
                                       }
                  : this.alert       ? alert
                  : this.print       ? print
-                 :                    function(){
-                                          return this;
+                 :                    function(str){
+                                          return str;
                                       }
                  ;
         return this.JSON &&

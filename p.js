@@ -6,8 +6,8 @@ if ( !this.p )
                                       }
                  : this.alert       ? alert
                  : this.print       ? print
-                 :                    function(){
-                                          return this;
+                 :                    function(str){
+                                          return str;
                                       }
                  ;
         return this.JSON &&
