@@ -4,7 +4,9 @@ if ( !Object.prototype.p )
             return this;
         })();
         (
-            global.console && console.log ? console.log
+            global.console && console.log ? function(s){
+                                                return console.log(s);
+                                            }
           : global.alert                  ? alert
           : global.print                  ? print
           :                                 function(){
