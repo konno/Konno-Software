@@ -12,6 +12,3 @@ handlers:
 
 - url: /get
   script: get.py
-
-- url: /get_title
-  script: get_title.py
