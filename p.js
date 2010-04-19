@@ -1,8 +1,8 @@
 if ( !this.p )
     this.p = (function(){
         var puts = this.console &&
-                        console.log ? function(s){
-                                          return console.log(s);
+                        console.log ? function(str){
+                                          return console.log(str);
                                       }
                  : this.alert       ? alert
                  : this.print       ? print
@@ -11,22 +11,22 @@ if ( !this.p )
                                       }
                  ;
         return this.JSON &&
-                    JSON.stringify       ? function(){
+                    JSON.stringify       ? function(obj){
                                                puts(
-                                                   typeof this == 'function'
-                                                 ? this.toString()
-                                                 : JSON.stringify(this)
+                                                   typeof obj == 'function'
+                                                 ? obj.toString()
+                                                 : JSON.stringify(obj)
                                                );
                                            }
-             : Object.prototype.toSource ? function(){
+             : Object.prototype.toSource ? function(obj){
                                                puts(
-                                                   typeof this == 'function'
-                                                 ? this.toString()
-                                                 : this.toSource()
+                                                   typeof obj == 'function'
+                                                 ? obj.toString()
+                                                 : obj.toSource()
                                                );
                                            }
-             :                             function(){
-                                               puts( this.toString() );
+             :                             function(obj){
+                                               puts( obj.toString() );
                                            }
              ;
     })();
