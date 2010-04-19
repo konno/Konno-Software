@@ -1,6 +1,5 @@
 if ( !Object.prototype.p )
-    Object.prototype.p = (function(){
-        var global = this;
+    Object.prototype.p = (function(global){
         return function(){
             (
                 global.console && console.log ? function(s){
@@ -19,4 +18,4 @@ if ( !Object.prototype.p )
               :                                 this.toString()
             );
         };
-    })();
+    })(this);
