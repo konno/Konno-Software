@@ -1,5 +1,5 @@
-if ( !Object.prototype.p )
-    Object.prototype.p = (function(){
+if ( !this.p )
+    this.p = (function(){
         var puts = this.console &&
                         console.log ? function(s){
                                           return console.log(s);
