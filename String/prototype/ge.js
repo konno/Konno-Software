@@ -1,4 +1,4 @@
 if ( !String.prototype.ge )
-    String.prototype.ge = function(str){
-        return this.toString().localeCompare(str) >= 0;
+    String.prototype.ge = function(anotherString){
+        return this.toString().localeCompare(anotherString) >= 0;
     };

@@ -1,4 +1,4 @@
 if ( !String.prototype.gt )
-    String.prototype.gt = function(str){
-        return this.toString().localeCompare(str) > 0;
+    String.prototype.gt = function(anotherString){
+        return this.toString().localeCompare(anotherString) > 0;
     };
