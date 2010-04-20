@@ -6,8 +6,8 @@ if ( !this.decodeXMLEntities )
     })(
         /&(?:(?:[gl]|quo)t|a(?:pos|mp));/g,
         (function(char){
-            return function(m0){
-                return char[m0];
+            return function($0){
+                return char[$0];
             };
         })({
             '&quot;':  '"',

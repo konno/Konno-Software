@@ -39,8 +39,8 @@ if ( !this.JSONHttpRequest ) {
 
     JSONHttpRequest.prototype.__setAuthority__ =
       function( uri, user, password ){
-          return uri.replace('//', function(m0){
-              return m0 + user + ':' + password + '@';
+          return uri.replace('//', function($0){
+              return $0 + user + ':' + password + '@';
           });
       };
 

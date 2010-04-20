@@ -62,8 +62,8 @@ __import__('String.prototype.repeat', function(){
             var begin = '';
             src = src.replace(
                 /import\s+(.+?);/g,
-                function( m0, m1 ){
-                    begin += '__import__("' + m1 + '", function(){\n';
+                function( $0, $1 ){
+                    begin += '__import__("' + $1 + '", function(){\n';
                     n++;
                     return '';
                 }

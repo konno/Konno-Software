@@ -9,8 +9,8 @@ if ( !Filter.factorial )
     Filter.factorial = function(src){
         return src.replace(
             /(\d+)!/g,
-            function( m0, m1 ) {
-                return Math.factorial(+m1);
+            function( $0, $1 ) {
+                return Math.factorial(+$1);
             }
         );
     };

@@ -3,6 +3,6 @@ if ( !RegExp.quote )
         return function(str){
             return str.replace( regexp, callback );
         };
-    })(/\W/g, function(m0){
-        return '\\' + m0;
+    })(/\W/g, function($0){
+        return '\\' + $0;
     });

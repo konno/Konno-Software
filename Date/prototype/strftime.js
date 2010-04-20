@@ -3,8 +3,8 @@ if ( !Date.prototype.strftime ) {
         var regexp = /%([-_0^#]?)(:{0,3}[%A-Za-z])/g;
         return function(fmt){
             var self     = this;
-            var callback = function( m0, flag, seq ){
-                if ( !interpret[seq] ) return m0;
+            var callback = function( $0, flag, seq ){
+                if ( !interpret[seq] ) return $0;
                 var s = interpret[seq].call(self);
                 switch ( flag ) {
                     case '-':
