@@ -2,6 +2,7 @@ if ( !this.__var__ )
     this.__var__ = function(name){
         return arguments.callee
                         .caller
+                        .caller
                         .toString()
                         .match(
                             new RegExp([
