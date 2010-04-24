@@ -3,13 +3,12 @@ if ( !this.__var__ )
         var caller = arguments.callee.caller;
         var tmp;
         while ( tmp = caller.caller ) caller = tmp;
-        return caller.toString()
-                     .match(
-                         new RegExp([
-                             'var',
-                             name,
-                             '=',
-                             '(.+?);',
-                         ].join('\\s+'))
-                     )[1];
+        return caller.toString().match(
+                   new RegExp([
+                       'var',
+                       name,
+                       '=',
+                       '(.+?);',
+                   ].join('\\s+'))
+               )[1];
     };
