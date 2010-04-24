@@ -1,15 +1,15 @@
 if ( !this.__var__ )
     this.__var__ = function(name){
-        return arguments.callee
-                        .caller
-                        .caller
-                        .toString()
-                        .match(
-                            new RegExp([
-                                'var',
-                                name,
-                                '=',
-                                '(.+?);',
-                            ].join('\\s+'))
-                        )[1];
+        var caller = arguments.callee.caller;
+        var tmp;
+        while ( tmp = caller.caller ) caller = tmp;
+        return caller.toString()
+                     .match(
+                         new RegExp([
+                             'var',
+                             name,
+                             '=',
+                             '(.+?);',
+                         ].join('\\s+'))
+                     )[1];
     };
